@@ -1,0 +1,10 @@
+# temporary and testing folders
+temp/
+test/
+
+# local go dependencies
+vendor/*/
+
+# eclipse project files
+.project
+
