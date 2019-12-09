@@ -13,7 +13,9 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"go-sepak-bola/internal/appdata"
 	"log"
 	"net/http"
 	"os"
@@ -59,13 +61,100 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 				}
 			case *linebot.StickerMessage:
 				if message.PackageID == "2" && message.StickerID == "504" {
-					stickerID := "114"
-					packageID := "1"
-					if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewStickerMessage(packageID, stickerID)).Do(); err != nil {
+					msg := createMessageForMenu()
+					if _, err = bot.ReplyMessage(event.ReplyToken, msg).Do(); err != nil {
 						log.Print(err)
 					}
 				}
 			}
 		}
 	}
+}
+
+// pkg constants
+const (
+	EmojiSoccer          string = "\xe2\x9a\xbd"
+	EmojiTrophy          string = "\xf0\x9f\x8f\x86"
+	EmojiSquaredVS       string = "\xf0\x9f\x86\x9a"
+	CategoryCompetition  string = "competition"
+	ActionMatchday       string = "matchday"
+	ActionStandings      string = "standings"
+	ActionTeams          string = "teams"
+	TextMatchday         string = "Matchday"
+	TextStandings        string = "Standings"
+	TextTeams            string = "Teams"
+	ImagePremierLeague   string = "https://en.wikipedia.org/wiki/Premier_League#/media/File:Premier_League_Logo.svg"
+	ImageBundesliga      string = "https://en.wikipedia.org/wiki/Bundesliga#/media/File:Bundesliga_logo_(2017).svg"
+	ImagePrimeraDivision string = "https://en.wikipedia.org/wiki/La_Liga#/media/File:La_Liga.png"
+	TextPremierLeague    string = "Premier League"
+	TextBundesliga       string = "Bundesliga"
+	TextPrimeraDivision  string = "Primera Division"
+	CodePremierLeague    string = "PL"
+	CodeBundesliga       string = "BL1"
+	CodePrimeraDivision  string = "PD"
+)
+
+func matchdayData(competition, code string) string {
+	data, _ := json.Marshal(&appdata.PostData{
+		Category: CategoryCompetition,
+		Action:   ActionMatchday,
+		Params:   nil,
+	})
+	return string(data)
+}
+
+func standingsData(competition, code string) string {
+	data, _ := json.Marshal(&appdata.PostData{
+		Category: CategoryCompetition,
+		Action:   ActionStandings,
+		Params:   nil,
+	})
+	return string(data)
+}
+
+func teamsData(competition, code string) string {
+	data, _ := json.Marshal(&appdata.PostData{
+		Category: CategoryCompetition,
+		Action:   ActionTeams,
+		Params:   nil,
+	})
+	return string(data)
+}
+
+func createMessageForMenu() linebot.SendingMessage {
+	var msg linebot.SendingMessage
+	var competition string
+	var code string
+	competition = "Premier League"
+	code = "PL"
+	column0 := linebot.NewCarouselColumn(
+		ImagePremierLeague, TextPremierLeague, CodePremierLeague,
+		linebot.NewPostbackAction(TextMatchday, matchdayData(competition, code), "", TextMatchday),
+		linebot.NewPostbackAction(TextStandings, standingsData(competition, code), "", TextStandings),
+		linebot.NewPostbackAction(TextTeams, teamsData(competition, code), "", TextTeams),
+	)
+	competition = "Bundesliga"
+	code = "BL1"
+	column1 := linebot.NewCarouselColumn(
+		ImageBundesliga, TextBundesliga, CodeBundesliga,
+		linebot.NewPostbackAction(TextMatchday, matchdayData(competition, code), "", TextMatchday),
+		linebot.NewPostbackAction(TextStandings, standingsData(competition, code), "", TextStandings),
+		linebot.NewPostbackAction(TextTeams, teamsData(competition, code), "", TextTeams),
+	)
+	competition = "Primera Division"
+	code = "PD"
+	column2 := linebot.NewCarouselColumn(
+		ImagePrimeraDivision, TextPrimeraDivision, CodePrimeraDivision,
+		linebot.NewPostbackAction(TextMatchday, matchdayData(competition, code), "", TextMatchday),
+		linebot.NewPostbackAction(TextStandings, standingsData(competition, code), "", TextStandings),
+		linebot.NewPostbackAction(TextTeams, teamsData(competition, code), "", TextTeams),
+	)
+	template := linebot.NewCarouselTemplate(
+		column0,
+		column1,
+		column2,
+	)
+	altText := "go-sepak-bola"
+	msg = linebot.NewTemplateMessage(altText, template)
+	return msg
 }
