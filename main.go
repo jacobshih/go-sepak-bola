@@ -129,25 +129,25 @@ func createMessageForMenu() linebot.SendingMessage {
 	code = "PL"
 	column0 := linebot.NewCarouselColumn(
 		ImagePremierLeague, TextPremierLeague, CodePremierLeague,
-		linebot.NewPostbackAction(TextMatchday, matchdayData(competition, code), "", TextMatchday),
-		linebot.NewPostbackAction(TextStandings, standingsData(competition, code), "", TextStandings),
-		linebot.NewPostbackAction(TextTeams, teamsData(competition, code), "", TextTeams),
+		linebot.NewPostbackAction(TextMatchday, matchdayData(competition, code), "", ""),
+		linebot.NewPostbackAction(TextStandings, standingsData(competition, code), "", ""),
+		linebot.NewPostbackAction(TextTeams, teamsData(competition, code), "", ""),
 	)
 	competition = "Bundesliga"
 	code = "BL1"
 	column1 := linebot.NewCarouselColumn(
 		ImageBundesliga, TextBundesliga, CodeBundesliga,
-		linebot.NewPostbackAction(TextMatchday, matchdayData(competition, code), "", TextMatchday),
-		linebot.NewPostbackAction(TextStandings, standingsData(competition, code), "", TextStandings),
-		linebot.NewPostbackAction(TextTeams, teamsData(competition, code), "", TextTeams),
+		linebot.NewPostbackAction(TextMatchday, matchdayData(competition, code), "", ""),
+		linebot.NewPostbackAction(TextStandings, standingsData(competition, code), "", ""),
+		linebot.NewPostbackAction(TextTeams, teamsData(competition, code), "", ""),
 	)
 	competition = "Primera Division"
 	code = "PD"
 	column2 := linebot.NewCarouselColumn(
 		ImagePrimeraDivision, TextPrimeraDivision, CodePrimeraDivision,
-		linebot.NewPostbackAction(TextMatchday, matchdayData(competition, code), "", TextMatchday),
-		linebot.NewPostbackAction(TextStandings, standingsData(competition, code), "", TextStandings),
-		linebot.NewPostbackAction(TextTeams, teamsData(competition, code), "", TextTeams),
+		linebot.NewPostbackAction(TextMatchday, matchdayData(competition, code), "", ""),
+		linebot.NewPostbackAction(TextStandings, standingsData(competition, code), "", ""),
+		linebot.NewPostbackAction(TextTeams, teamsData(competition, code), "", ""),
 	)
 	template := linebot.NewCarouselTemplate(
 		column0,
