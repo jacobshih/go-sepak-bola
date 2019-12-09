@@ -2,7 +2,7 @@ package appdata
 
 import (
 	"bytes"
-	"popo-bot/internal/dboxapi"
+	"go-sepak-bola/internal/dboxapi"
 
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
