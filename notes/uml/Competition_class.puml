@@ -1,0 +1,81 @@
+@startuml
+title Competition - Class Diagram
+
+namespace fbd {
+    class Competition << (S,Aquamarine) >> {
+        + ID int
+        + Name string
+        + Code string
+        + EmblemURL string
+        + RawArea json.RawMessage
+        + RawSeason json.RawMessage
+        + RawSeasons json.RawMessage
+        + Area *Area
+        + Season *Season
+        + Seasons []*Season
+        + Teams <font color=blue>map</font>[int]*Team
+        + Matches []*Match
+
+        + GetTeams()
+        + GetMatches()
+
+    }
+
+    class Area << (S,Aquamarine) >> {
+        + ID int
+        + Name string
+
+    }
+    class Season << (S,Aquamarine) >> {
+        + ID int
+        + StartDate string
+        + EndDate string
+        + CurrentMatchday int
+        + RawWinner json.RawMessage
+        + Winner *Team
+
+    }
+    class Team << (S,Aquamarine) >> {
+        + ID int
+        + Name string
+        + ShortName string
+        + TLA string
+        + CrestURL string
+        + Address string
+        + Phone string
+        + Email string
+        + Website string
+        + Founded int
+        + ClubColors string
+        + Venue string
+        + RawArea json.RawMessage
+        + Area *Area
+
+    }
+    class Match << (S,Aquamarine) >> {
+        + ID int
+        + RawSeason json.RawMessage
+        + UtcDate string
+        + Status string
+        + Matchday int
+        + Stage string
+        + Group string
+        + RawScore json.RawMessage
+        + RawHomeTeam json.RawMessage
+        + RawAwayTeam json.RawMessage
+        + RawReferees json.RawMessage
+        + Season *Season
+        + Score *Score
+        + HomeTeam *Team
+        + AwayTeam *Team
+        + Referees []*Referee
+
+    }
+}
+
+"fbd.Competition" o-- "fbd.Area"
+"fbd.Competition" o-- "fbd.Match"
+"fbd.Competition" o-- "fbd.Season"
+"fbd.Competition" o-left- "fbd.Team"
+"fbd.Competition" o-up- "json.RawMessage"
+@enduml

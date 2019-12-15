@@ -1,0 +1,67 @@
+@startuml
+title TeamsData - Class Diagram
+
+namespace fbd {
+    class TeamsData << (S,Aquamarine) >> {
+        + RawCompetition json.RawMessage
+        + RawSeason json.RawMessage
+        + RawTeams json.RawMessage
+        + Competition *Competition
+        + Season *Season
+        + Teams []*Team
+
+        + Get(competitionID int) []byte
+        + Deserialize(content []byte) error
+
+    }
+    class Competition << (S,Aquamarine) >> {
+        + ID int
+        + Name string
+        + Code string
+        + EmblemURL string
+        + RawArea json.RawMessage
+        + RawSeason json.RawMessage
+        + RawSeasons json.RawMessage
+        + Area *Area
+        + Season *Season
+        + Seasons []*Season
+        + Teams <font color=blue>map</font>[int]*Team
+        + Matches []*Match
+
+        + GetTeams()
+        + GetMatches()
+
+    }
+    class Season << (S,Aquamarine) >> {
+        + ID int
+        + StartDate string
+        + EndDate string
+        + CurrentMatchday int
+        + RawWinner json.RawMessage
+        + Winner *Team
+
+    }
+    class Team << (S,Aquamarine) >> {
+        + ID int
+        + Name string
+        + ShortName string
+        + TLA string
+        + CrestURL string
+        + Address string
+        + Phone string
+        + Email string
+        + Website string
+        + Founded int
+        + ClubColors string
+        + Venue string
+        + RawArea json.RawMessage
+        + Area *Area
+
+    }
+}
+
+"fbd.TeamsData" o-- "fbd.Competition"
+"fbd.TeamsData" o-- "fbd.Season"
+"fbd.TeamsData" o-- "fbd.Team"
+"fbd.TeamsData" o-up- "json.RawMessage"
+@enduml

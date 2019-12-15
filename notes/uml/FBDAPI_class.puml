@@ -1,0 +1,19 @@
+@startuml
+title FBDAPI - Class Diagram
+namespace fbd {
+    class FBDAPI << (S,Aquamarine) >> {
+        - token string
+
+        - httpGet(uri string) []byte
+
+        + SetToken(token string)
+        + GetToken() string
+        + GetCompetitions(id int) []byte
+        + GetMatches(id int, matchday int) []byte
+        + GetTeams(id int) []byte
+        + GetStandings(id int) []byte
+
+    }
+}
+
+@enduml

@@ -1,0 +1,91 @@
+@startuml
+title StandingsData - Class Diagram
+
+namespace fbd {
+    class StandingsData << (S,Aquamarine) >> {
+        + RawCompetition json.RawMessage
+        + RawSeason json.RawMessage
+        + RawStandings json.RawMessage
+        + Competition *Competition
+        + Season *Season
+        + StandingsList []*Standings
+
+        + Get(competitionID int) []byte
+        + Deserialize(content []byte) error
+
+    }
+    class Competition << (S,Aquamarine) >> {
+        + ID int
+        + Name string
+        + Code string
+        + EmblemURL string
+        + RawArea json.RawMessage
+        + RawSeason json.RawMessage
+        + RawSeasons json.RawMessage
+        + Area *Area
+        + Season *Season
+        + Seasons []*Season
+        + Teams <font color=blue>map</font>[int]*Team
+        + Matches []*Match
+
+        + GetTeams()
+        + GetMatches()
+
+    }
+    class Season << (S,Aquamarine) >> {
+        + ID int
+        + StartDate string
+        + EndDate string
+        + CurrentMatchday int
+        + RawWinner json.RawMessage
+        + Winner *Team
+
+    }
+    class Standings << (S,Aquamarine) >> {
+        + Stage string
+        + Type string
+        + Group string
+        + RawTable json.RawMessage
+        + Table []*TableItem
+
+    }
+    class TableItem << (S,Aquamarine) >> {
+        + Position int
+        + RawTeam json.RawMessage
+        + PlayedGames int
+        + Won int
+        + Draw int
+        + Lost int
+        + Points int
+        + GoalsFor int
+        + GoalsAgainst int
+        + GoalDifference int
+        + Team *Team
+
+    }
+    class Team << (S,Aquamarine) >> {
+        + ID int
+        + Name string
+        + ShortName string
+        + TLA string
+        + CrestURL string
+        + Address string
+        + Phone string
+        + Email string
+        + Website string
+        + Founded int
+        + ClubColors string
+        + Venue string
+        + RawArea json.RawMessage
+        + Area *Area
+
+    }
+}
+
+"fbd.StandingsData" o-- "fbd.Competition"
+"fbd.StandingsData" o-- "fbd.Season"
+"fbd.StandingsData" o-- "fbd.Standings"
+"fbd.StandingsData" o-up- "json.RawMessage"
+"fbd.Standings" o-- "fbd.TableItem"
+"fbd.TableItem" o-- "fbd.Team"
+@enduml

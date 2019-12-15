@@ -1,0 +1,39 @@
+@startuml
+
+title CompetitionsData - Class Diagram
+
+namespace fbd {
+  class CompetitionsData << (S,Aquamarine) >> {
+      + Count int
+      + RawCompetition json.RawMessage
+      + Competitions []*Competition
+
+      + Get() []byte
+      + Deserialize(content []byte) error
+
+  }
+
+  class Competition << (S,Aquamarine) >> {
+      + ID int
+      + Name string
+      + Code string
+      + EmblemURL string
+      + RawArea json.RawMessage
+      + RawSeason json.RawMessage
+      + RawSeasons json.RawMessage
+      + Area *Area
+      + Season *Season
+      + Seasons []*Season
+      + Teams <font color=blue>map</font>[int]*Team
+      + Matches []*Match
+
+      + GetTeams()
+      + GetMatches()
+
+  }
+}
+
+"fbd.CompetitionsData" o-- "fbd.Competition"
+"fbd.CompetitionsData" o-- "json.RawMessage"
+
+@enduml

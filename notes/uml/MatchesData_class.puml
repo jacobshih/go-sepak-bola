@@ -1,0 +1,108 @@
+@startuml
+title MatchesData - Class Diagram
+
+namespace fbd {
+    class MatchesData << (S,Aquamarine) >> {
+        + Count int
+        + RawCompetition json.RawMessage
+        + RawMatches json.RawMessage
+        + Competition *Competition
+        + Matches []*Match
+
+        + Get(competitionID int, matchday int) []byte
+        + Deserialize(content []byte) error
+
+    }
+    class Competition << (S,Aquamarine) >> {
+        + ID int
+        + Name string
+        + Code string
+        + EmblemURL string
+        + RawArea json.RawMessage
+        + RawSeason json.RawMessage
+        + RawSeasons json.RawMessage
+        + Area *Area
+        + Season *Season
+        + Seasons []*Season
+        + Teams <font color=blue>map</font>[int]*Team
+        + Matches []*Match
+
+        + GetTeams()
+        + GetMatches()
+
+    }
+    class Match << (S,Aquamarine) >> {
+        + ID int
+        + RawSeason json.RawMessage
+        + UtcDate string
+        + Status string
+        + Matchday int
+        + Stage string
+        + Group string
+        + RawScore json.RawMessage
+        + RawHomeTeam json.RawMessage
+        + RawAwayTeam json.RawMessage
+        + RawReferees json.RawMessage
+        + Season *Season
+        + Score *Score
+        + HomeTeam *Team
+        + AwayTeam *Team
+        + Referees []*Referee
+
+    }
+    class Score << (S,Aquamarine) >> {
+        + Winner string
+        + Duration string
+        + RawFullTime json.RawMessage
+        + RawHalfTime json.RawMessage
+        + RawExtraTime json.RawMessage
+        + RawPenalties json.RawMessage
+        + FullTime *ScoreInfo
+        + HalfTime *ScoreInfo
+        + ExtraTime *ScoreInfo
+        + Penalties *ScoreInfo
+
+    }
+    class ScoreInfo << (S,Aquamarine) >> {
+        + HomeTeam int
+        + AwayTeam int
+
+    }
+    class Season << (S,Aquamarine) >> {
+        + ID int
+        + StartDate string
+        + EndDate string
+        + CurrentMatchday int
+        + RawWinner json.RawMessage
+        + Winner *Team
+
+    }
+    class Team << (S,Aquamarine) >> {
+        + ID int
+        + Name string
+        + ShortName string
+        + TLA string
+        + CrestURL string
+        + Address string
+        + Phone string
+        + Email string
+        + Website string
+        + Founded int
+        + ClubColors string
+        + Venue string
+        + RawArea json.RawMessage
+        + Area *Area
+
+    }
+}
+
+"fbd.Match" o-- "fbd.Referee"
+"fbd.Match" o-- "fbd.Score"
+"fbd.Match" o-- "fbd.Season"
+"fbd.Match" o-- "fbd.Team"
+"fbd.MatchesData" o-- "fbd.Competition"
+"fbd.MatchesData" o-- "fbd.Match"
+"fbd.MatchesData" o-up- "json.RawMessage"
+"fbd.Score" o-- "fbd.ScoreInfo"
+"fbd.Season" o-- "fbd.Team"
+@enduml
