@@ -3,7 +3,7 @@ go-sepak-bola
 
 # go-sepak-bola
 
-a line bot that provides football information including matchday and standings
+a line bot that provides football information including matches and standings
 of Premier League, Bundesliga, Primera Division, ...
 
 ## references
@@ -14,13 +14,25 @@ of Premier League, Bundesliga, Primera Division, ...
 ## competitions
 
 - Premier League
+    - matches
+        - all
+        - current matchday
+    - standings
+    - teams
+        - team information
 - Bundesliga
+    - matches
+        - all
+        - current matchday
+    - standings
+    - teams
+        - team information
 - Primera Division
+    - matches
+        - all
+        - current matchday
+    - standings
+    - teams
+        - team information
 
-## matchday
-
-*TDB*
-
-## standings
-
-*TDB*
+[go-sepak-bola_notes.md](notes/go-sepak-bola_notes.md)
