@@ -8,3 +8,5 @@ vendor/*/
 # eclipse project files
 .project
 
+# secret files
+secret.source.me
