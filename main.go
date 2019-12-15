@@ -16,6 +16,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"go-sepak-bola/internal/appdata"
+	"go-sepak-bola/internal/fbd"
 	"log"
 	"net/http"
 	"os"
@@ -25,11 +26,26 @@ import (
 )
 
 var bot *linebot.Client
+var fbdapi *fbd.FBDAPI
 
 func main() {
 	var err error
 	bot, err = linebot.New(os.Getenv("ChannelSecret"), os.Getenv("ChannelAccessToken"))
-	log.Println("Bot:", bot, " err:", err)
+	if err != nil {
+		log.Println("Bot:", bot, " err:", err)
+	}
+
+	fbdapi = fbd.Instance()
+	token := os.Getenv("FBDATA_TOKEN")
+	fbdapi.SetToken(token)
+
+	/*
+	 * perform mytest if environment variable MYTEST is set.
+	 */
+	if os.Getenv("MYTEST") == "y" {
+		mytest()
+	}
+
 	http.HandleFunc("/callback", callbackHandler)
 	port := os.Getenv("PORT")
 	addr := fmt.Sprintf(":%s", port)
