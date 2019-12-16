@@ -4,8 +4,8 @@ a line bot that provides football information including matches, teams and stand
 
 ## references
 
-[football data documentation](https://www.football-data.org/documentation/quickstart)
-[line bot notes](https://github.com/jacobshihtw/notes/blob/master/lbot/lbot_notes.md)
+- [football data documentation](https://www.football-data.org/documentation/quickstart)
+- [line bot notes](https://github.com/jacobshihtw/notes/blob/master/lbot/lbot_notes.md)
 
 ## development notes
 
