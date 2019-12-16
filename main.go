@@ -15,6 +15,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"go-sepak-bola/gsb"
 	"go-sepak-bola/internal/appdata"
 	"go-sepak-bola/internal/fbd"
 	"log"
@@ -27,6 +28,7 @@ import (
 
 var bot *linebot.Client
 var fbdapi *fbd.FBDAPI
+var sepakbola gsb.SepakBola
 
 func main() {
 	var err error
@@ -38,6 +40,12 @@ func main() {
 	fbdapi = fbd.Instance()
 	token := os.Getenv("FBDATA_TOKEN")
 	fbdapi.SetToken(token)
+
+	/*
+	 * initialize sepakbola
+	 */
+	sepakbola.Init()
+	sepakbola.GetCompetitions()
 
 	/*
 	 * perform mytest if environment variable MYTEST is set.

@@ -14,62 +14,12 @@ package main
 
 import (
 	"fmt"
+	"go-sepak-bola/gsb"
 	"go-sepak-bola/internal/fbd"
 	"os"
 )
 
-var sepakbola SepakBola
-
-// constants
-const (
-	PL  int = 2021
-	BL1 int = 2002
-	PD  int = 2014
-)
-
-// SepakBola type SepakBola
-type SepakBola struct {
-	Competitions map[int]*fbd.Competition
-}
-
-func (sepakbola *SepakBola) init() {
-	sepakbola.Competitions = make(map[int]*fbd.Competition)
-	sepakbola.Competitions[PL] = new(fbd.Competition)  // 2021: Premier League
-	sepakbola.Competitions[BL1] = new(fbd.Competition) // 2002: Bundesliga
-	sepakbola.Competitions[PD] = new(fbd.Competition)  // 2014: Primera Division
-}
-
-func mytestInit() {
-	sepakbola.init()
-	var comps fbd.CompetitionsData
-	content := comps.Get()
-	if err := comps.Deserialize(content); err != nil {
-		fmt.Printf("[ERROR] %s (%s)\n", "FBDCompetitions.Deserialize()", err)
-		return
-	}
-	for i, comp := range comps.Competitions {
-		if _, ok := sepakbola.Competitions[comp.ID]; ok {
-			sepakbola.Competitions[comp.ID] = comps.Competitions[i]
-			sepakbola.Competitions[comp.ID].GetTeams()
-			// sepakbola.Competitions[comp.Code].GetMatches()
-		}
-	}
-}
-
 func mytestFbdCompetitions() {
-	// var comps fbd.CompetitionsData
-	// content := comps.Get()
-	// if err := comps.Deserialize(content); err != nil {
-	// 	fmt.Printf("[ERROR] %s (%s)\n", "FBDCompetitions.Deserialize()", err)
-	// 	return
-	// }
-	// for i, comp := range comps.Competitions {
-	// 	if _, ok := sepakbola.Competitions[comp.Code]; ok {
-	// 		sepakbola.Competitions[comp.Code] = comps.Competitions[i]
-	// 		sepakbola.Competitions[comp.Code].GetTeams()
-	// 		// sepakbola.Competitions[comp.Code].GetMatches()
-	// 	}
-	// }
 	// result
 	fmt.Printf("%s\n", "=== competitions ===")
 	for _, comp := range sepakbola.Competitions {
@@ -197,8 +147,7 @@ func mytestFbdStandings(competitionID int) {
 }
 
 func mytest() {
-	mytestInit()
-	competitionID := PL
+	competitionID := gsb.PL
 	matchday := 16
 	if os.Getenv("MYTEST_FBD_COMPETITIONS") == "y" {
 		mytestFbdCompetitions()
