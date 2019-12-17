@@ -47,9 +47,11 @@ const (
 // colors
 const (
 	ColorDodgeBlue   = "#1e90ff"
+	ColorAero        = "#7cb9e8"
 	ColorGreenYellow = "#adff2f"
-	ColorAmber       = "#ff7e00"
+	ColorAcidGreen   = "#b0bf1a"
 	ColorOrange      = "#fb8c00"
+	ColorAmber       = "#ff7e00"
 )
 
 // SepakBola type SepakBola
