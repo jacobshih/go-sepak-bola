@@ -20,9 +20,9 @@ import (
 
 // constants
 const (
-	URIComingSoon500x500        = "https://clipart-library.com/images_k/coming-soon-transparent/coming-soon-transparent-15.png"
-	URIComingSoon1920x823       = "https://clipart-library.com/images_k/coming-soon-transparent/coming-soon-transparent-17.png"
-	URIUnderConstruction256x256 = "https://www.thesportsdb.com/images/media/league/badge/i6o0kh1549879062.png"
+	URIComingSoon500x500        = "https://imgur.com/nGHRg4P.png"
+	URIComingSoon1920x823       = "https://imgur.com/qwPOOR2.png"
+	URIUnderConstruction256x256 = "https://imgur.com/rBII01U.png"
 
 	TextComingSoon        = "Coming soon"
 	TextUnderConstruction = "Under construction"
