@@ -55,8 +55,8 @@ func Bubble(bubble IBubble) *linebot.BubbleContainer {
 	}
 }
 
-// ComingSoonContents function generates BubbleContainer for coming soon box.
-func ComingSoonContents(text string) *linebot.BubbleContainer {
+// ComingSoonContents function generates CarouselContainer for coming soon box.
+func ComingSoonContents(text string) *linebot.CarouselContainer {
 	img := URIComingSoon500x500
 	ratio := linebot.FlexImageAspectRatioType1to1
 	if text == TextComingSoon {
@@ -68,28 +68,33 @@ func ComingSoonContents(text string) *linebot.BubbleContainer {
 	} else {
 		text = TextComingSoon
 	}
-	contents := linebot.BubbleContainer{
-		Type:      linebot.FlexContainerTypeBubble,
-		Direction: linebot.FlexBubbleDirectionTypeLTR,
-		Header: &linebot.BoxComponent{
-			Type:   linebot.FlexComponentTypeBox,
-			Layout: linebot.FlexBoxLayoutTypeVertical,
-			Contents: []linebot.FlexComponent{
-				&linebot.TextComponent{
-					Type:   linebot.FlexComponentTypeText,
-					Text:   text,
-					Align:  linebot.FlexComponentAlignTypeCenter,
-					Margin: linebot.FlexComponentMarginTypeNone,
-					Size:   linebot.FlexTextSizeTypeLg,
-					Color:  ColorAero,
+	contents := linebot.CarouselContainer{
+		Type: linebot.FlexContainerTypeCarousel,
+		Contents: []*linebot.BubbleContainer{
+			{
+				Type:      linebot.FlexContainerTypeBubble,
+				Direction: linebot.FlexBubbleDirectionTypeLTR,
+				Header: &linebot.BoxComponent{
+					Type:   linebot.FlexComponentTypeBox,
+					Layout: linebot.FlexBoxLayoutTypeVertical,
+					Contents: []linebot.FlexComponent{
+						&linebot.TextComponent{
+							Type:   linebot.FlexComponentTypeText,
+							Text:   text,
+							Align:  linebot.FlexComponentAlignTypeCenter,
+							Margin: linebot.FlexComponentMarginTypeNone,
+							Size:   linebot.FlexTextSizeTypeLg,
+							Color:  ColorAero,
+						},
+					},
+				},
+				Hero: &linebot.ImageComponent{
+					Type:        linebot.FlexComponentTypeImage,
+					AspectRatio: ratio,
+					URL:         img,
+					Size:        linebot.FlexImageSizeTypeFull,
 				},
 			},
-		},
-		Hero: &linebot.ImageComponent{
-			Type:        linebot.FlexComponentTypeImage,
-			AspectRatio: ratio,
-			URL:         img,
-			Size:        linebot.FlexImageSizeTypeFull,
 		},
 	}
 	return &contents
