@@ -13,13 +13,15 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"go-sepak-bola/gsb"
+	"go-sepak-bola/internal/appdata"
 	"go-sepak-bola/internal/fbd"
+	"go-sepak-bola/ui"
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 
 	"github.com/line/line-bot-sdk-go/linebot"
 )
@@ -71,24 +73,133 @@ func callbackHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, event := range events {
+		switch event.Type {
+		case linebot.EventTypeMessage:
+			handleEventForMessage(event)
+		case linebot.EventTypeFollow:
+			handleEventForFollow(event)
+		case linebot.EventTypeUnfollow:
+			handleEventForUnfollow(event)
+		case linebot.EventTypeJoin:
+			handleEventForJoin(event)
+		case linebot.EventTypeLeave:
+			handleEventForLeave(event)
+		case linebot.EventTypeMemberJoined:
+			handleEventForMemberJoined(event)
+		case linebot.EventTypeMemberLeft:
+			handleEventForMemberLeft(event)
+		case linebot.EventTypePostback:
+			handleEventForPostback(event)
+		case linebot.EventTypeBeacon:
+			handleEventForBeacon(event)
+		case linebot.EventTypeAccountLink:
+			handleEventForAccountLink(event)
+		case linebot.EventTypeThings:
+			handleEventForThings(event)
+		}
+
 		if event.Type == linebot.EventTypeMessage {
-			switch message := event.Message.(type) {
-			case *linebot.TextMessage:
-				quota, err := bot.GetMessageQuota().Do()
-				if err != nil {
-					log.Println("Quota err:", err)
-				}
-				if _, err = bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage(message.ID+":"+message.Text+" OK! remain message:"+strconv.FormatInt(quota.Value, 10))).Do(); err != nil {
-					log.Print(err)
-				}
-			case *linebot.StickerMessage:
-				if message.PackageID == "2" && message.StickerID == "504" {
-					msg := sepakbola.CompetitionsMessage()
-					if _, err = bot.ReplyMessage(event.ReplyToken, msg).Do(); err != nil {
-						log.Print(err)
-					}
-				}
+		}
+	}
+}
+
+func printEventTypeAndSource(event *linebot.Event) {
+	msg := ""
+	msg += "[" + string(event.Type) + "] "
+	msg += "(" + string(event.Source.Type) + ") "
+	if len(event.Source.UserID) > 0 {
+		msg += "user(" + event.Source.UserID + ")" + " "
+	}
+	if len(event.Source.GroupID) > 0 {
+		msg += "group(" + event.Source.GroupID + ")" + " "
+	}
+	if len(event.Source.RoomID) > 0 {
+		msg += "room(" + event.Source.RoomID + ")" + " "
+	}
+	fmt.Println(msg)
+}
+
+func handleEventForMessage(event *linebot.Event) {
+	printEventTypeAndSource(event)
+	var err error
+	switch message := event.Message.(type) {
+	case *linebot.StickerMessage:
+		if message.PackageID == "2" && message.StickerID == "504" {
+			msg := sepakbola.CompetitionsMessage()
+			if _, err = bot.ReplyMessage(event.ReplyToken, msg).Do(); err != nil {
+				log.Print(err)
 			}
 		}
 	}
+}
+
+func handleEventForFollow(event *linebot.Event) {
+	printEventTypeAndSource(event)
+}
+func handleEventForUnfollow(event *linebot.Event) {
+	printEventTypeAndSource(event)
+}
+func handleEventForJoin(event *linebot.Event) {
+	printEventTypeAndSource(event)
+}
+func handleEventForLeave(event *linebot.Event) {
+	printEventTypeAndSource(event)
+}
+func handleEventForMemberJoined(event *linebot.Event) {
+	printEventTypeAndSource(event)
+}
+func handleEventForMemberLeft(event *linebot.Event) {
+	printEventTypeAndSource(event)
+}
+func handleEventForPostback(event *linebot.Event) {
+	printEventTypeAndSource(event)
+	var msg linebot.SendingMessage
+	var postdata appdata.PostData
+	if err := json.Unmarshal([]byte(event.Postback.Data), &postdata); err != nil {
+		fmt.Println(err)
+	} else {
+		switch postdata.Category {
+		case gsb.PkgName:
+			msg = handleEventForPostbackOfGSB(event)
+		}
+		if msg != nil {
+			if _, err = bot.ReplyMessage(event.ReplyToken, msg).Do(); err != nil {
+				log.Print(err)
+			}
+			return
+		}
+	}
+}
+
+func handleEventForPostbackOfGSB(event *linebot.Event) (msg linebot.SendingMessage) {
+	msg = nil
+	var postdata appdata.PostData
+	if err := json.Unmarshal([]byte(event.Postback.Data), &postdata); err != nil {
+		log.Println(err)
+	} else {
+		switch postdata.Action {
+		case gsb.ActionMatches:
+			msg = ui.UnderConstructionMessage()
+		case gsb.ActionStandings:
+			msg = ui.ComingSoonMessage()
+		case gsb.ActionTeams:
+			msg = ui.ComingSoonMessage()
+		default:
+		}
+	}
+	return msg
+}
+
+func handleEventForBeacon(event *linebot.Event) {
+	printEventTypeAndSource(event)
+}
+func handleEventForAccountLink(event *linebot.Event) {
+	printEventTypeAndSource(event)
+}
+func handleEventForThings(event *linebot.Event) {
+	printEventTypeAndSource(event)
+}
+
+func handleText(message *linebot.TextMessage, replyToken string, source *linebot.EventSource) error {
+	return nil
 }
