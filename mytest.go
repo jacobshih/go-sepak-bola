@@ -16,6 +16,7 @@ import (
 	"fmt"
 	"go-sepak-bola/gsb"
 	"go-sepak-bola/internal/fbd"
+	"go-sepak-bola/ui"
 	"os"
 )
 
@@ -147,6 +148,11 @@ func mytestFbdStandings(competitionID int) {
 	}
 }
 
+func mytestFbdUICompetitions() {
+	contents := sepakbola.CompetitionsContents()
+	ui.DumpCarouselContainer(contents)
+}
+
 func mytest() {
 	competitionID := gsb.PL
 	matchday := 16
@@ -164,6 +170,9 @@ func mytest() {
 	}
 	if os.Getenv("MYTEST_FBD_STANDINGS") == "y" {
 		mytestFbdStandings(competitionID)
+	}
+	if os.Getenv("MYTEST_FBD_UI_COMPETITIONS") == "y" {
+		mytestFbdUICompetitions()
 	}
 	os.Exit(0)
 }

@@ -17,11 +17,39 @@ import (
 	"go-sepak-bola/internal/fbd"
 )
 
-// constants
+// pkg constants
+const (
+	PkgName             string = "gsb"
+	EmojiSoccer         string = "\xe2\x9a\xbd"
+	EmojiTrophy         string = "\xf0\x9f\x8f\x86"
+	EmojiSquaredVS      string = "\xf0\x9f\x86\x9a"
+	ActionMatches       string = "matches"
+	ActionStandings     string = "standings"
+	ActionTeams         string = "teams"
+	TextMatchday        string = "Matches"
+	TextStandings       string = "Standings"
+	TextTeams           string = "Teams"
+	TextPremierLeague   string = "Premier League"
+	TextBundesliga      string = "Bundesliga"
+	TextPrimeraDivision string = "Primera Division"
+	CodePremierLeague   string = "PL"
+	CodeBundesliga      string = "BL1"
+	CodePrimeraDivision string = "PD"
+)
+
+// competition codes
 const (
 	PL  int = 2021
 	BL1 int = 2002
 	PD  int = 2014
+)
+
+// colors
+const (
+	ColorDodgeBlue   = "#1e90ff"
+	ColorGreenYellow = "#adff2f"
+	ColorAmber       = "#ff7e00"
+	ColorOrange      = "#fb8c00"
 )
 
 // SepakBola type SepakBola
