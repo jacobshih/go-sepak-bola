@@ -151,7 +151,7 @@ func (sepakbola *SepakBola) CompetitionsContents() *linebot.CarouselContainer {
 	return &contents
 }
 
-// CompetitionsMessage function generates NewFlexMessage for competitions menu.
+// CompetitionsMessage function generates FlexMessage for competitions menu.
 func (sepakbola *SepakBola) CompetitionsMessage() *linebot.FlexMessage {
 	altText := "Competitions"
 	contents := sepakbola.CompetitionsContents()
