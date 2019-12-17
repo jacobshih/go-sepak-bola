@@ -91,6 +91,7 @@ func ComingSoonContents(text string) *linebot.CarouselContainer {
 				Hero: &linebot.ImageComponent{
 					Type:        linebot.FlexComponentTypeImage,
 					AspectRatio: ratio,
+					AspectMode:  linebot.FlexImageAspectModeTypeCover,
 					URL:         img,
 					Size:        linebot.FlexImageSizeTypeFull,
 				},
