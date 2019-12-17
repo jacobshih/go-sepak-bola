@@ -47,6 +47,7 @@ func (sepakbola *SepakBola) GetCompetitions() {
 	}
 	for i, comp := range comps.Competitions {
 		if _, ok := sepakbola.Competitions[comp.ID]; ok {
+			comps.Competitions[i].FixEmblem()
 			sepakbola.Competitions[comp.ID] = comps.Competitions[i]
 			sepakbola.Competitions[comp.ID].GetTeams()
 			// sepakbola.Competitions[comp.Code].GetMatches()

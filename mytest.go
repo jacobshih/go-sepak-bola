@@ -24,6 +24,7 @@ func mytestFbdCompetitions() {
 	fmt.Printf("%s\n", "=== competitions ===")
 	for _, comp := range sepakbola.Competitions {
 		fmt.Printf("(%4d) [%-3s] %s\n", comp.ID, comp.Code, comp.Name)
+		fmt.Printf("%6s %s\n", "", comp.EmblemURL)
 		if comp.Area != nil {
 			fmt.Printf("%6s [%4d] %s\n", "", comp.Area.ID, comp.Area.Name)
 		}

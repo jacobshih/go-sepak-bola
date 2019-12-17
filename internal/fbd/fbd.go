@@ -23,6 +23,12 @@ const (
 	uriStandings    string = "http://api.football-data.org/v2/competitions/%d/standings"
 )
 
+const (
+	emblemPL  string = "https://www.thesportsdb.com/images/media/league/badge/i6o0kh1549879062.png"
+	emblemBL1 string = "https://www.thesportsdb.com/images/media/league/badge/0j55yv1534764799.png"
+	emblemPD  string = "https://www.thesportsdb.com/images/media/league/badge/7onmyv1534768460.png"
+)
+
 // FBDAPI type
 type FBDAPI struct {
 	token string
@@ -187,6 +193,20 @@ func (comp *Competition) GetMatches() {
 		return
 	}
 	comp.Matches = matches.Matches
+}
+
+// FixEmblem fixes empty competition emblem.
+func (comp *Competition) FixEmblem() {
+	if len(comp.EmblemURL) == 0 {
+		switch comp.Code {
+		case "PL":
+			comp.EmblemURL = emblemPL
+		case "BL1":
+			comp.EmblemURL = emblemBL1
+		case "PD":
+			comp.EmblemURL = emblemPD
+		}
+	}
 }
 
 // ScoreInfo contains information of the score of home/away team.
