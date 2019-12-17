@@ -18,6 +18,19 @@ import (
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
+// constants
+const (
+	URIComingSoon500x500        = "https://clipart-library.com/images_k/coming-soon-transparent/coming-soon-transparent-15.png"
+	URIComingSoon1920x823       = "https://clipart-library.com/images_k/coming-soon-transparent/coming-soon-transparent-17.png"
+	URIUnderConstruction256x256 = "https://clipart-library.com/img/1036166.png"
+
+	TextComingSoon        = "Coming soon"
+	TextUnderConstruction = "Under construction"
+
+	ColorAcidGreen = "#b0bf1a"
+	ColorAero      = "#7cb9e8"
+)
+
 // IBubble interface is used for bubble container.
 type IBubble interface {
 	Type() linebot.FlexContainerType
@@ -40,6 +53,64 @@ func Bubble(bubble IBubble) *linebot.BubbleContainer {
 		Footer: bubble.Footer(),
 		Styles: bubble.Styles(),
 	}
+}
+
+// ComingSoonContents function generates CarouselContainer for coming soon box.
+func ComingSoonContents(text string) *linebot.CarouselContainer {
+	img := URIComingSoon500x500
+	ratio := linebot.FlexImageAspectRatioType1to1
+	if text == TextComingSoon {
+		img = URIComingSoon1920x823
+		ratio = linebot.FlexImageAspectRatioType("1920:823")
+	} else if text == TextUnderConstruction {
+		img = URIUnderConstruction256x256
+		ratio = linebot.FlexImageAspectRatioType1to1
+	} else {
+		text = TextComingSoon
+	}
+	contents := linebot.CarouselContainer{
+		Type: linebot.FlexContainerTypeCarousel,
+		Contents: []*linebot.BubbleContainer{
+			{
+				Type:      linebot.FlexContainerTypeBubble,
+				Direction: linebot.FlexBubbleDirectionTypeLTR,
+				Header: &linebot.BoxComponent{
+					Type:   linebot.FlexComponentTypeBox,
+					Layout: linebot.FlexBoxLayoutTypeVertical,
+					Contents: []linebot.FlexComponent{
+						&linebot.TextComponent{
+							Type:   linebot.FlexComponentTypeText,
+							Text:   text,
+							Align:  linebot.FlexComponentAlignTypeCenter,
+							Margin: linebot.FlexComponentMarginTypeNone,
+							Size:   linebot.FlexTextSizeTypeLg,
+							Color:  ColorAero,
+						},
+					},
+				},
+				Hero: &linebot.ImageComponent{
+					Type:        linebot.FlexComponentTypeImage,
+					AspectRatio: ratio,
+					URL:         img,
+					Size:        linebot.FlexImageSizeTypeFull,
+				},
+			},
+		},
+	}
+	return &contents
+}
+
+// ComingSoonMessage function generates FlexMessage for coming soon message.
+func ComingSoonMessage() *linebot.FlexMessage {
+	contents := ComingSoonContents(TextComingSoon)
+	return linebot.NewFlexMessage(TextComingSoon, contents)
+}
+
+// UnderConstructionMessage function generates FlexMessage for under
+// construction message.
+func UnderConstructionMessage() *linebot.FlexMessage {
+	contents := ComingSoonContents(TextUnderConstruction)
+	return linebot.NewFlexMessage(TextUnderConstruction, contents)
 }
 
 // DumpCarouselContainer function dumps the instance of CarouselContainer with
