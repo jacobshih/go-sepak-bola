@@ -72,17 +72,17 @@ func (bc *BubbleCompetition) Body() *linebot.BoxComponent {
 	matchesData, _ := json.Marshal(&appdata.PostData{
 		Category: PkgName,
 		Action:   ActionMatches,
-		Params:   nil,
+		Params:   bc.Competition,
 	})
 	standingsData, _ := json.Marshal(&appdata.PostData{
 		Category: PkgName,
 		Action:   ActionStandings,
-		Params:   nil,
+		Params:   bc.Competition,
 	})
 	teamsData, _ := json.Marshal(&appdata.PostData{
 		Category: PkgName,
 		Action:   ActionTeams,
-		Params:   nil,
+		Params:   bc.Competition,
 	})
 
 	bodyContents := []linebot.FlexComponent{}
