@@ -165,6 +165,7 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 				},
 			},
 		})
+		break
 	}
 	return &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
@@ -190,6 +191,7 @@ func (bs *BubbleStandings) Styles() *linebot.BubbleStyle {
 func (sepakbola *SepakBola) StandingsContents(competition *fbd.Competition) *ui.ExtCarouselContainer {
 	var bubbles []*ui.ExtBubbleContainer
 	var standings fbd.StandingsData
+	fmt.Println("[StandingsMessage] competitionID: ", competition.ID)
 	content := standings.Get(competition.ID)
 	if err := standings.Deserialize(content); err != nil {
 		fmt.Printf("[ERROR] %s (%s)\n", "FBDStandings.Deserialize()", err)
@@ -215,6 +217,7 @@ func (sepakbola *SepakBola) StandingsContents(competition *fbd.Competition) *ui.
 // StandingsMessage function generates FlexMessage for standings.
 func (sepakbola *SepakBola) StandingsMessage(competition *fbd.Competition) *linebot.FlexMessage {
 	altText := "Standings"
+	fmt.Println("[StandingsMessage] competitionID: ", competition.ID)
 	contents := sepakbola.StandingsContents(competition)
 	return linebot.NewFlexMessage(altText, contents)
 }
