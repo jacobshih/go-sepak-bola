@@ -31,32 +31,8 @@ const (
 	ColorAero      = "#7cb9e8"
 )
 
-// IBubble interface is used for bubble container.
-type IBubble interface {
-	Type() linebot.FlexContainerType
-	Direction() linebot.FlexBubbleDirectionType
-	Header() *linebot.BoxComponent
-	Hero() *linebot.ImageComponent
-	Body() *linebot.BoxComponent
-	Footer() *linebot.BoxComponent
-	Styles() *linebot.BubbleStyle
-}
-
-// Bubble function creates a bubble container from the instance that implements
-// IBubble interface.
-func Bubble(bubble IBubble) *linebot.BubbleContainer {
-	return &linebot.BubbleContainer{
-		Type:   bubble.Type(),
-		Header: bubble.Header(),
-		Hero:   bubble.Hero(),
-		Body:   bubble.Body(),
-		Footer: bubble.Footer(),
-		Styles: bubble.Styles(),
-	}
-}
-
-// ComingSoonContents function generates CarouselContainer for coming soon box.
-func ComingSoonContents(text string) *linebot.CarouselContainer {
+// ComingSoonContents function generates ExtCarouselContainer for coming soon box.
+func ComingSoonContents(text string) *ExtCarouselContainer {
 	img := URIComingSoon500x500
 	ratio := linebot.FlexImageAspectRatioType1to1
 	if text == TextComingSoon {
@@ -68,23 +44,27 @@ func ComingSoonContents(text string) *linebot.CarouselContainer {
 	} else {
 		text = TextComingSoon
 	}
-	contents := linebot.CarouselContainer{
-		Type: linebot.FlexContainerTypeCarousel,
-		Contents: []*linebot.BubbleContainer{
+	contents := ExtCarouselContainer{
+		CarouselContainer: linebot.CarouselContainer{
+			Type: linebot.FlexContainerTypeCarousel,
+		},
+		Contents: []*ExtBubbleContainer{
 			{
 				Type:      linebot.FlexContainerTypeBubble,
 				Direction: linebot.FlexBubbleDirectionTypeLTR,
-				Header: &linebot.BoxComponent{
-					Type:   linebot.FlexComponentTypeBox,
-					Layout: linebot.FlexBoxLayoutTypeVertical,
-					Contents: []linebot.FlexComponent{
-						&linebot.TextComponent{
-							Type:   linebot.FlexComponentTypeText,
-							Text:   text,
-							Align:  linebot.FlexComponentAlignTypeCenter,
-							Margin: linebot.FlexComponentMarginTypeNone,
-							Size:   linebot.FlexTextSizeTypeLg,
-							Color:  ColorAero,
+				Header: &ExtBoxComponent{
+					BoxComponent: linebot.BoxComponent{
+						Type:   linebot.FlexComponentTypeBox,
+						Layout: linebot.FlexBoxLayoutTypeVertical,
+						Contents: []linebot.FlexComponent{
+							&linebot.TextComponent{
+								Type:   linebot.FlexComponentTypeText,
+								Text:   text,
+								Align:  linebot.FlexComponentAlignTypeCenter,
+								Margin: linebot.FlexComponentMarginTypeNone,
+								Size:   linebot.FlexTextSizeTypeLg,
+								Color:  ColorAero,
+							},
 						},
 					},
 				},
@@ -114,10 +94,9 @@ func UnderConstructionMessage() *linebot.FlexMessage {
 	return linebot.NewFlexMessage(TextUnderConstruction, contents)
 }
 
-// DumpCarouselContainer function dumps the instance of CarouselContainer with
-// json format.
-func DumpCarouselContainer(cc *linebot.CarouselContainer) {
-	if json, err := cc.MarshalJSON(); err == nil {
+// Dump function dumps the instance of ExtCarouselContainer with json format.
+func (ec *ExtCarouselContainer) Dump() {
+	if json, err := ec.MarshalJSON(); err == nil {
 		fmt.Printf("%s\n", json)
 	}
 }
