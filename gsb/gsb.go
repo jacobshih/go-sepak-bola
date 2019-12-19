@@ -15,6 +15,7 @@ package gsb
 import (
 	"fmt"
 	"go-sepak-bola/internal/fbd"
+	"net/url"
 )
 
 // pkg constants
@@ -35,6 +36,7 @@ const (
 	CodePremierLeague   string = "PL"
 	CodeBundesliga      string = "BL1"
 	CodePrimeraDivision string = "PD"
+	TextSpace           string = " "
 )
 
 // competition codes
@@ -52,6 +54,11 @@ const (
 	ColorAcidGreen   = "#b0bf1a"
 	ColorOrange      = "#fb8c00"
 	ColorAmber       = "#ff7e00"
+	ColorLightGray   = "#c0c0c0"
+	ColorWhite       = "#ffffff"
+	ColorBlack       = "#000000"
+	ColorGray        = "#7f7f7f"
+	ColorBlue        = "#00ff00"
 )
 
 // SepakBola type SepakBola
@@ -81,6 +88,15 @@ func (sepakbola *SepakBola) GetCompetitions() {
 			sepakbola.Competitions[comp.ID] = comps.Competitions[i]
 			sepakbola.Competitions[comp.ID].GetTeams()
 			// sepakbola.Competitions[comp.Code].GetMatches()
+			for i, team := range sepakbola.Competitions[comp.ID].Teams {
+				u, err := url.Parse(team.CrestURL)
+				if err == nil {
+					if u.Scheme == "http" {
+						u.Scheme = "https"
+					}
+					sepakbola.Competitions[comp.ID].Teams[i].CrestURL = u.String()
+				}
+			}
 		}
 	}
 }
