@@ -177,11 +177,8 @@ func handleEventForPostbackOfGSB(event *linebot.Event) (msg linebot.SendingMessa
 	if err := json.Unmarshal([]byte(event.Postback.Data), &postdata); err != nil {
 		log.Println(err)
 	} else {
-		var comp fbd.Competition
-		if err := json.Unmarshal(postdata.Params.([]byte), &comp); err != nil {
-			return nil
-		}
-		competitionID := comp.ID
+		dict := postdata.Params.(map[string]interface{})
+		competitionID := dict["id"].(int)
 		switch postdata.Action {
 		case gsb.ActionMatches:
 			msg = ui.UnderConstructionMessage()
