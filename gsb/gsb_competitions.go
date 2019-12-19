@@ -41,18 +41,21 @@ func (bc *BubbleCompetition) Direction() linebot.FlexBubbleDirectionType {
 }
 
 // Header block. Specify a box component.
-func (bc *BubbleCompetition) Header() *linebot.BoxComponent {
-	return &linebot.BoxComponent{
-		Type:   linebot.FlexComponentTypeBox,
-		Layout: linebot.FlexBoxLayoutTypeVertical,
-		Contents: []linebot.FlexComponent{
-			&linebot.TextComponent{
-				Type:   linebot.FlexComponentTypeText,
-				Text:   bc.Competition.Name,
-				Margin: linebot.FlexComponentMarginTypeNone,
-				Size:   linebot.FlexTextSizeTypeLg,
-				Color:  ColorAmber,
-			}},
+func (bc *BubbleCompetition) Header() *ui.ExtBoxComponent {
+	return &ui.ExtBoxComponent{
+		BoxComponent: linebot.BoxComponent{
+			Type:   linebot.FlexComponentTypeBox,
+			Layout: linebot.FlexBoxLayoutTypeVertical,
+			Contents: []linebot.FlexComponent{
+				&linebot.TextComponent{
+					Type:   linebot.FlexComponentTypeText,
+					Text:   bc.Competition.Name,
+					Margin: linebot.FlexComponentMarginTypeNone,
+					Size:   linebot.FlexTextSizeTypeLg,
+					Color:  ColorAmber,
+				},
+			},
+		},
 	}
 }
 
@@ -68,21 +71,36 @@ func (bc *BubbleCompetition) Hero() *linebot.ImageComponent {
 }
 
 // Body block. Specify a box component.
-func (bc *BubbleCompetition) Body() *linebot.BoxComponent {
+func (bc *BubbleCompetition) Body() *ui.ExtBoxComponent {
 	matchesData, _ := json.Marshal(&appdata.PostData{
 		Category: PkgName,
 		Action:   ActionMatches,
-		Params:   bc.Competition,
+		Params: map[string]interface{}{
+			"id":        bc.Competition.ID,
+			"code":      bc.Competition.Code,
+			"name":      bc.Competition.Name,
+			"emblemURL": bc.Competition.EmblemURL,
+		},
 	})
 	standingsData, _ := json.Marshal(&appdata.PostData{
 		Category: PkgName,
 		Action:   ActionStandings,
-		Params:   bc.Competition,
+		Params: map[string]interface{}{
+			"id":        bc.Competition.ID,
+			"code":      bc.Competition.Code,
+			"name":      bc.Competition.Name,
+			"emblemURL": bc.Competition.EmblemURL,
+		},
 	})
 	teamsData, _ := json.Marshal(&appdata.PostData{
 		Category: PkgName,
 		Action:   ActionTeams,
-		Params:   bc.Competition,
+		Params: map[string]interface{}{
+			"id":        bc.Competition.ID,
+			"code":      bc.Competition.Code,
+			"name":      bc.Competition.Name,
+			"emblemURL": bc.Competition.EmblemURL,
+		},
 	})
 
 	bodyContents := []linebot.FlexComponent{}
@@ -119,16 +137,18 @@ func (bc *BubbleCompetition) Body() *linebot.BoxComponent {
 			DisplayText: "",
 		},
 	})
-	return &linebot.BoxComponent{
-		Type:     linebot.FlexComponentTypeBox,
-		Layout:   linebot.FlexBoxLayoutTypeVertical,
-		Spacing:  linebot.FlexComponentSpacingTypeMd,
-		Contents: bodyContents,
+	return &ui.ExtBoxComponent{
+		BoxComponent: linebot.BoxComponent{
+			Type:     linebot.FlexComponentTypeBox,
+			Layout:   linebot.FlexBoxLayoutTypeVertical,
+			Spacing:  linebot.FlexComponentSpacingTypeMd,
+			Contents: bodyContents,
+		},
 	}
 }
 
 // Footer block. Specify a box component.
-func (bc *BubbleCompetition) Footer() *linebot.BoxComponent {
+func (bc *BubbleCompetition) Footer() *ui.ExtBoxComponent {
 	return nil
 }
 
@@ -138,14 +158,16 @@ func (bc *BubbleCompetition) Styles() *linebot.BubbleStyle {
 }
 
 // CompetitionsContents function generates CarouselContainer for competitions menu.
-func (sepakbola *SepakBola) CompetitionsContents() *linebot.CarouselContainer {
-	var bubbles []*linebot.BubbleContainer
+func (sepakbola *SepakBola) CompetitionsContents() *ui.ExtCarouselContainer {
+	var bubbles []*ui.ExtBubbleContainer
 	for _, competition := range sepakbola.Competitions {
 		bubble := BubbleCompetition{Competition: competition}
 		bubbles = append(bubbles, ui.Bubble(&bubble))
 	}
-	contents := linebot.CarouselContainer{
-		Type:     linebot.FlexContainerTypeCarousel,
+	contents := ui.ExtCarouselContainer{
+		CarouselContainer: linebot.CarouselContainer{
+			Type: linebot.FlexContainerTypeCarousel,
+		},
 		Contents: bubbles,
 	}
 	return &contents
