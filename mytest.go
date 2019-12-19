@@ -16,7 +16,6 @@ import (
 	"fmt"
 	"go-sepak-bola/gsb"
 	"go-sepak-bola/internal/fbd"
-	"go-sepak-bola/ui"
 	"os"
 )
 
@@ -150,7 +149,7 @@ func mytestFbdStandings(competitionID int) {
 
 func mytestFbdUICompetitions() {
 	contents := sepakbola.CompetitionsContents()
-	ui.DumpCarouselContainer(contents)
+	contents.Dump()
 }
 
 func mytest() {
