@@ -179,6 +179,7 @@ func handleEventForPostbackOfGSB(event *linebot.Event) (msg linebot.SendingMessa
 	} else {
 		dict := postdata.Params.(map[string]interface{})
 		competitionID := int(dict["id"].(float64))
+		fmt.Println("competitionID: ", competitionID)
 		switch postdata.Action {
 		case gsb.ActionMatches:
 			msg = ui.UnderConstructionMessage()
