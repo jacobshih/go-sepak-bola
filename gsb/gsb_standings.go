@@ -76,11 +76,11 @@ func standingsTextCell(text string, flex int, textColor, backgroundColor string)
 		BoxComponent: linebot.BoxComponent{
 			Type:   linebot.FlexComponentTypeBox,
 			Layout: linebot.FlexBoxLayoutTypeHorizontal,
+			Flex:   &flex,
 			Contents: []linebot.FlexComponent{
 				&linebot.TextComponent{
 					Type:    linebot.FlexComponentTypeText,
 					Text:    text,
-					Flex:    &flex,
 					Gravity: linebot.FlexComponentGravityTypeCenter,
 					Margin:  linebot.FlexComponentMarginTypeNone,
 					Size:    linebot.FlexTextSizeTypeXs,
@@ -97,6 +97,7 @@ func standingsImageCell(imageURL string, flex int, imageSize linebot.FlexImageSi
 		BoxComponent: linebot.BoxComponent{
 			Type:   linebot.FlexComponentTypeBox,
 			Layout: linebot.FlexBoxLayoutTypeHorizontal,
+			Flex:   &flex,
 			Contents: []linebot.FlexComponent{
 				&linebot.ImageComponent{
 					Type:        linebot.FlexComponentTypeImage,
