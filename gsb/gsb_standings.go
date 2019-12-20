@@ -63,15 +63,13 @@ func (bs *BubbleStandings) Header() *ui.ExtBoxComponent {
 // Hero block. Specify an image component.
 func (bs *BubbleStandings) Hero() *linebot.ImageComponent {
 	return &linebot.ImageComponent{
-		Type:        linebot.FlexComponentTypeImage,
-		URL:         bs.Competition.EmblemURL,
-		Size:        linebot.FlexImageSizeTypeFull,
-		AspectRatio: linebot.FlexImageAspectRatioType1to1,
-		AspectMode:  linebot.FlexImageAspectModeTypeCover,
+		Type: linebot.FlexComponentTypeImage,
+		URL:  bs.Competition.EmblemURL,
+		Size: linebot.FlexImageSizeTypeFull,
 	}
 }
 
-func standingsTextCell(text string, flex int, textColor, backgroundColor string) *ui.ExtBoxComponent {
+func standingsTextCell(text string, flex int, textColor, backgroundColor string, align linebot.FlexComponentAlignType) *ui.ExtBoxComponent {
 	return &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
 			Type:   linebot.FlexComponentTypeBox,
@@ -82,7 +80,7 @@ func standingsTextCell(text string, flex int, textColor, backgroundColor string)
 					Type:    linebot.FlexComponentTypeText,
 					Text:    text,
 					Gravity: linebot.FlexComponentGravityTypeCenter,
-					Margin:  linebot.FlexComponentMarginTypeNone,
+					Align:   linebot.FlexComponentAlignType(align),
 					Size:    linebot.FlexTextSizeTypeXs,
 					Color:   textColor,
 				},
@@ -100,11 +98,9 @@ func standingsImageCell(imageURL string, flex int, imageSize linebot.FlexImageSi
 			Flex:   &flex,
 			Contents: []linebot.FlexComponent{
 				&linebot.ImageComponent{
-					Type:        linebot.FlexComponentTypeImage,
-					URL:         imageURL,
-					Size:        imageSize,
-					AspectRatio: linebot.FlexImageAspectRatioType1to1,
-					AspectMode:  linebot.FlexImageAspectModeTypeCover,
+					Type: linebot.FlexComponentTypeImage,
+					URL:  imageURL,
+					Size: imageSize,
 				},
 			},
 		},
@@ -115,9 +111,11 @@ func standingsImageCell(imageURL string, flex int, imageSize linebot.FlexImageSi
 func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 	flexCrest := 14
 	flexTLA := 14
-	flexCell := 9
-	thTextColor := ColorDodgeBlue
-	thBackgroundColor := ColorLightGray
+	flexCell := 8
+	alignL := linebot.FlexComponentAlignTypeStart
+	alignR := linebot.FlexComponentAlignTypeEnd
+	thColor := ColorDodgeBlue
+	thBgColor := ColorLightGray
 	comp := bs.Competition
 	teams := comp.Teams
 	bodyContents := []linebot.FlexComponent{}
@@ -132,37 +130,39 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 			Type:   linebot.FlexComponentTypeBox,
 			Layout: linebot.FlexBoxLayoutTypeHorizontal,
 			Contents: []linebot.FlexComponent{
-				standingsTextCell(TextSpace, flexCrest, thTextColor, thBackgroundColor),
-				standingsTextCell(TextSpace, flexTLA, thTextColor, thBackgroundColor),
-				standingsTextCell("GP", flexCell, thTextColor, thBackgroundColor),
-				standingsTextCell("W", flexCell, thTextColor, thBackgroundColor),
-				standingsTextCell("D", flexCell, thTextColor, thBackgroundColor),
-				standingsTextCell("L", flexCell, thTextColor, thBackgroundColor),
-				standingsTextCell("PT", flexCell, thTextColor, thBackgroundColor),
-				standingsTextCell("GF", flexCell, thTextColor, thBackgroundColor),
-				standingsTextCell("GA", flexCell, thTextColor, thBackgroundColor),
-				standingsTextCell("GD", flexCell, thTextColor, thBackgroundColor),
+				standingsTextCell(TextSpace, flexCell, thColor, thBgColor, alignL),
+				standingsTextCell(TextSpace, flexCrest, thColor, thBgColor, alignL),
+				standingsTextCell(TextSpace, flexTLA, thColor, thBgColor, alignL),
+				standingsTextCell("GP", flexCell, thColor, thBgColor, alignL),
+				standingsTextCell("W", flexCell, thColor, thBgColor, alignL),
+				standingsTextCell("D", flexCell, thColor, thBgColor, alignL),
+				standingsTextCell("L", flexCell, thColor, thBgColor, alignL),
+				standingsTextCell("PT", flexCell, thColor, thBgColor, alignL),
+				standingsTextCell("GF", flexCell, thColor, thBgColor, alignL),
+				standingsTextCell("GA", flexCell, thColor, thBgColor, alignL),
+				standingsTextCell("GD", flexCell, thColor, thBgColor, alignL),
 			},
 		},
 	})
-	thTextColor = ColorBlack
-	thBackgroundColor = ColorWhite
+	thColor = ColorBlack
+	thBgColor = ColorWhite
 	for _, it := range bs.Standings.Table {
 		bodyContents = append(bodyContents, &ui.ExtBoxComponent{
 			BoxComponent: linebot.BoxComponent{
 				Type:   linebot.FlexComponentTypeBox,
 				Layout: linebot.FlexBoxLayoutTypeHorizontal,
 				Contents: []linebot.FlexComponent{
+					standingsTextCell(strconv.Itoa(it.Position), flexCell, thColor, thBgColor, alignL),
 					standingsImageCell(teams[it.Team.ID].CrestURL, flexCrest, linebot.FlexImageSizeTypeXxs),
-					standingsTextCell(teams[it.Team.ID].TLA, flexTLA, thTextColor, thBackgroundColor),
-					standingsTextCell(strconv.Itoa(it.PlayedGames), flexCell, thTextColor, thBackgroundColor),
-					standingsTextCell(strconv.Itoa(it.Won), flexCell, thTextColor, thBackgroundColor),
-					standingsTextCell(strconv.Itoa(it.Draw), flexCell, thTextColor, thBackgroundColor),
-					standingsTextCell(strconv.Itoa(it.Lost), flexCell, thTextColor, thBackgroundColor),
-					standingsTextCell(strconv.Itoa(it.Points), flexCell, thTextColor, thBackgroundColor),
-					standingsTextCell(strconv.Itoa(it.GoalsFor), flexCell, thTextColor, thBackgroundColor),
-					standingsTextCell(strconv.Itoa(it.GoalsAgainst), flexCell, thTextColor, thBackgroundColor),
-					standingsTextCell(strconv.Itoa(it.GoalDifference), flexCell, thTextColor, thBackgroundColor),
+					standingsTextCell(teams[it.Team.ID].TLA, flexTLA, thColor, thBgColor, alignL),
+					standingsTextCell(strconv.Itoa(it.PlayedGames), flexCell, thColor, thBgColor, alignR),
+					standingsTextCell(strconv.Itoa(it.Won), flexCell, thColor, thBgColor, alignR),
+					standingsTextCell(strconv.Itoa(it.Draw), flexCell, thColor, thBgColor, alignR),
+					standingsTextCell(strconv.Itoa(it.Lost), flexCell, thColor, thBgColor, alignR),
+					standingsTextCell(strconv.Itoa(it.Points), flexCell, thColor, thBgColor, alignR),
+					standingsTextCell(strconv.Itoa(it.GoalsFor), flexCell, thColor, thBgColor, alignR),
+					standingsTextCell(strconv.Itoa(it.GoalsAgainst), flexCell, thColor, thBgColor, alignR),
+					standingsTextCell(strconv.Itoa(it.GoalDifference), flexCell, thColor, thBgColor, alignR),
 				},
 			},
 		})
@@ -194,8 +194,7 @@ func (sepakbola *SepakBola) StandingsContents(competition *fbd.Competition) *ui.
 	content := standings.Get(competition.ID)
 	if err := standings.Deserialize(content); err != nil {
 		fmt.Printf("[ERROR] %s (%s)\n", "FBDStandings.Deserialize()", err)
-		// FIXME: return ui.SomethingWrongContents()
-		return nil
+		return ui.SomethingWrongContents()
 	}
 	for _, standingsItem := range standings.StandingsList {
 		bubble := BubbleStandings{
@@ -219,6 +218,5 @@ func (sepakbola *SepakBola) StandingsContents(competition *fbd.Competition) *ui.
 func (sepakbola *SepakBola) StandingsMessage(competition *fbd.Competition) *linebot.FlexMessage {
 	altText := "Standings"
 	contents := sepakbola.StandingsContents(competition)
-	contents.Dump()
 	return linebot.NewFlexMessage(altText, contents)
 }
