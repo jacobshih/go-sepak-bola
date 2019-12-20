@@ -88,7 +88,7 @@ func standingsTextCell(text string, flex int, textColor, backgroundColor string)
 				},
 			},
 		},
-		// BackgroundColor: backgroundColor,
+		BackgroundColor: backgroundColor,
 	}
 }
 
@@ -165,7 +165,6 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 				},
 			},
 		})
-		break
 	}
 	return &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
@@ -191,8 +190,8 @@ func (bs *BubbleStandings) Styles() *linebot.BubbleStyle {
 func (sepakbola *SepakBola) StandingsContents(competition *fbd.Competition) *ui.ExtCarouselContainer {
 	var bubbles []*ui.ExtBubbleContainer
 	var standings fbd.StandingsData
-	fmt.Println("[StandingsMessage] competitionID: ", competition.ID)
 	content := standings.Get(competition.ID)
+	fmt.Printf("%s\n", content)
 	if err := standings.Deserialize(content); err != nil {
 		fmt.Printf("[ERROR] %s (%s)\n", "FBDStandings.Deserialize()", err)
 		// FIXME: return ui.SomethingWrongContents()
