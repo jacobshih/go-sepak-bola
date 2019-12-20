@@ -88,7 +88,7 @@ func standingsTextCell(text string, flex int, textColor, backgroundColor string)
 				},
 			},
 		},
-		BackgroundColor: backgroundColor,
+		// BackgroundColor: backgroundColor,
 	}
 }
 
