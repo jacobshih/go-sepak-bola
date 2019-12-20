@@ -15,12 +15,12 @@ const (
 )
 
 const (
-	uriCompetitions string = "http://api.football-data.org/v2/competitions/"
-	uriCompetition  string = "http://api.football-data.org/v2/competitions/%d"
-	uriTeams        string = "http://api.football-data.org/v2/competitions/%d/teams"
-	uriMatches      string = "http://api.football-data.org/v2/competitions/%d/matches"
-	uriMatch        string = "http://api.football-data.org/v2/matches/%d"
-	uriStandings    string = "http://api.football-data.org/v2/competitions/%d/standings"
+	uriCompetitions string = "https://api.football-data.org/v2/competitions/"
+	uriCompetition  string = "https://api.football-data.org/v2/competitions/%d"
+	uriTeams        string = "https://api.football-data.org/v2/competitions/%d/teams"
+	uriMatches      string = "https://api.football-data.org/v2/competitions/%d/matches"
+	uriMatch        string = "https://api.football-data.org/v2/matches/%d"
+	uriStandings    string = "https://api.football-data.org/v2/competitions/%d/standings"
 )
 
 const (
