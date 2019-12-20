@@ -202,6 +202,8 @@ func (sepakbola *SepakBola) StandingsContents(competition *fbd.Competition) *ui.
 			Standings:   standingsItem,
 		}
 		bubbles = append(bubbles, ui.Bubble(&bubble))
+		// skip HOME and AWAY standings to reduce size of flex message.
+		break
 	}
 	contents := ui.ExtCarouselContainer{
 		CarouselContainer: linebot.CarouselContainer{
