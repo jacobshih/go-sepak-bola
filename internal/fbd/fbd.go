@@ -73,6 +73,8 @@ func (fbd *FBDAPI) httpGet(uri string) (content []byte) {
 			fmt.Println(err.Error())
 			return content
 		}
+	} else {
+		fmt.Printf("[httpGet] resp.StatusCode(%d) (%s)\n", resp.StatusCode, uri)
 	}
 	return content
 }
