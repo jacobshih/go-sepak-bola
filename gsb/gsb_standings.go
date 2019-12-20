@@ -219,5 +219,6 @@ func (sepakbola *SepakBola) StandingsContents(competition *fbd.Competition) *ui.
 func (sepakbola *SepakBola) StandingsMessage(competition *fbd.Competition) *linebot.FlexMessage {
 	altText := "Standings"
 	contents := sepakbola.StandingsContents(competition)
+	contents.Dump()
 	return linebot.NewFlexMessage(altText, contents)
 }
