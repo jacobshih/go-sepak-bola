@@ -166,6 +166,10 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 				},
 			},
 		})
+		// FIXME debug only
+		if len(bodyContents) > 1 {
+			break
+		}
 	}
 	return &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
