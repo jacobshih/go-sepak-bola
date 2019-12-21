@@ -21,6 +21,62 @@ import (
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
+const (
+	colorCLG = "#45ef00" // champions league group stage
+	colorCLQ = "#00ef7f" // champions league qualification
+	colorELG = "#00c7ef" // europa league group stage
+	colorELQ = "#00efef" // europa league qualification
+	colorPO  = "#ef8a00" // play offs
+	colorREL = "#f96f5f" // relegation
+)
+
+// Legend type maps the position of standings table to a background color to
+// indicate the status of promotion or relegation.
+type Legend struct {
+	table map[int]string
+}
+
+var legends = map[int]Legend{
+	PL: {
+		table: map[int]string{
+			1:  colorCLG,
+			2:  colorCLG,
+			3:  colorCLG,
+			4:  colorCLG,
+			5:  colorELG,
+			18: colorREL,
+			19: colorREL,
+			20: colorREL,
+		},
+	},
+	BL1: {
+		table: map[int]string{
+			1:  colorCLG,
+			2:  colorCLG,
+			3:  colorCLG,
+			4:  colorCLG,
+			5:  colorELG,
+			6:  colorELQ,
+			16: colorPO,
+			17: colorREL,
+			18: colorREL,
+		},
+	},
+	PD: {
+		table: map[int]string{
+			1:  colorCLG,
+			2:  colorCLG,
+			3:  colorCLG,
+			4:  colorCLG,
+			5:  colorELG,
+			6:  colorELQ,
+			18: colorREL,
+			19: colorREL,
+			20: colorREL,
+		},
+	},
+}
+
 // BubbleStandings contains competition information for creating a bubble
 // container of particular competition.
 type BubbleStandings struct {
@@ -112,22 +168,16 @@ func standingsImageCell(imageURL string, flex int, imageSize linebot.FlexImageSi
 
 // Body block. Specify a box component.
 func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
-	const (
-		colorChampionLeague     = "#45ef00"
-		colorEuropaLeagueGroup  = "#00ef7f"
-		colorEuropaLeagueQualfy = "#00c7ef"
-		colorRelegationPlayOff  = "#efaa00"
-		colorRelegation         = "#ef00ef"
-	)
 	flexCrest := 14
 	flexTLA := 14
 	flexCell := 8
 	alignL := linebot.FlexComponentAlignTypeStart
 	alignR := linebot.FlexComponentAlignTypeEnd
-	thColor := ColorDodgeBlue
+	thColor := ColorIndigo
 	noColor := ""
 	comp := bs.Competition
 	teams := comp.Teams
+	legend := legends[comp.ID].table
 	bodyContents := []linebot.FlexComponent{}
 	bodyContents = append(bodyContents, &linebot.TextComponent{
 		Type:  linebot.FlexComponentTypeText,
@@ -139,6 +189,7 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 		BoxComponent: linebot.BoxComponent{
 			Type:   linebot.FlexComponentTypeBox,
 			Layout: linebot.FlexBoxLayoutTypeHorizontal,
+			Margin: linebot.FlexComponentMarginTypeXs,
 			Contents: []linebot.FlexComponent{
 				standingsTextCell(TextSpace, flexCell, thColor, noColor, alignL),
 				standingsTextCell(TextSpace, flexCrest, thColor, noColor, alignL),
@@ -161,6 +212,7 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 			BoxComponent: linebot.BoxComponent{
 				Type:   linebot.FlexComponentTypeBox,
 				Layout: linebot.FlexBoxLayoutTypeHorizontal,
+				Margin: linebot.FlexComponentMarginTypeXs,
 				Contents: []linebot.FlexComponent{
 					standingsTextCell(strconv.Itoa(it.Position), flexCell, thColor, noColor, alignL),
 					standingsImageCell(teams[it.Team.ID].CrestURL, flexCrest, linebot.FlexImageSizeTypeXxs),
@@ -175,6 +227,9 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 					standingsTextCell(strconv.Itoa(it.GoalDifference), flexCell, thColor, noColor, alignR),
 				},
 			},
+		}
+		if color, ok := legend[it.Position]; ok {
+			box.BackgroundColor = color
 		}
 		bodyContents = append(bodyContents, &box)
 	}

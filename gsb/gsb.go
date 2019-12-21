@@ -47,8 +47,10 @@ const (
 )
 
 // colors
+// https://htmlcolorcodes.com/color-names/
 const (
 	ColorDodgeBlue   = "#1e90ff"
+	ColorIndigo      = "#4b0082"
 	ColorAero        = "#7cb9e8"
 	ColorGreenYellow = "#adff2f"
 	ColorAcidGreen   = "#b0bf1a"
