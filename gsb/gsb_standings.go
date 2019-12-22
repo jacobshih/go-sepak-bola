@@ -77,8 +77,8 @@ var legends = map[int]Legend{
 	},
 }
 
-// BubbleStandings contains competition information for creating a bubble
-// container of particular competition.
+// BubbleStandings contains competition and standings information for creating
+// a bubble container of standings table of the particular competition.
 type BubbleStandings struct {
 	Competition *fbd.Competition
 	Standings   *fbd.Standings
