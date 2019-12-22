@@ -179,12 +179,6 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 	teams := comp.Teams
 	legend := legends[comp.ID].table
 	bodyContents := []linebot.FlexComponent{}
-	bodyContents = append(bodyContents, &linebot.TextComponent{
-		Type:  linebot.FlexComponentTypeText,
-		Text:  bs.Standings.Type,
-		Size:  linebot.FlexTextSizeTypeLg,
-		Color: ColorGreenYellow,
-	})
 	bodyContents = append(bodyContents, &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
 			Type:   linebot.FlexComponentTypeBox,
