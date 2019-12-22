@@ -37,6 +37,13 @@ export FBDATA_MATCH=264497
     curl -X GET -H "X-Auth-Token: $FBDATA_TOKEN" http://api.football-data.org/v2/competitions/$FBDATA_COMPETITION/teams
     ```
 
+- Show one particular team.
+
+    ```
+    curl -X GET -H "X-Auth-Token: $FBDATA_TOKEN" http://api.football-data.org/v2/teams/$FBDATA_TEAM
+
+    ```
+
 ### matches
 
 - List all matches for a particular competition.
