@@ -253,7 +253,7 @@ func (sepakbola *SepakBola) StandingsContents(competition *fbd.Competition) *ui.
 	var standings fbd.StandingsData
 	content := standings.Get(competition.ID)
 	if err := standings.Deserialize(content); err != nil {
-		fmt.Printf("[ERROR] %s (%s)\n", "FBDStandings.Deserialize()", err)
+		fmt.Printf("[ERROR] %s (%s)\n", "StandingsData.Deserialize()", err)
 		return ui.SomethingWrongContents()
 	}
 	for _, standingsItem := range standings.StandingsList {
