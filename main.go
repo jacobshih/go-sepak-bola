@@ -188,6 +188,8 @@ func handleEventForPostbackOfGSB(event *linebot.Event) (msg linebot.SendingMessa
 		case gsb.ActionTeams:
 			competition := sepakbola.Competitions[id]
 			msg = sepakbola.TeamsMessage(competition)
+		case gsb.ActionTeam:
+			fmt.Println("Action: ", gsb.ActionTeam, "id: ", id)
 		default:
 		}
 	}
