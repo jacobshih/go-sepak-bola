@@ -178,15 +178,16 @@ func handleEventForPostbackOfGSB(event *linebot.Event) (msg linebot.SendingMessa
 		log.Println(err)
 	} else {
 		dict := postdata.Params.(map[string]interface{})
-		competitionID := int(dict["id"].(float64))
+		id := int(dict["id"].(float64))
 		switch postdata.Action {
 		case gsb.ActionMatches:
 			msg = ui.UnderConstructionMessage()
 		case gsb.ActionStandings:
-			competition := sepakbola.Competitions[competitionID]
+			competition := sepakbola.Competitions[id]
 			msg = sepakbola.StandingsMessage(competition)
 		case gsb.ActionTeams:
-			msg = ui.ComingSoonMessage()
+			competition := sepakbola.Competitions[id]
+			msg = sepakbola.TeamsMessage(competition)
 		default:
 		}
 	}
