@@ -72,8 +72,6 @@ func (bs *BubbleTeams) Hero() *linebot.ImageComponent {
 
 // Body block. Specify a box component.
 func (bs *BubbleTeams) Body() *ui.ExtBoxComponent {
-	flexCrest := 1
-	flexTeam := 4
 	bodyContents := []linebot.FlexComponent{}
 	keys := []int{}
 	for id := range bs.Teams {
@@ -93,26 +91,20 @@ func (bs *BubbleTeams) Body() *ui.ExtBoxComponent {
 		box := ui.ExtBoxComponent{
 			BoxComponent: linebot.BoxComponent{
 				Type:   linebot.FlexComponentTypeBox,
-				Layout: linebot.FlexBoxLayoutTypeHorizontal,
+				Layout: linebot.FlexBoxLayoutTypeBaseline,
 				Margin: linebot.FlexComponentMarginTypeXs,
 				Contents: []linebot.FlexComponent{
-					&linebot.ImageComponent{
-						Type: linebot.FlexComponentTypeImage,
-						Flex: &flexCrest,
+					&linebot.IconComponent{
+						Type: linebot.FlexComponentTypeIcon,
 						URL:  team.CrestURL,
-						Size: linebot.FlexImageSizeTypeXxs,
-						Action: &linebot.PostbackAction{
-							Data: string(teamData),
-						},
+						Size: linebot.FlexIconSizeTypeXxl,
 					},
 					&linebot.TextComponent{
-						Type:    linebot.FlexComponentTypeText,
-						Flex:    &flexTeam,
-						Text:    team.ShortName,
-						Margin:  linebot.FlexComponentMarginTypeSm,
-						Size:    linebot.FlexTextSizeTypeXl,
-						Color:   ColorDodgeBlue,
-						Gravity: linebot.FlexComponentGravityTypeCenter,
+						Type:   linebot.FlexComponentTypeText,
+						Text:   team.ShortName,
+						Margin: linebot.FlexComponentMarginTypeSm,
+						Size:   linebot.FlexTextSizeTypeXl,
+						Color:  ColorDodgeBlue,
 						Action: &linebot.PostbackAction{
 							Data: string(teamData),
 						},
