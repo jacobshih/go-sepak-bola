@@ -94,11 +94,16 @@ func (bs *BubbleTeams) Body() *ui.ExtBoxComponent {
 				Layout: linebot.FlexBoxLayoutTypeBaseline,
 				Margin: linebot.FlexComponentMarginTypeXs,
 				Contents: []linebot.FlexComponent{
-					&linebot.IconComponent{
-						Type: linebot.FlexComponentTypeIcon,
-						URL:  team.CrestURL,
-						Size: linebot.FlexIconSizeTypeXxl,
-					},
+					// remove team crest from team list.
+					// the crestURL of football-data locates to svg file is invalid
+					// for LINE to display.
+					/*
+						&linebot.IconComponent{
+							Type: linebot.FlexComponentTypeIcon,
+							URL:  team.CrestURL,
+							Size: linebot.FlexIconSizeTypeXxl,
+						},
+					*/
 					&linebot.TextComponent{
 						Type:   linebot.FlexComponentTypeText,
 						Text:   team.ShortName,

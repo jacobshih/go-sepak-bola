@@ -137,7 +137,7 @@ func standingsTextCell(text string, flex int, textColor, backgroundColor string,
 					Text:    text,
 					Gravity: linebot.FlexComponentGravityTypeCenter,
 					Align:   linebot.FlexComponentAlignType(align),
-					Size:    linebot.FlexTextSizeTypeXs,
+					Size:    linebot.FlexTextSizeTypeSm,
 					Color:   textColor,
 				},
 			},
@@ -168,7 +168,10 @@ func standingsImageCell(imageURL string, flex int, imageSize linebot.FlexImageSi
 
 // Body block. Specify a box component.
 func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
-	flexCrest := 14
+	// remove team crest from standings table.
+	// the crestURL of football-data locates to svg file is invalid
+	// for LINE to display.
+	// flexCrest := 14
 	flexTLA := 14
 	flexCell := 8
 	alignL := linebot.FlexComponentAlignTypeStart
@@ -186,7 +189,10 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 			Margin: linebot.FlexComponentMarginTypeXs,
 			Contents: []linebot.FlexComponent{
 				standingsTextCell(TextSpace, flexCell, thColor, noColor, alignL),
-				standingsTextCell(TextSpace, flexCrest, thColor, noColor, alignL),
+				// remove team crest from standings table.
+				// the crestURL of football-data locates to svg file is invalid
+				// for LINE to display.
+				// standingsTextCell(TextSpace, flexCrest, thColor, noColor, alignL),
 				standingsTextCell(TextSpace, flexTLA, thColor, noColor, alignL),
 				standingsTextCell("GP", flexCell, thColor, noColor, alignL),
 				standingsTextCell("W", flexCell, thColor, noColor, alignL),
@@ -209,7 +215,10 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 				Margin: linebot.FlexComponentMarginTypeXs,
 				Contents: []linebot.FlexComponent{
 					standingsTextCell(strconv.Itoa(it.Position), flexCell, thColor, noColor, alignL),
-					standingsImageCell(teams[it.Team.ID].CrestURL, flexCrest, linebot.FlexImageSizeTypeXxs),
+					// remove team crest from standings table.
+					// the crestURL of football-data locates to svg file is invalid
+					// for LINE to display.
+					// standingsImageCell(teams[it.Team.ID].CrestURL, flexCrest, linebot.FlexImageSizeTypeXxs),
 					standingsTextCell(teams[it.Team.ID].TLA, flexTLA, thColor, noColor, alignL),
 					standingsTextCell(strconv.Itoa(it.PlayedGames), flexCell, thColor, noColor, alignR),
 					standingsTextCell(strconv.Itoa(it.Won), flexCell, thColor, noColor, alignR),
