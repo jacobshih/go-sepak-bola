@@ -109,7 +109,7 @@ func (bc *BubbleCompetition) Body() *ui.ExtBoxComponent {
 		Style: linebot.FlexButtonStyleTypeSecondary,
 		Color: ColorOrange,
 		Action: &linebot.PostbackAction{
-			Label:       EmojiSquaredVS + " " + TextMatchday,
+			Label:       EmojiSquaredVS + " " + TextMatches,
 			Data:        string(matchesData),
 			Text:        "",
 			DisplayText: "",

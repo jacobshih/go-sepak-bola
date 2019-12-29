@@ -28,7 +28,7 @@ const (
 	ActionStandings     string = "standings"
 	ActionTeams         string = "teams"
 	ActionTeam          string = "team"
-	TextMatchday        string = "Matches"
+	TextMatches         string = "Matches"
 	TextStandings       string = "Standings"
 	TextTeams           string = "Teams"
 	TextPremierLeague   string = "Premier League"
