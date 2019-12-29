@@ -35,7 +35,7 @@ const (
 	TextTeams           string = "Teams"
 	TextMatchesType     string = "Matches type"
 	TextAllMatches      string = "All matches"
-	TextMatchday        string = "Current matches"
+	TextMatchday        string = "Current matchday"
 	TextPremierLeague   string = "Premier League"
 	TextBundesliga      string = "Bundesliga"
 	TextPrimeraDivision string = "Primera Division"
