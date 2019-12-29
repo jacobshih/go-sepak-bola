@@ -18,7 +18,6 @@ import (
 	"go-sepak-bola/gsb"
 	"go-sepak-bola/internal/appdata"
 	"go-sepak-bola/internal/fbd"
-	"go-sepak-bola/ui"
 	"log"
 	"net/http"
 	"os"
@@ -179,19 +178,18 @@ func handleEventForPostbackOfGSB(event *linebot.Event) (msg linebot.SendingMessa
 	} else {
 		dict := postdata.Params.(map[string]interface{})
 		id := int(dict["id"].(float64))
+		competition := sepakbola.Competitions[id]
 		switch postdata.Action {
 		case gsb.ActionMatches:
-			msg = ui.UnderConstructionMessage()
+			msg = sepakbola.MatchdesTypeMessage(competition, 0)
 		case gsb.ActionMatchday:
 			currentMatchday := int(dict["currentMatchday"].(float64))
 			fmt.Println("Action: ", gsb.ActionMatchday, "currentMatchday: ", currentMatchday)
 		case gsb.ActionAllMatches:
 			fmt.Println("Action: ", gsb.ActionAllMatches)
 		case gsb.ActionStandings:
-			competition := sepakbola.Competitions[id]
 			msg = sepakbola.StandingsMessage(competition)
 		case gsb.ActionTeams:
-			competition := sepakbola.Competitions[id]
 			msg = sepakbola.TeamsMessage(competition)
 		case gsb.ActionTeam:
 			fmt.Println("Action: ", gsb.ActionTeam, "id: ", id)
