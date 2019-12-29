@@ -122,6 +122,7 @@ func (sepakbola *SepakBola) MatchdesTypeMessage(competition *fbd.Competition, ma
 		Category: PkgName,
 		Action:   ActionMatchday,
 		Params: map[string]interface{}{
+			"id":              competition.ID,
 			"currentMatchday": competition.Season.CurrentMatchday,
 		},
 	})
