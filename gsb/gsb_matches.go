@@ -18,6 +18,7 @@ import (
 	"go-sepak-bola/internal/appdata"
 	"go-sepak-bola/internal/fbd"
 	"go-sepak-bola/ui"
+	"strconv"
 
 	"github.com/line/line-bot-sdk-go/linebot"
 )
@@ -106,7 +107,7 @@ func (sepakbola *SepakBola) MatchdayContents(competition *fbd.Competition, match
 
 // MatchdayMessage function generates FlexMessage for particular matchday.
 func (sepakbola *SepakBola) MatchdayMessage(competition *fbd.Competition, matchday int) *linebot.FlexMessage {
-	altText := "Teams"
+	altText := TextMatchday + " " + strconv.Itoa(matchday)
 	contents := sepakbola.MatchdayContents(competition, matchday)
 	return linebot.NewFlexMessage(altText, contents)
 }
@@ -134,6 +135,6 @@ func (sepakbola *SepakBola) MatchdesTypeMessage(competition *fbd.Competition, ma
 				linebot.NewPostbackAction(TextAllMatches, string(allMatchesData), "", TextAllMatches)),
 			linebot.NewQuickReplyButton(
 				"",
-				linebot.NewPostbackAction(TextMatchday, string(matchdayData), "", TextMatchday)),
+				linebot.NewPostbackAction(TextCurrentMatchday, string(matchdayData), "", TextCurrentMatchday)),
 		))
 }
