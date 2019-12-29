@@ -182,6 +182,11 @@ func handleEventForPostbackOfGSB(event *linebot.Event) (msg linebot.SendingMessa
 		switch postdata.Action {
 		case gsb.ActionMatches:
 			msg = ui.UnderConstructionMessage()
+		case gsb.ActionMatchday:
+			currentMatchday := int(dict["currentMatchday"].(float64))
+			fmt.Println("Action: ", gsb.ActionMatchday, "currentMatchday: ", currentMatchday)
+		case gsb.ActionAllMatches:
+			fmt.Println("Action: ", gsb.ActionAllMatches)
 		case gsb.ActionStandings:
 			competition := sepakbola.Competitions[id]
 			msg = sepakbola.StandingsMessage(competition)
