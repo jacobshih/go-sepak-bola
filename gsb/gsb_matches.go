@@ -27,7 +27,7 @@ import (
 // container of teams of the particular competition.
 type BubbleMatchday struct {
 	Competition *fbd.Competition
-	Matches     []*fbd.Match
+	Match       *fbd.Match
 }
 
 // Type is FlexContainerTypeBubble.
@@ -48,14 +48,21 @@ func (bs *BubbleMatchday) Header() *ui.ExtBoxComponent {
 	return &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
 			Type:   linebot.FlexComponentTypeBox,
-			Layout: linebot.FlexBoxLayoutTypeVertical,
+			Layout: linebot.FlexBoxLayoutTypeHorizontal,
 			Contents: []linebot.FlexComponent{
 				&linebot.TextComponent{
-					Type:   linebot.FlexComponentTypeText,
-					Text:   bs.Competition.Name,
-					Margin: linebot.FlexComponentMarginTypeNone,
-					Size:   linebot.FlexTextSizeTypeLg,
-					Color:  ColorAero,
+					Type:  linebot.FlexComponentTypeText,
+					Text:  bs.Competition.Name,
+					Align: linebot.FlexComponentAlignTypeStart,
+					Size:  linebot.FlexTextSizeTypeMd,
+					Color: ColorAmber,
+				},
+				&linebot.TextComponent{
+					Type:  linebot.FlexComponentTypeText,
+					Text:  TextRound + " " + strconv.Itoa(bs.Match.Season.CurrentMatchday),
+					Align: linebot.FlexComponentAlignTypeEnd,
+					Size:  linebot.FlexTextSizeTypeMd,
+					Color: ColorAmber,
 				},
 			},
 		},
@@ -69,7 +76,75 @@ func (bs *BubbleMatchday) Hero() *linebot.ImageComponent {
 
 // Body block. Specify a box component.
 func (bs *BubbleMatchday) Body() *ui.ExtBoxComponent {
-	return nil
+	flexHomeTeam := 1
+	flexAwayTeam := 1
+	flexStatus := 2
+	matchTime := toLocalTime(bs.Match.UtcDate)
+	bodyContents := []linebot.FlexComponent{}
+	bodyContents = append(bodyContents, &ui.ExtBoxComponent{
+		BoxComponent: linebot.BoxComponent{
+			Type:   linebot.FlexComponentTypeBox,
+			Layout: linebot.FlexBoxLayoutTypeHorizontal,
+			Contents: []linebot.FlexComponent{
+				&linebot.BoxComponent{
+					Type:   linebot.FlexComponentTypeBox,
+					Layout: linebot.FlexBoxLayoutTypeVertical,
+					Flex:   &flexHomeTeam,
+					Contents: []linebot.FlexComponent{
+						&linebot.TextComponent{
+							Type:  linebot.FlexComponentTypeText,
+							Text:  bs.Competition.Teams[bs.Match.HomeTeam.ID].TLA,
+							Align: linebot.FlexComponentAlignTypeStart,
+						},
+					},
+				},
+				&linebot.BoxComponent{
+					Type:   linebot.FlexComponentTypeBox,
+					Layout: linebot.FlexBoxLayoutTypeVertical,
+					Flex:   &flexStatus,
+					Contents: []linebot.FlexComponent{
+						&linebot.TextComponent{
+							Type:  linebot.FlexComponentTypeText,
+							Text:  matchTime.Format(dateFormat),
+							Align: linebot.FlexComponentAlignTypeCenter,
+							Size:  linebot.FlexTextSizeTypeSm,
+						},
+						&linebot.TextComponent{
+							Type:  linebot.FlexComponentTypeText,
+							Text:  matchTime.Format(timeFormat),
+							Align: linebot.FlexComponentAlignTypeCenter,
+							Size:  linebot.FlexTextSizeTypeSm,
+						},
+						&linebot.TextComponent{
+							Type:  linebot.FlexComponentTypeText,
+							Text:  bs.Match.Status,
+							Align: linebot.FlexComponentAlignTypeCenter,
+							Size:  linebot.FlexTextSizeTypeSm,
+						},
+					},
+				},
+				&linebot.BoxComponent{
+					Type:   linebot.FlexComponentTypeBox,
+					Layout: linebot.FlexBoxLayoutTypeVertical,
+					Flex:   &flexAwayTeam,
+					Contents: []linebot.FlexComponent{
+						&linebot.TextComponent{
+							Type:  linebot.FlexComponentTypeText,
+							Text:  bs.Competition.Teams[bs.Match.AwayTeam.ID].TLA,
+							Align: linebot.FlexComponentAlignTypeEnd,
+						},
+					},
+				},
+			},
+		},
+	})
+	return &ui.ExtBoxComponent{
+		BoxComponent: linebot.BoxComponent{
+			Type:     linebot.FlexComponentTypeBox,
+			Layout:   linebot.FlexBoxLayoutTypeVertical,
+			Contents: bodyContents,
+		},
+	}
 }
 
 // Footer block. Specify a box component.
@@ -91,11 +166,13 @@ func (sepakbola *SepakBola) MatchdayContents(competition *fbd.Competition, match
 		fmt.Printf("[ERROR] %s (%s)\n", "MatchesData.Deserialize()", err)
 		return ui.SomethingWrongContents()
 	}
-	bubble := BubbleMatchday{
-		Competition: competition,
-		Matches:     matches.Matches,
+	for _, match := range matches.Matches {
+		bubble := BubbleMatchday{
+			Competition: competition,
+			Match:       match,
+		}
+		bubbles = append(bubbles, ui.Bubble(&bubble))
 	}
-	bubbles = append(bubbles, ui.Bubble(&bubble))
 	contents := ui.ExtCarouselContainer{
 		CarouselContainer: linebot.CarouselContainer{
 			Type: linebot.FlexContainerTypeCarousel,

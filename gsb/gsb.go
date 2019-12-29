@@ -16,6 +16,7 @@ import (
 	"fmt"
 	"go-sepak-bola/internal/fbd"
 	"net/url"
+	"time"
 )
 
 // pkg constants
@@ -37,6 +38,7 @@ const (
 	TextAllMatches      string = "All matches"
 	TextCurrentMatchday string = "Current matchday"
 	TextMatchday        string = "Matchday"
+	TextRound           string = "Round"
 	TextPremierLeague   string = "Premier League"
 	TextBundesliga      string = "Bundesliga"
 	TextPrimeraDivision string = "Primera Division"
@@ -44,6 +46,10 @@ const (
 	CodeBundesliga      string = "BL1"
 	CodePrimeraDivision string = "PD"
 	TextSpace           string = " "
+
+	datetimeFormat string = "2006-01-02T15:04:05Z"
+	dateFormat     string = "2006-01-02"
+	timeFormat     string = "15:04:05"
 )
 
 // competition codes
@@ -108,4 +114,15 @@ func (sepakbola *SepakBola) GetCompetitions() {
 			}
 		}
 	}
+}
+
+func toLocalTime(utcTime string) time.Time {
+	theTime, err := time.Parse(datetimeFormat, utcTime)
+	if err == nil {
+		localLoc, err := time.LoadLocation("Local")
+		if err == nil {
+			theTime = theTime.In(localLoc)
+		}
+	}
+	return theTime
 }
