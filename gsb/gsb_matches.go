@@ -23,6 +23,16 @@ import (
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
+func (bs *BubbleMatchday) matchStatus() linebot.FlexComponent {
+	statusComponent := &linebot.TextComponent{
+		Type:  linebot.FlexComponentTypeText,
+		Text:  bs.Match.Status,
+		Align: linebot.FlexComponentAlignTypeCenter,
+		Size:  linebot.FlexTextSizeTypeSm,
+	}
+	return statusComponent
+}
+
 // BubbleMatchday contains competition and teams information for creating a bubble
 // container of teams of the particular competition.
 type BubbleMatchday struct {
@@ -53,15 +63,12 @@ func (bs *BubbleMatchday) Header() *ui.ExtBoxComponent {
 				&linebot.TextComponent{
 					Type:  linebot.FlexComponentTypeText,
 					Text:  bs.Competition.Name,
-					Align: linebot.FlexComponentAlignTypeStart,
-					Size:  linebot.FlexTextSizeTypeMd,
 					Color: ColorAmber,
 				},
 				&linebot.TextComponent{
 					Type:  linebot.FlexComponentTypeText,
 					Text:  TextRound + " " + strconv.Itoa(bs.Match.Season.CurrentMatchday),
 					Align: linebot.FlexComponentAlignTypeEnd,
-					Size:  linebot.FlexTextSizeTypeMd,
 					Color: ColorAmber,
 				},
 			},
@@ -92,9 +99,8 @@ func (bs *BubbleMatchday) Body() *ui.ExtBoxComponent {
 					Flex:   &flexHomeTeam,
 					Contents: []linebot.FlexComponent{
 						&linebot.TextComponent{
-							Type:  linebot.FlexComponentTypeText,
-							Text:  bs.Competition.Teams[bs.Match.HomeTeam.ID].TLA,
-							Align: linebot.FlexComponentAlignTypeStart,
+							Type: linebot.FlexComponentTypeText,
+							Text: bs.Competition.Teams[bs.Match.HomeTeam.ID].TLA,
 						},
 					},
 				},
@@ -107,20 +113,15 @@ func (bs *BubbleMatchday) Body() *ui.ExtBoxComponent {
 							Type:  linebot.FlexComponentTypeText,
 							Text:  matchTime.Format(dateFormat),
 							Align: linebot.FlexComponentAlignTypeCenter,
-							Size:  linebot.FlexTextSizeTypeSm,
+							Size:  linebot.FlexTextSizeTypeXs,
 						},
 						&linebot.TextComponent{
 							Type:  linebot.FlexComponentTypeText,
 							Text:  matchTime.Format(timeFormat),
 							Align: linebot.FlexComponentAlignTypeCenter,
-							Size:  linebot.FlexTextSizeTypeSm,
+							Size:  linebot.FlexTextSizeTypeXs,
 						},
-						&linebot.TextComponent{
-							Type:  linebot.FlexComponentTypeText,
-							Text:  bs.Match.Status,
-							Align: linebot.FlexComponentAlignTypeCenter,
-							Size:  linebot.FlexTextSizeTypeSm,
-						},
+						bs.matchStatus(),
 					},
 				},
 				&linebot.BoxComponent{

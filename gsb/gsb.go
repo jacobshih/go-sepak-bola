@@ -116,7 +116,7 @@ func (sepakbola *SepakBola) GetCompetitions() {
 	}
 }
 
-func toLocalTime(utcTime string) time.Time {
+func toLocalTime(utcTime string) *time.Time {
 	theTime, err := time.Parse(datetimeFormat, utcTime)
 	if err == nil {
 		localLoc, err := time.LoadLocation("Local")
@@ -124,5 +124,5 @@ func toLocalTime(utcTime string) time.Time {
 			theTime = theTime.In(localLoc)
 		}
 	}
-	return theTime
+	return &theTime
 }
