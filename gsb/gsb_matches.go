@@ -316,13 +316,13 @@ func (sepakbola *SepakBola) MatchdesTypeMessage(competition *fbd.Competition, ma
 		},
 	})
 
-	return linebot.NewTextMessage("").
+	return linebot.NewTextMessage(TextMatchesType).
 		WithQuickReplies(linebot.NewQuickReplyItems(
 			linebot.NewQuickReplyButton(
 				"",
-				linebot.NewPostbackAction(TextAllMatches, string(allMatchesData), "", "")),
+				linebot.NewPostbackAction(TextAllMatches, string(allMatchesData), "", TextAllMatches)),
 			linebot.NewQuickReplyButton(
 				"",
-				linebot.NewPostbackAction(TextCurrentMatchday, string(matchdayData), "", "")),
+				linebot.NewPostbackAction(TextCurrentMatchday, string(matchdayData), "", TextCurrentMatchday)),
 		))
 }
