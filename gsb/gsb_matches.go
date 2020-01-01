@@ -121,9 +121,13 @@ func (bs *BubbleMatchday) matchReferees() *linebot.FlexComponent {
 			Align: linebot.FlexComponentAlignTypeCenter,
 		})
 		for _, referee := range bs.Match.Referees {
+			refereeName := referee.Name
+			if len(refereeName) == 0 {
+				refereeName = "-"
+			}
 			referees = append(referees, &linebot.TextComponent{
 				Type:  linebot.FlexComponentTypeText,
-				Text:  referee.Name,
+				Text:  refereeName,
 				Color: ColorAmber,
 				Align: linebot.FlexComponentAlignTypeCenter,
 			})
