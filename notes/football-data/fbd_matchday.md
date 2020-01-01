@@ -15,7 +15,7 @@ curl -X GET -H "X-Auth-Token: $FBDATA_TOKEN" http://api.football-data.org/v2/com
 {
   "count": 10,
   "filters": {
-    "matchday": "16"
+    "matchday": "21"
   },
   "competition": {
     "id": 2021,
@@ -26,33 +26,33 @@ curl -X GET -H "X-Auth-Token: $FBDATA_TOKEN" http://api.football-data.org/v2/com
     "name": "Premier League",
     "code": "PL",
     "plan": "TIER_ONE",
-    "lastUpdated": "2019-12-14T00:00:08Z"
+    "lastUpdated": "2020-01-01T14:05:44Z"
   },
   "matches": [
     {
-      "id": 264495,
+      "id": 264546,
       "season": {
         "id": 468,
         "startDate": "2019-08-09",
         "endDate": "2020-05-17",
-        "currentMatchday": 17
+        "currentMatchday": 21
       },
-      "utcDate": "2019-12-07T12:30:00Z",
-      "status": "FINISHED",
-      "matchday": 16,
+      "utcDate": "2020-01-01T12:30:00Z",
+      "status": "IN_PLAY",
+      "matchday": 21,
       "stage": "REGULAR_SEASON",
       "group": "Regular Season",
-      "lastUpdated": "2019-12-08T15:30:02Z",
+      "lastUpdated": "2020-01-01T14:05:43Z",
       "score": {
-        "winner": "HOME_TEAM",
+        "winner": "AWAY_TEAM",
         "duration": "REGULAR",
         "fullTime": {
-          "homeTeam": 3,
-          "awayTeam": 1
+          "homeTeam": 0,
+          "awayTeam": 2
         },
         "halfTime": {
-          "homeTeam": 1,
-          "awayTeam": 0
+          "homeTeam": 0,
+          "awayTeam": 2
         },
         "extraTime": {
           "homeTeam": null,
@@ -64,362 +64,12 @@ curl -X GET -H "X-Auth-Token: $FBDATA_TOKEN" http://api.football-data.org/v2/com
         }
       },
       "homeTeam": {
-        "id": 62,
-        "name": "Everton FC"
-      },
-      "awayTeam": {
-        "id": 61,
-        "name": "Chelsea FC"
-      },
-      "referees": [
-        {
-          "id": 11585,
-          "name": "Craig Pawson",
-          "nationality": null
-        },
-        {
-          "id": 11530,
-          "name": "Lee Betts",
-          "nationality": null
-        },
-        {
-          "id": 11586,
-          "name": "Richard West",
-          "nationality": null
-        },
-        {
-          "id": 11469,
-          "name": "Darren England",
-          "nationality": null
-        },
-        {
-          "id": 11494,
-          "name": "Stuart Attwell",
-          "nationality": null
-        }
-      ]
-    },
-    {
-      "id": 264494,
-      "season": {
-        "id": 468,
-        "startDate": "2019-08-09",
-        "endDate": "2020-05-17",
-        "currentMatchday": 17
-      },
-      "utcDate": "2019-12-07T15:00:00Z",
-      "status": "FINISHED",
-      "matchday": 16,
-      "stage": "REGULAR_SEASON",
-      "group": "Regular Season",
-      "lastUpdated": "2019-12-08T15:35:02Z",
-      "score": {
-        "winner": "HOME_TEAM",
-        "duration": "REGULAR",
-        "fullTime": {
-          "homeTeam": 5,
-          "awayTeam": 0
-        },
-        "halfTime": {
-          "homeTeam": 3,
-          "awayTeam": 0
-        },
-        "extraTime": {
-          "homeTeam": null,
-          "awayTeam": null
-        },
-        "penalties": {
-          "homeTeam": null,
-          "awayTeam": null
-        }
-      },
-      "homeTeam": {
-        "id": 73,
-        "name": "Tottenham Hotspur FC"
-      },
-      "awayTeam": {
         "id": 328,
         "name": "Burnley FC"
       },
-      "referees": [
-        {
-          "id": 11487,
-          "name": "Kevin Friend",
-          "nationality": null
-        },
-        {
-          "id": 11595,
-          "name": "Adrian Holmes",
-          "nationality": null
-        },
-        {
-          "id": 11521,
-          "name": "Mark Scholes",
-          "nationality": null
-        },
-        {
-          "id": 11446,
-          "name": "Robert Jones",
-          "nationality": null
-        },
-        {
-          "id": 11479,
-          "name": "Lee Mason",
-          "nationality": null
-        }
-      ]
-    },
-    {
-      "id": 264499,
-      "season": {
-        "id": 468,
-        "startDate": "2019-08-09",
-        "endDate": "2020-05-17",
-        "currentMatchday": 17
-      },
-      "utcDate": "2019-12-07T15:00:00Z",
-      "status": "FINISHED",
-      "matchday": 16,
-      "stage": "REGULAR_SEASON",
-      "group": "Regular Season",
-      "lastUpdated": "2019-12-08T15:35:02Z",
-      "score": {
-        "winner": "DRAW",
-        "duration": "REGULAR",
-        "fullTime": {
-          "homeTeam": 0,
-          "awayTeam": 0
-        },
-        "halfTime": {
-          "homeTeam": 0,
-          "awayTeam": 0
-        },
-        "extraTime": {
-          "homeTeam": null,
-          "awayTeam": null
-        },
-        "penalties": {
-          "homeTeam": null,
-          "awayTeam": null
-        }
-      },
-      "homeTeam": {
-        "id": 346,
-        "name": "Watford FC"
-      },
       "awayTeam": {
-        "id": 354,
-        "name": "Crystal Palace FC"
-      },
-      "referees": [
-        {
-          "id": 11551,
-          "name": "Martin Atkinson",
-          "nationality": null
-        },
-        {
-          "id": 11606,
-          "name": "Constantine Hatzidakis",
-          "nationality": null
-        },
-        {
-          "id": 11438,
-          "name": "Dan Cook",
-          "nationality": null
-        },
-        {
-          "id": 11309,
-          "name": "Peter Bankes",
-          "nationality": null
-        },
-        {
-          "id": 11610,
-          "name": "Andre Marriner",
-          "nationality": null
-        }
-      ]
-    },
-    {
-      "id": 264500,
-      "season": {
-        "id": 468,
-        "startDate": "2019-08-09",
-        "endDate": "2020-05-17",
-        "currentMatchday": 17
-      },
-      "utcDate": "2019-12-07T15:00:00Z",
-      "status": "FINISHED",
-      "matchday": 16,
-      "stage": "REGULAR_SEASON",
-      "group": "Regular Season",
-      "lastUpdated": "2019-12-08T15:35:02Z",
-      "score": {
-        "winner": "AWAY_TEAM",
-        "duration": "REGULAR",
-        "fullTime": {
-          "homeTeam": 0,
-          "awayTeam": 3
-        },
-        "halfTime": {
-          "homeTeam": 0,
-          "awayTeam": 2
-        },
-        "extraTime": {
-          "homeTeam": null,
-          "awayTeam": null
-        },
-        "penalties": {
-          "homeTeam": null,
-          "awayTeam": null
-        }
-      },
-      "homeTeam": {
-        "id": 1044,
-        "name": "AFC Bournemouth"
-      },
-      "awayTeam": {
-        "id": 64,
-        "name": "Liverpool FC"
-      },
-      "referees": [
-        {
-          "id": 11443,
-          "name": "Chris Kavanagh",
-          "nationality": null
-        },
-        {
-          "id": 98555,
-          "name": null,
-          "nationality": null
-        },
-        {
-          "id": 11504,
-          "name": "Simon Long",
-          "nationality": null
-        },
-        {
-          "id": 11324,
-          "name": "James Linington",
-          "nationality": null
-        },
-        {
-          "id": 11567,
-          "name": "Jonathan Moss",
-          "nationality": null
-        }
-      ]
-    },
-    {
-      "id": 264492,
-      "season": {
-        "id": 468,
-        "startDate": "2019-08-09",
-        "endDate": "2020-05-17",
-        "currentMatchday": 17
-      },
-      "utcDate": "2019-12-07T17:30:00Z",
-      "status": "FINISHED",
-      "matchday": 16,
-      "stage": "REGULAR_SEASON",
-      "group": "Regular Season",
-      "lastUpdated": "2019-12-08T15:40:03Z",
-      "score": {
-        "winner": "AWAY_TEAM",
-        "duration": "REGULAR",
-        "fullTime": {
-          "homeTeam": 1,
-          "awayTeam": 2
-        },
-        "halfTime": {
-          "homeTeam": 0,
-          "awayTeam": 2
-        },
-        "extraTime": {
-          "homeTeam": null,
-          "awayTeam": null
-        },
-        "penalties": {
-          "homeTeam": null,
-          "awayTeam": null
-        }
-      },
-      "homeTeam": {
-        "id": 65,
-        "name": "Manchester City FC"
-      },
-      "awayTeam": {
-        "id": 66,
-        "name": "Manchester United FC"
-      },
-      "referees": [
-        {
-          "id": 11580,
-          "name": "Anthony Taylor",
-          "nationality": null
-        },
-        {
-          "id": 11581,
-          "name": "Gary Beswick",
-          "nationality": null
-        },
-        {
-          "id": 11615,
-          "name": "Adam Nunn",
-          "nationality": null
-        },
-        {
-          "id": 11575,
-          "name": "Mike Dean",
-          "nationality": null
-        },
-        {
-          "id": 11605,
-          "name": "Michael Oliver",
-          "nationality": null
-        }
-      ]
-    },
-    {
-      "id": 264491,
-      "season": {
-        "id": 468,
-        "startDate": "2019-08-09",
-        "endDate": "2020-05-17",
-        "currentMatchday": 17
-      },
-      "utcDate": "2019-12-08T14:00:00Z",
-      "status": "FINISHED",
-      "matchday": 16,
-      "stage": "REGULAR_SEASON",
-      "group": "Regular Season",
-      "lastUpdated": "2019-12-08T23:59:26Z",
-      "score": {
-        "winner": "AWAY_TEAM",
-        "duration": "REGULAR",
-        "fullTime": {
-          "homeTeam": 1,
-          "awayTeam": 4
-        },
-        "halfTime": {
-          "homeTeam": 1,
-          "awayTeam": 2
-        },
-        "extraTime": {
-          "homeTeam": null,
-          "awayTeam": null
-        },
-        "penalties": {
-          "homeTeam": null,
-          "awayTeam": null
-        }
-      },
-      "homeTeam": {
         "id": 58,
         "name": "Aston Villa FC"
-      },
-      "awayTeam": {
-        "id": 338,
-        "name": "Leicester City FC"
       },
       "referees": [
         {
@@ -438,181 +88,41 @@ curl -X GET -H "X-Auth-Token: $FBDATA_TOKEN" http://api.football-data.org/v2/com
           "nationality": null
         },
         {
-          "id": 11520,
-          "name": "Paul Tierney",
-          "nationality": null
-        },
-        {
-          "id": 11443,
-          "name": "Chris Kavanagh",
-          "nationality": null
-        }
-      ]
-    },
-    {
-      "id": 264493,
-      "season": {
-        "id": 468,
-        "startDate": "2019-08-09",
-        "endDate": "2020-05-17",
-        "currentMatchday": 17
-      },
-      "utcDate": "2019-12-08T14:00:00Z",
-      "status": "FINISHED",
-      "matchday": 16,
-      "stage": "REGULAR_SEASON",
-      "group": "Regular Season",
-      "lastUpdated": "2019-12-08T23:59:26Z",
-      "score": {
-        "winner": "HOME_TEAM",
-        "duration": "REGULAR",
-        "fullTime": {
-          "homeTeam": 2,
-          "awayTeam": 1
-        },
-        "halfTime": {
-          "homeTeam": 0,
-          "awayTeam": 0
-        },
-        "extraTime": {
-          "homeTeam": null,
-          "awayTeam": null
-        },
-        "penalties": {
-          "homeTeam": null,
-          "awayTeam": null
-        }
-      },
-      "homeTeam": {
-        "id": 67,
-        "name": "Newcastle United FC"
-      },
-      "awayTeam": {
-        "id": 340,
-        "name": "Southampton FC"
-      },
-      "referees": [
-        {
-          "id": 11556,
-          "name": "David Coote",
-          "nationality": null
-        },
-        {
-          "id": 11570,
-          "name": "Harry Lennard",
-          "nationality": null
-        },
-        {
-          "id": 11552,
-          "name": "Peter Kirkup",
+          "id": 11378,
+          "name": "Tony Harrington",
           "nationality": null
         },
         {
           "id": 23568,
           "name": "Jarred Gillett",
           "nationality": null
-        },
-        {
-          "id": 11551,
-          "name": "Martin Atkinson",
-          "nationality": null
         }
       ]
     },
     {
-      "id": 264496,
+      "id": 264549,
       "season": {
         "id": 468,
         "startDate": "2019-08-09",
         "endDate": "2020-05-17",
-        "currentMatchday": 17
+        "currentMatchday": 21
       },
-      "utcDate": "2019-12-08T14:00:00Z",
-      "status": "FINISHED",
-      "matchday": 16,
+      "utcDate": "2020-01-01T12:30:00Z",
+      "status": "IN_PLAY",
+      "matchday": 21,
       "stage": "REGULAR_SEASON",
       "group": "Regular Season",
-      "lastUpdated": "2019-12-08T23:59:26Z",
+      "lastUpdated": "2020-01-01T14:05:43Z",
       "score": {
         "winner": "AWAY_TEAM",
         "duration": "REGULAR",
         "fullTime": {
-          "homeTeam": 1,
-          "awayTeam": 2
+          "homeTeam": 0,
+          "awayTeam": 1
         },
         "halfTime": {
-          "homeTeam": 1,
-          "awayTeam": 0
-        },
-        "extraTime": {
-          "homeTeam": null,
-          "awayTeam": null
-        },
-        "penalties": {
-          "homeTeam": null,
-          "awayTeam": null
-        }
-      },
-      "homeTeam": {
-        "id": 68,
-        "name": "Norwich City FC"
-      },
-      "awayTeam": {
-        "id": 356,
-        "name": "Sheffield United FC"
-      },
-      "referees": [
-        {
-          "id": 11430,
-          "name": "Simon Hooper",
-          "nationality": null
-        },
-        {
-          "id": 11424,
-          "name": "Neil Davies",
-          "nationality": null
-        },
-        {
-          "id": 11480,
-          "name": "Eddie Smart",
-          "nationality": null
-        },
-        {
-          "id": 14713,
-          "name": "Oliver Yates",
-          "nationality": null
-        },
-        {
-          "id": 11309,
-          "name": "Peter Bankes",
-          "nationality": null
-        }
-      ]
-    },
-    {
-      "id": 264498,
-      "season": {
-        "id": 468,
-        "startDate": "2019-08-09",
-        "endDate": "2020-05-17",
-        "currentMatchday": 17
-      },
-      "utcDate": "2019-12-08T16:30:00Z",
-      "status": "FINISHED",
-      "matchday": 16,
-      "stage": "REGULAR_SEASON",
-      "group": "Regular Season",
-      "lastUpdated": "2019-12-08T23:59:26Z",
-      "score": {
-        "winner": "DRAW",
-        "duration": "REGULAR",
-        "fullTime": {
-          "homeTeam": 2,
-          "awayTeam": 2
-        },
-        "halfTime": {
-          "homeTeam": 2,
-          "awayTeam": 2
+          "homeTeam": 0,
+          "awayTeam": 1
         },
         "extraTime": {
           "homeTeam": null,
@@ -628,61 +138,61 @@ curl -X GET -H "X-Auth-Token: $FBDATA_TOKEN" http://api.football-data.org/v2/com
         "name": "Brighton & Hove Albion FC"
       },
       "awayTeam": {
-        "id": 76,
-        "name": "Wolverhampton Wanderers FC"
+        "id": 61,
+        "name": "Chelsea FC"
       },
       "referees": [
         {
-          "id": 11567,
-          "name": "Jonathan Moss",
+          "id": 11494,
+          "name": "Stuart Attwell",
           "nationality": null
         },
         {
-          "id": 11531,
-          "name": "Marc Perry",
+          "id": 11530,
+          "name": "Lee Betts",
           "nationality": null
         },
         {
-          "id": 11611,
-          "name": "Scott Ledger",
+          "id": 11615,
+          "name": "Adam Nunn",
           "nationality": null
         },
         {
-          "id": 11396,
-          "name": "Tim Robinson",
+          "id": 9382,
+          "name": "Gavin Ward",
           "nationality": null
         },
         {
-          "id": 11503,
-          "name": "Graham Scott",
+          "id": 11556,
+          "name": "David Coote",
           "nationality": null
         }
       ]
     },
     {
-      "id": 264497,
+      "id": 264543,
       "season": {
         "id": 468,
         "startDate": "2019-08-09",
         "endDate": "2020-05-17",
-        "currentMatchday": 17
+        "currentMatchday": 21
       },
-      "utcDate": "2019-12-09T20:00:00Z",
-      "status": "FINISHED",
-      "matchday": 16,
+      "utcDate": "2020-01-01T15:00:00Z",
+      "status": "SCHEDULED",
+      "matchday": 21,
       "stage": "REGULAR_SEASON",
       "group": "Regular Season",
-      "lastUpdated": "2019-12-10T01:40:01Z",
+      "lastUpdated": "2020-01-01T14:05:43Z",
       "score": {
-        "winner": "AWAY_TEAM",
+        "winner": null,
         "duration": "REGULAR",
         "fullTime": {
-          "homeTeam": 1,
-          "awayTeam": 3
+          "homeTeam": null,
+          "awayTeam": null
         },
         "halfTime": {
-          "homeTeam": 1,
-          "awayTeam": 0
+          "homeTeam": null,
+          "awayTeam": null
         },
         "extraTime": {
           "homeTeam": null,
@@ -694,12 +204,82 @@ curl -X GET -H "X-Auth-Token: $FBDATA_TOKEN" http://api.football-data.org/v2/com
         }
       },
       "homeTeam": {
-        "id": 563,
-        "name": "West Ham United FC"
+        "id": 67,
+        "name": "Newcastle United FC"
       },
       "awayTeam": {
-        "id": 57,
-        "name": "Arsenal FC"
+        "id": 338,
+        "name": "Leicester City FC"
+      },
+      "referees": [
+        {
+          "id": 11551,
+          "name": "Martin Atkinson",
+          "nationality": null
+        },
+        {
+          "id": 11581,
+          "name": "Gary Beswick",
+          "nationality": null
+        },
+        {
+          "id": 11425,
+          "name": "Nicholas Hopton",
+          "nationality": null
+        },
+        {
+          "id": 58084,
+          "name": "Leigh Doughty",
+          "nationality": null
+        },
+        {
+          "id": 11309,
+          "name": "Peter Bankes",
+          "nationality": null
+        }
+      ]
+    },
+    {
+      "id": 264548,
+      "season": {
+        "id": 468,
+        "startDate": "2019-08-09",
+        "endDate": "2020-05-17",
+        "currentMatchday": 21
+      },
+      "utcDate": "2020-01-01T15:00:00Z",
+      "status": "SCHEDULED",
+      "matchday": 21,
+      "stage": "REGULAR_SEASON",
+      "group": "Regular Season",
+      "lastUpdated": "2020-01-01T14:05:44Z",
+      "score": {
+        "winner": null,
+        "duration": "REGULAR",
+        "fullTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "halfTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "extraTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "penalties": {
+          "homeTeam": null,
+          "awayTeam": null
+        }
+      },
+      "homeTeam": {
+        "id": 340,
+        "name": "Southampton FC"
+      },
+      "awayTeam": {
+        "id": 73,
+        "name": "Tottenham Hotspur FC"
       },
       "referees": [
         {
@@ -718,16 +298,306 @@ curl -X GET -H "X-Auth-Token: $FBDATA_TOKEN" http://api.football-data.org/v2/com
           "nationality": null
         },
         {
-          "id": 11479,
-          "name": "Lee Mason",
+          "id": 11519,
+          "name": "Keith Stroud",
           "nationality": null
         },
         {
-          "id": 11487,
-          "name": "Kevin Friend",
+          "id": 11580,
+          "name": "Anthony Taylor",
           "nationality": null
         }
       ]
+    },
+    {
+      "id": 264550,
+      "season": {
+        "id": 468,
+        "startDate": "2019-08-09",
+        "endDate": "2020-05-17",
+        "currentMatchday": 21
+      },
+      "utcDate": "2020-01-01T15:00:00Z",
+      "status": "SCHEDULED",
+      "matchday": 21,
+      "stage": "REGULAR_SEASON",
+      "group": "Regular Season",
+      "lastUpdated": "2020-01-01T14:05:44Z",
+      "score": {
+        "winner": null,
+        "duration": "REGULAR",
+        "fullTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "halfTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "extraTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "penalties": {
+          "homeTeam": null,
+          "awayTeam": null
+        }
+      },
+      "homeTeam": {
+        "id": 346,
+        "name": "Watford FC"
+      },
+      "awayTeam": {
+        "id": 76,
+        "name": "Wolverhampton Wanderers FC"
+      },
+      "referees": [
+        {
+          "id": 11423,
+          "name": "Andy Madley",
+          "nationality": null
+        },
+        {
+          "id": 11595,
+          "name": "Adrian Holmes",
+          "nationality": null
+        },
+        {
+          "id": 11544,
+          "name": "Simon Beck",
+          "nationality": null
+        },
+        {
+          "id": 11497,
+          "name": "Charles Breakspear",
+          "nationality": null
+        },
+        {
+          "id": 11430,
+          "name": "Simon Hooper",
+          "nationality": null
+        }
+      ]
+    },
+    {
+      "id": 264542,
+      "season": {
+        "id": 468,
+        "startDate": "2019-08-09",
+        "endDate": "2020-05-17",
+        "currentMatchday": 21
+      },
+      "utcDate": "2020-01-01T17:30:00Z",
+      "status": "SCHEDULED",
+      "matchday": 21,
+      "stage": "REGULAR_SEASON",
+      "group": "Regular Season",
+      "lastUpdated": "2019-12-31T00:00:01Z",
+      "score": {
+        "winner": null,
+        "duration": "REGULAR",
+        "fullTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "halfTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "extraTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "penalties": {
+          "homeTeam": null,
+          "awayTeam": null
+        }
+      },
+      "homeTeam": {
+        "id": 65,
+        "name": "Manchester City FC"
+      },
+      "awayTeam": {
+        "id": 62,
+        "name": "Everton FC"
+      },
+      "referees": []
+    },
+    {
+      "id": 264545,
+      "season": {
+        "id": 468,
+        "startDate": "2019-08-09",
+        "endDate": "2020-05-17",
+        "currentMatchday": 21
+      },
+      "utcDate": "2020-01-01T17:30:00Z",
+      "status": "SCHEDULED",
+      "matchday": 21,
+      "stage": "REGULAR_SEASON",
+      "group": "Regular Season",
+      "lastUpdated": "2019-12-31T00:00:01Z",
+      "score": {
+        "winner": null,
+        "duration": "REGULAR",
+        "fullTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "halfTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "extraTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "penalties": {
+          "homeTeam": null,
+          "awayTeam": null
+        }
+      },
+      "homeTeam": {
+        "id": 68,
+        "name": "Norwich City FC"
+      },
+      "awayTeam": {
+        "id": 354,
+        "name": "Crystal Palace FC"
+      },
+      "referees": []
+    },
+    {
+      "id": 264547,
+      "season": {
+        "id": 468,
+        "startDate": "2019-08-09",
+        "endDate": "2020-05-17",
+        "currentMatchday": 21
+      },
+      "utcDate": "2020-01-01T17:30:00Z",
+      "status": "SCHEDULED",
+      "matchday": 21,
+      "stage": "REGULAR_SEASON",
+      "group": "Regular Season",
+      "lastUpdated": "2019-12-31T00:00:02Z",
+      "score": {
+        "winner": null,
+        "duration": "REGULAR",
+        "fullTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "halfTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "extraTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "penalties": {
+          "homeTeam": null,
+          "awayTeam": null
+        }
+      },
+      "homeTeam": {
+        "id": 563,
+        "name": "West Ham United FC"
+      },
+      "awayTeam": {
+        "id": 1044,
+        "name": "AFC Bournemouth"
+      },
+      "referees": []
+    },
+    {
+      "id": 264544,
+      "season": {
+        "id": 468,
+        "startDate": "2019-08-09",
+        "endDate": "2020-05-17",
+        "currentMatchday": 21
+      },
+      "utcDate": "2020-01-01T20:00:00Z",
+      "status": "SCHEDULED",
+      "matchday": 21,
+      "stage": "REGULAR_SEASON",
+      "group": "Regular Season",
+      "lastUpdated": "2019-12-31T00:00:02Z",
+      "score": {
+        "winner": null,
+        "duration": "REGULAR",
+        "fullTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "halfTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "extraTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "penalties": {
+          "homeTeam": null,
+          "awayTeam": null
+        }
+      },
+      "homeTeam": {
+        "id": 57,
+        "name": "Arsenal FC"
+      },
+      "awayTeam": {
+        "id": 66,
+        "name": "Manchester United FC"
+      },
+      "referees": []
+    },
+    {
+      "id": 264541,
+      "season": {
+        "id": 468,
+        "startDate": "2019-08-09",
+        "endDate": "2020-05-17",
+        "currentMatchday": 21
+      },
+      "utcDate": "2020-01-02T20:00:00Z",
+      "status": "SCHEDULED",
+      "matchday": 21,
+      "stage": "REGULAR_SEASON",
+      "group": "Regular Season",
+      "lastUpdated": "2020-01-01T00:00:00Z",
+      "score": {
+        "winner": null,
+        "duration": "REGULAR",
+        "fullTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "halfTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "extraTime": {
+          "homeTeam": null,
+          "awayTeam": null
+        },
+        "penalties": {
+          "homeTeam": null,
+          "awayTeam": null
+        }
+      },
+      "homeTeam": {
+        "id": 64,
+        "name": "Liverpool FC"
+      },
+      "awayTeam": {
+        "id": 356,
+        "name": "Sheffield United FC"
+      },
+      "referees": []
     }
   ]
 }
