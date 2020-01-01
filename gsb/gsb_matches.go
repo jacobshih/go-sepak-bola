@@ -110,6 +110,34 @@ func (bs *BubbleMatchday) matchStatus() *linebot.FlexComponent {
 	return &status
 }
 
+func (bs *BubbleMatchday) matchReferees() *linebot.FlexComponent {
+	var boxReferees linebot.FlexComponent
+	if len(bs.Match.Referees) > 0 {
+		var referees []linebot.FlexComponent
+		referees = append(referees, &linebot.TextComponent{
+			Type:  linebot.FlexComponentTypeText,
+			Text:  "Referees",
+			Color: ColorGray,
+			Align: linebot.FlexComponentAlignTypeCenter,
+		})
+		for _, referee := range bs.Match.Referees {
+			referees = append(referees, &linebot.TextComponent{
+				Type:  linebot.FlexComponentTypeText,
+				Text:  referee.Name,
+				Color: ColorAmber,
+				Align: linebot.FlexComponentAlignTypeCenter,
+			})
+		}
+		boxReferees = &linebot.BoxComponent{
+			Type:     linebot.FlexComponentTypeBox,
+			Layout:   linebot.FlexBoxLayoutTypeVertical,
+			Margin:   linebot.FlexComponentMarginTypeMd,
+			Contents: referees,
+		}
+	}
+	return &boxReferees
+}
+
 func (bs *BubbleMatchday) matchInfo() []linebot.FlexComponent {
 	matchTime := toLocalTime(bs.Match.UtcDate)
 	contents := []linebot.FlexComponent{
@@ -212,6 +240,15 @@ func (bs *BubbleMatchday) Body() *ui.ExtBoxComponent {
 		},
 	},
 	)
+	matchReferees := bs.matchReferees()
+	if *matchReferees != nil {
+		bodyContents = append(bodyContents, &linebot.SeparatorComponent{
+			Type:   linebot.FlexComponentTypeSeparator,
+			Margin: linebot.FlexComponentMarginTypeMd,
+			Color:  ColorGreenYellow,
+		})
+		bodyContents = append(bodyContents, *matchReferees)
+	}
 	return &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
 			Type:     linebot.FlexComponentTypeBox,
