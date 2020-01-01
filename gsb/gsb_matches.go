@@ -19,18 +19,115 @@ import (
 	"go-sepak-bola/internal/fbd"
 	"go-sepak-bola/ui"
 	"strconv"
+	"time"
 
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
-func (bs *BubbleMatchday) matchStatus() linebot.FlexComponent {
-	statusComponent := &linebot.TextComponent{
-		Type:  linebot.FlexComponentTypeText,
-		Text:  bs.Match.Status,
-		Align: linebot.FlexComponentAlignTypeCenter,
-		Size:  linebot.FlexTextSizeTypeSm,
+func (bs *BubbleMatchday) matchProgress() string {
+	progress := "TBD"
+	theTime, err := time.Parse(datetimeFormat, bs.Match.UtcDate)
+	if err == nil {
+		now := time.Now().UTC()
+		diff := int(now.Sub(theTime).Minutes())
+		if diff > 45 && diff < 60 {
+			diff = 45
+		} else if diff > 60 {
+			diff -= 15
+		}
+		progress = fmt.Sprintf("%d", diff)
 	}
-	return statusComponent
+	return progress
+}
+
+func (bs *BubbleMatchday) matchScore() *linebot.BoxComponent {
+	scoreBox := linebot.BoxComponent{
+		Type:   linebot.FlexComponentTypeBox,
+		Layout: linebot.FlexBoxLayoutTypeHorizontal,
+		Contents: []linebot.FlexComponent{
+			&linebot.TextComponent{
+				Type:  linebot.FlexComponentTypeText,
+				Text:  strconv.Itoa(bs.Match.Score.FullTime.HomeTeam),
+				Align: linebot.FlexComponentAlignTypeEnd,
+				Size:  linebot.FlexTextSizeTypeMd,
+			},
+			&linebot.TextComponent{
+				Type:  linebot.FlexComponentTypeText,
+				Text:  ":",
+				Align: linebot.FlexComponentAlignTypeCenter,
+				Size:  linebot.FlexTextSizeTypeMd,
+			},
+			&linebot.TextComponent{
+				Type:  linebot.FlexComponentTypeText,
+				Text:  strconv.Itoa(bs.Match.Score.FullTime.AwayTeam),
+				Align: linebot.FlexComponentAlignTypeStart,
+				Size:  linebot.FlexTextSizeTypeMd,
+			},
+		},
+	}
+	var progress string
+	if bs.Match.Status == StatusInPlay {
+		progress = bs.matchProgress()
+	} else if bs.Match.Status == StatusPaused {
+		progress = "HT"
+	} else if bs.Match.Status == StatusFinished {
+		progress = "FT"
+	}
+	boxProgress := linebot.TextComponent{
+		Type:  linebot.FlexComponentTypeText,
+		Text:  progress,
+		Align: linebot.FlexComponentAlignTypeCenter,
+		Size:  linebot.FlexTextSizeTypeMd,
+	}
+	return &linebot.BoxComponent{
+		Type:   linebot.FlexComponentTypeBox,
+		Layout: linebot.FlexBoxLayoutTypeVertical,
+		Contents: []linebot.FlexComponent{
+			&scoreBox,
+			&boxProgress,
+		},
+	}
+}
+
+func (bs *BubbleMatchday) matchStatus() *linebot.FlexComponent {
+	var status linebot.FlexComponent
+	if bs.Match.Status == StatusInPlay ||
+		bs.Match.Status == StatusPaused ||
+		bs.Match.Status == StatusFinished {
+		status = bs.matchScore()
+	} else if bs.Match.Status == StatusScheduled {
+	} else {
+		status = &linebot.TextComponent{
+			Type:  linebot.FlexComponentTypeText,
+			Text:  bs.Match.Status,
+			Align: linebot.FlexComponentAlignTypeCenter,
+			Size:  linebot.FlexTextSizeTypeSm,
+		}
+	}
+	return &status
+}
+
+func (bs *BubbleMatchday) matchInfo() []linebot.FlexComponent {
+	matchTime := toLocalTime(bs.Match.UtcDate)
+	contents := []linebot.FlexComponent{
+		&linebot.TextComponent{
+			Type:  linebot.FlexComponentTypeText,
+			Text:  matchTime.Format(dateFormat),
+			Align: linebot.FlexComponentAlignTypeCenter,
+			Size:  linebot.FlexTextSizeTypeXs,
+		},
+		&linebot.TextComponent{
+			Type:  linebot.FlexComponentTypeText,
+			Text:  matchTime.Format(timeFormat),
+			Align: linebot.FlexComponentAlignTypeCenter,
+			Size:  linebot.FlexTextSizeTypeXs,
+		},
+	}
+	matchStatus := bs.matchStatus()
+	if *matchStatus != nil {
+		contents = append(contents, *matchStatus)
+	}
+	return contents
 }
 
 // BubbleMatchday contains competition and teams information for creating a bubble
@@ -67,7 +164,7 @@ func (bs *BubbleMatchday) Header() *ui.ExtBoxComponent {
 				},
 				&linebot.TextComponent{
 					Type:  linebot.FlexComponentTypeText,
-					Text:  TextRound + " " + strconv.Itoa(bs.Match.Season.CurrentMatchday),
+					Text:  TextRound + " " + strconv.Itoa(bs.Match.Matchday),
 					Align: linebot.FlexComponentAlignTypeEnd,
 					Color: ColorAmber,
 				},
@@ -83,62 +180,35 @@ func (bs *BubbleMatchday) Hero() *linebot.ImageComponent {
 
 // Body block. Specify a box component.
 func (bs *BubbleMatchday) Body() *ui.ExtBoxComponent {
-	flexHomeTeam := 1
-	flexAwayTeam := 1
 	flexStatus := 2
-	matchTime := toLocalTime(bs.Match.UtcDate)
 	bodyContents := []linebot.FlexComponent{}
 	bodyContents = append(bodyContents, &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
 			Type:   linebot.FlexComponentTypeBox,
 			Layout: linebot.FlexBoxLayoutTypeHorizontal,
 			Contents: []linebot.FlexComponent{
-				&linebot.BoxComponent{
-					Type:   linebot.FlexComponentTypeBox,
-					Layout: linebot.FlexBoxLayoutTypeVertical,
-					Flex:   &flexHomeTeam,
-					Contents: []linebot.FlexComponent{
-						&linebot.TextComponent{
-							Type: linebot.FlexComponentTypeText,
-							Text: bs.Competition.Teams[bs.Match.HomeTeam.ID].TLA,
-						},
-					},
+				&linebot.TextComponent{
+					Type:    linebot.FlexComponentTypeText,
+					Text:    bs.Competition.Teams[bs.Match.HomeTeam.ID].TLA,
+					Align:   linebot.FlexComponentAlignTypeEnd,
+					Gravity: linebot.FlexComponentGravityTypeCenter,
 				},
 				&linebot.BoxComponent{
-					Type:   linebot.FlexComponentTypeBox,
-					Layout: linebot.FlexBoxLayoutTypeVertical,
-					Flex:   &flexStatus,
-					Contents: []linebot.FlexComponent{
-						&linebot.TextComponent{
-							Type:  linebot.FlexComponentTypeText,
-							Text:  matchTime.Format(dateFormat),
-							Align: linebot.FlexComponentAlignTypeCenter,
-							Size:  linebot.FlexTextSizeTypeXs,
-						},
-						&linebot.TextComponent{
-							Type:  linebot.FlexComponentTypeText,
-							Text:  matchTime.Format(timeFormat),
-							Align: linebot.FlexComponentAlignTypeCenter,
-							Size:  linebot.FlexTextSizeTypeXs,
-						},
-						bs.matchStatus(),
-					},
+					Type:     linebot.FlexComponentTypeBox,
+					Layout:   linebot.FlexBoxLayoutTypeVertical,
+					Flex:     &flexStatus,
+					Contents: bs.matchInfo(),
 				},
-				&linebot.BoxComponent{
-					Type:   linebot.FlexComponentTypeBox,
-					Layout: linebot.FlexBoxLayoutTypeVertical,
-					Flex:   &flexAwayTeam,
-					Contents: []linebot.FlexComponent{
-						&linebot.TextComponent{
-							Type:  linebot.FlexComponentTypeText,
-							Text:  bs.Competition.Teams[bs.Match.AwayTeam.ID].TLA,
-							Align: linebot.FlexComponentAlignTypeEnd,
-						},
-					},
+				&linebot.TextComponent{
+					Type:    linebot.FlexComponentTypeText,
+					Text:    bs.Competition.Teams[bs.Match.AwayTeam.ID].TLA,
+					Align:   linebot.FlexComponentAlignTypeStart,
+					Gravity: linebot.FlexComponentGravityTypeCenter,
 				},
 			},
 		},
-	})
+	},
+	)
 	return &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
 			Type:     linebot.FlexComponentTypeBox,
