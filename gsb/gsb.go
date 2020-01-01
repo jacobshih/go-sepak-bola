@@ -47,6 +47,15 @@ const (
 	CodePrimeraDivision string = "PD"
 	TextSpace           string = " "
 
+	StatusScheduled string = "SCHEDULED"
+	StatusInPlay    string = "IN_PLAY"
+	StatusPaused    string = "PAUSED"
+	StatusFinished  string = "FINISHED"
+	StatusPostponed string = "POSTPONED"
+	StatusCanceled  string = "CANCELED"
+	StatusSuspended string = "SUSPENDED"
+	StatusAwarded   string = "AWARDED"
+
 	datetimeFormat string = "2006-01-02T15:04:05Z"
 	dateFormat     string = "2006-01-02"
 	timeFormat     string = "15:04:05"
