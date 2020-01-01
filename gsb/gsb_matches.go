@@ -35,6 +35,9 @@ func (bs *BubbleMatchday) matchProgress() string {
 		} else if diff > 60 {
 			diff -= 15
 		}
+		if diff > 90 {
+			diff = 90
+		}
 		progress = fmt.Sprintf("%d", diff)
 	}
 	return progress
