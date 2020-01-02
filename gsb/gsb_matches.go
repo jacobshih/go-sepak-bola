@@ -24,9 +24,9 @@ import (
 	"github.com/line/line-bot-sdk-go/linebot"
 )
 
-func (bs *BubbleMatchday) matchProgress() string {
+func (bm *BubbleMatchday) matchProgress() string {
 	progress := "TBD"
-	theTime, err := time.Parse(datetimeFormat, bs.Match.UtcDate)
+	theTime, err := time.Parse(datetimeFormat, bm.Match.UtcDate)
 	if err == nil {
 		now := time.Now().UTC()
 		diff := int(now.Sub(theTime).Minutes())
@@ -43,14 +43,14 @@ func (bs *BubbleMatchday) matchProgress() string {
 	return progress
 }
 
-func (bs *BubbleMatchday) matchScore() *linebot.BoxComponent {
+func (bm *BubbleMatchday) matchScore() *linebot.BoxComponent {
 	scoreBox := linebot.BoxComponent{
 		Type:   linebot.FlexComponentTypeBox,
 		Layout: linebot.FlexBoxLayoutTypeHorizontal,
 		Contents: []linebot.FlexComponent{
 			&linebot.TextComponent{
 				Type:  linebot.FlexComponentTypeText,
-				Text:  strconv.Itoa(bs.Match.Score.FullTime.HomeTeam),
+				Text:  strconv.Itoa(bm.Match.Score.FullTime.HomeTeam),
 				Align: linebot.FlexComponentAlignTypeEnd,
 				Size:  linebot.FlexTextSizeTypeMd,
 			},
@@ -62,18 +62,18 @@ func (bs *BubbleMatchday) matchScore() *linebot.BoxComponent {
 			},
 			&linebot.TextComponent{
 				Type:  linebot.FlexComponentTypeText,
-				Text:  strconv.Itoa(bs.Match.Score.FullTime.AwayTeam),
+				Text:  strconv.Itoa(bm.Match.Score.FullTime.AwayTeam),
 				Align: linebot.FlexComponentAlignTypeStart,
 				Size:  linebot.FlexTextSizeTypeMd,
 			},
 		},
 	}
 	var progress string
-	if bs.Match.Status == StatusInPlay {
-		progress = bs.matchProgress()
-	} else if bs.Match.Status == StatusPaused {
+	if bm.Match.Status == StatusInPlay {
+		progress = bm.matchProgress()
+	} else if bm.Match.Status == StatusPaused {
 		progress = "HT"
-	} else if bs.Match.Status == StatusFinished {
+	} else if bm.Match.Status == StatusFinished {
 		progress = "FT"
 	}
 	boxProgress := linebot.TextComponent{
@@ -92,17 +92,17 @@ func (bs *BubbleMatchday) matchScore() *linebot.BoxComponent {
 	}
 }
 
-func (bs *BubbleMatchday) matchStatus() *linebot.FlexComponent {
+func (bm *BubbleMatchday) matchStatus() *linebot.FlexComponent {
 	var status linebot.FlexComponent
-	if bs.Match.Status == StatusInPlay ||
-		bs.Match.Status == StatusPaused ||
-		bs.Match.Status == StatusFinished {
-		status = bs.matchScore()
-	} else if bs.Match.Status == StatusScheduled {
+	if bm.Match.Status == StatusInPlay ||
+		bm.Match.Status == StatusPaused ||
+		bm.Match.Status == StatusFinished {
+		status = bm.matchScore()
+	} else if bm.Match.Status == StatusScheduled {
 	} else {
 		status = &linebot.TextComponent{
 			Type:  linebot.FlexComponentTypeText,
-			Text:  bs.Match.Status,
+			Text:  bm.Match.Status,
 			Align: linebot.FlexComponentAlignTypeCenter,
 			Size:  linebot.FlexTextSizeTypeSm,
 		}
@@ -110,9 +110,9 @@ func (bs *BubbleMatchday) matchStatus() *linebot.FlexComponent {
 	return &status
 }
 
-func (bs *BubbleMatchday) matchReferees() *linebot.FlexComponent {
+func (bm *BubbleMatchday) matchReferees() *linebot.FlexComponent {
 	var boxReferees linebot.FlexComponent
-	if len(bs.Match.Referees) > 0 {
+	if len(bm.Match.Referees) > 0 {
 		var referees []linebot.FlexComponent
 		referees = append(referees, &linebot.TextComponent{
 			Type:  linebot.FlexComponentTypeText,
@@ -120,7 +120,7 @@ func (bs *BubbleMatchday) matchReferees() *linebot.FlexComponent {
 			Color: ColorGray,
 			Align: linebot.FlexComponentAlignTypeCenter,
 		})
-		for _, referee := range bs.Match.Referees {
+		for _, referee := range bm.Match.Referees {
 			refereeName := referee.Name
 			if len(refereeName) == 0 {
 				refereeName = "-"
@@ -142,8 +142,8 @@ func (bs *BubbleMatchday) matchReferees() *linebot.FlexComponent {
 	return &boxReferees
 }
 
-func (bs *BubbleMatchday) matchInfo() []linebot.FlexComponent {
-	matchTime := toLocalTime(bs.Match.UtcDate)
+func (bm *BubbleMatchday) matchInfo() []linebot.FlexComponent {
+	matchTime := toLocalTime(bm.Match.UtcDate)
 	contents := []linebot.FlexComponent{
 		&linebot.TextComponent{
 			Type:  linebot.FlexComponentTypeText,
@@ -158,7 +158,7 @@ func (bs *BubbleMatchday) matchInfo() []linebot.FlexComponent {
 			Size:  linebot.FlexTextSizeTypeXs,
 		},
 	}
-	matchStatus := bs.matchStatus()
+	matchStatus := bm.matchStatus()
 	if *matchStatus != nil {
 		contents = append(contents, *matchStatus)
 	}
@@ -173,7 +173,7 @@ type BubbleMatchday struct {
 }
 
 // Type is FlexContainerTypeBubble.
-func (bs *BubbleMatchday) Type() linebot.FlexContainerType {
+func (bm *BubbleMatchday) Type() linebot.FlexContainerType {
 	return linebot.FlexContainerTypeBubble
 }
 
@@ -181,12 +181,12 @@ func (bs *BubbleMatchday) Type() linebot.FlexContainerType {
 // boxes in the container. Specify one of the following values:
 // 	ltr: Left to right
 //	rtl: Right to left
-func (bs *BubbleMatchday) Direction() linebot.FlexBubbleDirectionType {
+func (bm *BubbleMatchday) Direction() linebot.FlexBubbleDirectionType {
 	return linebot.FlexBubbleDirectionTypeLTR
 }
 
 // Header block. Specify a box component.
-func (bs *BubbleMatchday) Header() *ui.ExtBoxComponent {
+func (bm *BubbleMatchday) Header() *ui.ExtBoxComponent {
 	return &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
 			Type:   linebot.FlexComponentTypeBox,
@@ -194,12 +194,12 @@ func (bs *BubbleMatchday) Header() *ui.ExtBoxComponent {
 			Contents: []linebot.FlexComponent{
 				&linebot.TextComponent{
 					Type:  linebot.FlexComponentTypeText,
-					Text:  bs.Competition.Name,
+					Text:  bm.Competition.Name,
 					Color: ColorAmber,
 				},
 				&linebot.TextComponent{
 					Type:  linebot.FlexComponentTypeText,
-					Text:  TextRound + " " + strconv.Itoa(bs.Match.Matchday),
+					Text:  TextRound + " " + strconv.Itoa(bm.Match.Matchday),
 					Align: linebot.FlexComponentAlignTypeEnd,
 					Color: ColorAmber,
 				},
@@ -209,12 +209,12 @@ func (bs *BubbleMatchday) Header() *ui.ExtBoxComponent {
 }
 
 // Hero block. Specify an image component.
-func (bs *BubbleMatchday) Hero() *linebot.ImageComponent {
+func (bm *BubbleMatchday) Hero() *linebot.ImageComponent {
 	return nil
 }
 
 // Body block. Specify a box component.
-func (bs *BubbleMatchday) Body() *ui.ExtBoxComponent {
+func (bm *BubbleMatchday) Body() *ui.ExtBoxComponent {
 	flexStatus := 2
 	bodyContents := []linebot.FlexComponent{}
 	bodyContents = append(bodyContents, &ui.ExtBoxComponent{
@@ -224,7 +224,7 @@ func (bs *BubbleMatchday) Body() *ui.ExtBoxComponent {
 			Contents: []linebot.FlexComponent{
 				&linebot.TextComponent{
 					Type:    linebot.FlexComponentTypeText,
-					Text:    bs.Competition.Teams[bs.Match.HomeTeam.ID].TLA,
+					Text:    bm.Competition.Teams[bm.Match.HomeTeam.ID].TLA,
 					Align:   linebot.FlexComponentAlignTypeEnd,
 					Gravity: linebot.FlexComponentGravityTypeCenter,
 				},
@@ -232,11 +232,11 @@ func (bs *BubbleMatchday) Body() *ui.ExtBoxComponent {
 					Type:     linebot.FlexComponentTypeBox,
 					Layout:   linebot.FlexBoxLayoutTypeVertical,
 					Flex:     &flexStatus,
-					Contents: bs.matchInfo(),
+					Contents: bm.matchInfo(),
 				},
 				&linebot.TextComponent{
 					Type:    linebot.FlexComponentTypeText,
-					Text:    bs.Competition.Teams[bs.Match.AwayTeam.ID].TLA,
+					Text:    bm.Competition.Teams[bm.Match.AwayTeam.ID].TLA,
 					Align:   linebot.FlexComponentAlignTypeStart,
 					Gravity: linebot.FlexComponentGravityTypeCenter,
 				},
@@ -244,7 +244,7 @@ func (bs *BubbleMatchday) Body() *ui.ExtBoxComponent {
 		},
 	},
 	)
-	matchReferees := bs.matchReferees()
+	matchReferees := bm.matchReferees()
 	if *matchReferees != nil {
 		bodyContents = append(bodyContents, &linebot.SeparatorComponent{
 			Type:   linebot.FlexComponentTypeSeparator,
@@ -263,12 +263,12 @@ func (bs *BubbleMatchday) Body() *ui.ExtBoxComponent {
 }
 
 // Footer block. Specify a box component.
-func (bs *BubbleMatchday) Footer() *ui.ExtBoxComponent {
+func (bm *BubbleMatchday) Footer() *ui.ExtBoxComponent {
 	return nil
 }
 
 // Styles of each block. Specify a bubble style object.
-func (bs *BubbleMatchday) Styles() *linebot.BubbleStyle {
+func (bm *BubbleMatchday) Styles() *linebot.BubbleStyle {
 	return nil
 }
 
