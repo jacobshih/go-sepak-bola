@@ -13,9 +13,7 @@
 package gsb
 
 import (
-	"encoding/json"
 	"fmt"
-	"go-sepak-bola/internal/appdata"
 	"go-sepak-bola/internal/fbd"
 	"go-sepak-bola/ui"
 	"strconv"
@@ -23,6 +21,13 @@ import (
 
 	"github.com/line/line-bot-sdk-go/linebot"
 )
+
+// BubbleMatchday contains competition and teams information for creating a bubble
+// container of teams of the particular competition.
+type BubbleMatchday struct {
+	Competition *fbd.Competition
+	Match       *fbd.Match
+}
 
 func (bm *BubbleMatchday) matchProgress() string {
 	progress := "TBD"
@@ -99,6 +104,7 @@ func (bm *BubbleMatchday) matchStatus() *linebot.FlexComponent {
 		bm.Match.Status == StatusFinished {
 		status = bm.matchScore()
 	} else if bm.Match.Status == StatusScheduled {
+		// no further information
 	} else {
 		status = &linebot.TextComponent{
 			Type:  linebot.FlexComponentTypeText,
@@ -163,13 +169,6 @@ func (bm *BubbleMatchday) matchInfo() []linebot.FlexComponent {
 		contents = append(contents, *matchStatus)
 	}
 	return contents
-}
-
-// BubbleMatchday contains competition and teams information for creating a bubble
-// container of teams of the particular competition.
-type BubbleMatchday struct {
-	Competition *fbd.Competition
-	Match       *fbd.Match
 }
 
 // Type is FlexContainerTypeBubble.
@@ -302,31 +301,4 @@ func (sepakbola *SepakBola) MatchdayMessage(competition *fbd.Competition, matchd
 	altText := TextMatchday + " " + strconv.Itoa(matchday)
 	contents := sepakbola.MatchdayContents(competition, matchday)
 	return linebot.NewFlexMessage(altText, contents)
-}
-
-// MatchdesTypeMessage function reply quick reply button message.
-func (sepakbola *SepakBola) MatchdesTypeMessage(competition *fbd.Competition, matchday int) linebot.SendingMessage {
-	allMatchesData, _ := json.Marshal(&appdata.PostData{
-		Category: PkgName,
-		Action:   ActionAllMatches,
-		Params:   nil,
-	})
-	matchdayData, _ := json.Marshal(&appdata.PostData{
-		Category: PkgName,
-		Action:   ActionMatchday,
-		Params: map[string]interface{}{
-			"id":              competition.ID,
-			"currentMatchday": competition.Season.CurrentMatchday,
-		},
-	})
-
-	return linebot.NewTextMessage(TextMatchesType).
-		WithQuickReplies(linebot.NewQuickReplyItems(
-			linebot.NewQuickReplyButton(
-				"",
-				linebot.NewPostbackAction(TextAllMatches, string(allMatchesData), "", TextAllMatches)),
-			linebot.NewQuickReplyButton(
-				"",
-				linebot.NewPostbackAction(TextCurrentMatchday, string(matchdayData), "", TextCurrentMatchday)),
-		))
 }
