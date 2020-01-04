@@ -211,6 +211,10 @@ func (sepakbola *SepakBola) MatchCalendarContents(competition *fbd.Competition) 
 // MatchCalendarMessage function generates FlexMessage for matchday selection.
 func (sepakbola *SepakBola) MatchCalendarMessage(competition *fbd.Competition) *linebot.FlexMessage {
 	altText := TextMatchCalendar
+	fmt.Println("MatchCalendarMessage")
 	contents := sepakbola.MatchCalendarContents(competition)
+	fmt.Println("+++")
+	contents.Dump()
+	fmt.Println("---")
 	return linebot.NewFlexMessage(altText, contents)
 }
