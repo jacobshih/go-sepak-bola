@@ -183,10 +183,10 @@ func handleEventForPostbackOfGSB(event *linebot.Event) (msg linebot.SendingMessa
 		case gsb.ActionMatches:
 			msg = sepakbola.MatchdesTypeMessage(competition, 0)
 		case gsb.ActionMatchday:
-			currentMatchday := int(dict["currentMatchday"].(float64))
+			currentMatchday := int(dict["matchday"].(float64))
 			msg = sepakbola.MatchdayMessage(competition, currentMatchday)
-		case gsb.ActionAllMatches:
-			fmt.Println("Action: ", gsb.ActionAllMatches)
+		case gsb.ActionMatchCalendar:
+			msg = sepakbola.MatchCalendarMessage(competition)
 		case gsb.ActionStandings:
 			msg = sepakbola.StandingsMessage(competition)
 		case gsb.ActionTeams:
