@@ -85,7 +85,8 @@ func (bs *BubbleTeams) Body() *ui.ExtBoxComponent {
 				Category: PkgName,
 				Action:   ActionTeam,
 				Params: map[string]interface{}{
-					"id": team.ID,
+					"id":     bs.Competition.ID,
+					"teamID": team.ID,
 				},
 			})
 		box := ui.ExtBoxComponent{
