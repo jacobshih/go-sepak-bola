@@ -139,7 +139,7 @@ func (bm *BubbleMatchCalendar) Body() *ui.ExtBoxComponent {
 			Action:   ActionMatchday,
 			Params: map[string]interface{}{
 				"id":       bm.Competition.ID,
-				"matchday": strconv.Itoa(round),
+				"matchday": round,
 			},
 		})
 		ex, _ := regexp.Compile("^\\d{4}-\\d{2}-\\d{2}")
