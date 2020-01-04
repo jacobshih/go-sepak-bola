@@ -27,10 +27,12 @@ import (
 
 // MatchdesTypeMessage function reply quick reply button message.
 func (sepakbola *SepakBola) MatchdesTypeMessage(competition *fbd.Competition, matchday int) linebot.SendingMessage {
-	allMatchesData, _ := json.Marshal(&appdata.PostData{
+	matchCalendarData, _ := json.Marshal(&appdata.PostData{
 		Category: PkgName,
 		Action:   ActionMatchCalendar,
-		Params:   nil,
+		Params: map[string]interface{}{
+			"id": competition.ID,
+		},
 	})
 	matchdayData, _ := json.Marshal(&appdata.PostData{
 		Category: PkgName,
@@ -45,7 +47,7 @@ func (sepakbola *SepakBola) MatchdesTypeMessage(competition *fbd.Competition, ma
 		WithQuickReplies(linebot.NewQuickReplyItems(
 			linebot.NewQuickReplyButton(
 				"",
-				linebot.NewPostbackAction(TextMatchCalendar, string(allMatchesData), "", TextMatchCalendar)),
+				linebot.NewPostbackAction(TextMatchCalendar, string(matchCalendarData), "", TextMatchCalendar)),
 			linebot.NewQuickReplyButton(
 				"",
 				linebot.NewPostbackAction(TextCurrentMatchday, string(matchdayData), "", TextCurrentMatchday)),
@@ -211,10 +213,6 @@ func (sepakbola *SepakBola) MatchCalendarContents(competition *fbd.Competition) 
 // MatchCalendarMessage function generates FlexMessage for matchday selection.
 func (sepakbola *SepakBola) MatchCalendarMessage(competition *fbd.Competition) *linebot.FlexMessage {
 	altText := TextMatchCalendar
-	fmt.Println("MatchCalendarMessage")
 	contents := sepakbola.MatchCalendarContents(competition)
-	fmt.Println("+++")
-	contents.Dump()
-	fmt.Println("---")
 	return linebot.NewFlexMessage(altText, contents)
 }
