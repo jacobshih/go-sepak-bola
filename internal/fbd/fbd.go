@@ -418,6 +418,11 @@ func (teams *TeamsData) Deserialize(content []byte) (err error) {
 	if err = json.Unmarshal(teams.RawTeams, &teams.Teams); err != nil {
 		return err
 	}
+	for _, team := range teams.Teams {
+		if err = json.Unmarshal(team.RawArea, &team.Area); err != nil {
+			return err
+		}
+	}
 	return err
 }
 
