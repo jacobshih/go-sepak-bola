@@ -30,7 +30,7 @@ type BubbleTeams struct {
 }
 
 // Type is FlexContainerTypeBubble.
-func (bs *BubbleTeams) Type() linebot.FlexContainerType {
+func (bt *BubbleTeams) Type() linebot.FlexContainerType {
 	return linebot.FlexContainerTypeBubble
 }
 
@@ -38,12 +38,12 @@ func (bs *BubbleTeams) Type() linebot.FlexContainerType {
 // boxes in the container. Specify one of the following values:
 // 	ltr: Left to right
 //	rtl: Right to left
-func (bs *BubbleTeams) Direction() linebot.FlexBubbleDirectionType {
+func (bt *BubbleTeams) Direction() linebot.FlexBubbleDirectionType {
 	return linebot.FlexBubbleDirectionTypeLTR
 }
 
 // Header block. Specify a box component.
-func (bs *BubbleTeams) Header() *ui.ExtBoxComponent {
+func (bt *BubbleTeams) Header() *ui.ExtBoxComponent {
 	return &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
 			Type:   linebot.FlexComponentTypeBox,
@@ -51,7 +51,7 @@ func (bs *BubbleTeams) Header() *ui.ExtBoxComponent {
 			Contents: []linebot.FlexComponent{
 				&linebot.TextComponent{
 					Type:   linebot.FlexComponentTypeText,
-					Text:   bs.Competition.Name,
+					Text:   bt.Competition.Name,
 					Margin: linebot.FlexComponentMarginTypeNone,
 					Size:   linebot.FlexTextSizeTypeLg,
 					Color:  ColorAero,
@@ -62,30 +62,30 @@ func (bs *BubbleTeams) Header() *ui.ExtBoxComponent {
 }
 
 // Hero block. Specify an image component.
-func (bs *BubbleTeams) Hero() *linebot.ImageComponent {
+func (bt *BubbleTeams) Hero() *linebot.ImageComponent {
 	return &linebot.ImageComponent{
 		Type: linebot.FlexComponentTypeImage,
-		URL:  bs.Competition.EmblemURL,
+		URL:  bt.Competition.EmblemURL,
 		Size: linebot.FlexImageSizeTypeFull,
 	}
 }
 
 // Body block. Specify a box component.
-func (bs *BubbleTeams) Body() *ui.ExtBoxComponent {
+func (bt *BubbleTeams) Body() *ui.ExtBoxComponent {
 	bodyContents := []linebot.FlexComponent{}
 	keys := []int{}
-	for id := range bs.Teams {
+	for id := range bt.Teams {
 		keys = append(keys, id)
 	}
 	sort.Ints(keys)
 	for id := range keys {
-		team := bs.Teams[keys[id]]
+		team := bt.Teams[keys[id]]
 		teamData, _ := json.Marshal(
 			&appdata.PostData{
 				Category: PkgName,
 				Action:   ActionTeam,
 				Params: map[string]interface{}{
-					"id":     bs.Competition.ID,
+					"id":     bt.Competition.ID,
 					"teamID": team.ID,
 				},
 			})
@@ -131,12 +131,12 @@ func (bs *BubbleTeams) Body() *ui.ExtBoxComponent {
 }
 
 // Footer block. Specify a box component.
-func (bs *BubbleTeams) Footer() *ui.ExtBoxComponent {
+func (bt *BubbleTeams) Footer() *ui.ExtBoxComponent {
 	return nil
 }
 
 // Styles of each block. Specify a bubble style object.
-func (bs *BubbleTeams) Styles() *linebot.BubbleStyle {
+func (bt *BubbleTeams) Styles() *linebot.BubbleStyle {
 	return nil
 }
 
