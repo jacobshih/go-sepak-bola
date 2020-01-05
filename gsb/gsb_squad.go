@@ -93,7 +93,9 @@ func (bs *BubbleSquad) Body() *ui.ExtBoxComponent {
 	bodyContents = append(bodyContents, bs.squadInfo(TextSquadBirthday, birthday))
 	bodyContents = append(bodyContents, bs.squadInfo(TextSquadBirthplace, bs.Squad.CountryOfBirth))
 	bodyContents = append(bodyContents, bs.squadInfo(TextSquadNationality, bs.Squad.Nationality))
-	bodyContents = append(bodyContents, bs.squadInfo(TextSquadPosition, bs.Squad.Position))
+	if len(bs.Squad.Position) > 0 {
+		bodyContents = append(bodyContents, bs.squadInfo(TextSquadPosition, bs.Squad.Position))
+	}
 	return &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
 			Type:     linebot.FlexComponentTypeBox,
@@ -132,6 +134,7 @@ func (bs *BubbleSquad) squadInfo(label, value string) *ui.ExtBoxComponent {
 		Margin: linebot.FlexComponentMarginTypeMd,
 		Size:   linebot.FlexTextSizeTypeSm,
 		Flex:   &flexValue,
+		Wrap:   true,
 	}
 	return &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
