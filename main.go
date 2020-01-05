@@ -197,7 +197,7 @@ func handleEventForPostbackOfGSB(event *linebot.Event) (msg linebot.SendingMessa
 		case gsb.ActionSquad:
 			teamID := int(dict["teamID"].(float64))
 			squadID := int(dict["squadID"].(float64))
-			fmt.Println("Action: ", gsb.ActionTeam, "id: ", id, " ", "teamID: ", teamID, " ", "squadID: ", squadID)
+			msg = sepakbola.SquadMessage(competition, teamID, squadID)
 		default:
 		}
 	}

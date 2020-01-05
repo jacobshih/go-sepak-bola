@@ -39,6 +39,7 @@ const (
 	TextCurrentMatchday string = "Current matchday"
 	TextMatchday        string = "Matchday"
 	TextSquad           string = "Squad"
+	TextMore            string = "More"
 	TextRound           string = "Round"
 	TextPremierLeague   string = "Premier League"
 	TextBundesliga      string = "Bundesliga"
