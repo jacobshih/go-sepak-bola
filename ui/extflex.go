@@ -81,6 +81,9 @@ type ExtBoxComponent struct {
 	Width           string
 	Height          string
 	BackgroundColor string
+	BorderColor     string
+	BorderWidth     string // none, light, normal, medium, semi-bold, or bold.
+	CornerRadius    string // none, xs, sm, md, lg, xl, or xxl.
 }
 
 // MarshalJSON method of ExtBoxComponent
@@ -95,6 +98,9 @@ func (c *ExtBoxComponent) MarshalJSON() ([]byte, error) {
 		Width           string                           `json:"width,omitempty"`
 		Height          string                           `json:"height,omitempty"`
 		BackgroundColor string                           `json:"backgroundColor,omitempty"`
+		BorderColor     string                           `json:"borderColor,omitempty"`
+		BorderWidth     string                           `json:"borderWidth,omitempty"`
+		CornerRadius    string                           `json:"cornerRadius,omitempty"`
 	}{
 		Type:            linebot.FlexComponentTypeBox,
 		Layout:          c.Layout,
@@ -105,6 +111,9 @@ func (c *ExtBoxComponent) MarshalJSON() ([]byte, error) {
 		Width:           c.Width,
 		Height:          c.Height,
 		BackgroundColor: c.BackgroundColor,
+		BorderColor:     c.BorderColor,
+		BorderWidth:     c.BorderWidth,
+		CornerRadius:    c.CornerRadius,
 	})
 }
 
