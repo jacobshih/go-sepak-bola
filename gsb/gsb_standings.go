@@ -109,7 +109,7 @@ func (bs *BubbleStandings) Header() *ui.ExtBoxComponent {
 					Text:   bs.Competition.Name,
 					Margin: linebot.FlexComponentMarginTypeNone,
 					Size:   linebot.FlexTextSizeTypeLg,
-					Color:  ColorAero,
+					Color:  ColorAmber,
 				},
 			},
 		},
