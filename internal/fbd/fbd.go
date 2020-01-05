@@ -18,6 +18,7 @@ const (
 	uriCompetitions string = "https://api.football-data.org/v2/competitions/"
 	uriCompetition  string = "https://api.football-data.org/v2/competitions/%d"
 	uriTeams        string = "https://api.football-data.org/v2/competitions/%d/teams"
+	uriTeam         string = "https://api.football-data.org/v2/teams/%d"
 	uriMatches      string = "https://api.football-data.org/v2/competitions/%d/matches"
 	uriMatch        string = "https://api.football-data.org/v2/matches/%d"
 	uriStandings    string = "https://api.football-data.org/v2/competitions/%d/standings"
@@ -111,6 +112,15 @@ func (fbd *FBDAPI) GetTeams(id int) (content []byte) {
 	return content
 }
 
+// GetTeam http://api.football-data.org/v2/competitions/$FBDATA_COMPETITION/teams/$FBDATA_TEAM
+func (fbd *FBDAPI) GetTeam(teamID int) (content []byte) {
+	if teamID > 0 {
+		uri := fmt.Sprintf(uriTeam, teamID)
+		content = fbd.httpGet(uri)
+	}
+	return content
+}
+
 // GetStandings http://api.football-data.org/v2/competitions/$FBDATA_COMPETITION/standings
 func (fbd *FBDAPI) GetStandings(id int) (content []byte) {
 	if id > 0 {
@@ -124,6 +134,18 @@ func (fbd *FBDAPI) GetStandings(id int) (content []byte) {
 type Area struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
+}
+
+// Squad describes the information of a team member.
+type Squad struct {
+	ID             int    `json:"id"`
+	Name           string `json:"name"`
+	Position       string `json:"position,omitempty"`
+	DateOfBirth    string `json:"dateOfBirth,omitempty"`
+	CountryOfBirth string `json:"countryOfBirth,omitempty"`
+	Nationality    string `json:"nationality,omitempty"`
+	ShirtNumber    int    `json:"shirtNumber,omitempty"`
+	Role           string `json:"role,omitempty"`
 }
 
 // Team contains information of a particular team.
@@ -141,7 +163,29 @@ type Team struct {
 	ClubColors string          `json:"clubColors"`
 	Venue      string          `json:"venue"`
 	RawArea    json.RawMessage `json:"area"`
+	RawSquad   json.RawMessage `json:"squad"`
 	Area       *Area
+	Squads     []*Squad
+}
+
+// Get retrieves teams information.
+func (team *Team) Get(teamID int) (content []byte) {
+	content = fbdapi.GetTeam(teamID)
+	return content
+}
+
+// Deserialize decodes teams information from given json string.
+func (team *Team) Deserialize(content []byte) (err error) {
+	if err = json.Unmarshal(content, &team); err != nil {
+		return err
+	}
+	if err = json.Unmarshal(team.RawArea, &team.Area); err != nil {
+		return err
+	}
+	if err = json.Unmarshal(team.RawSquad, &team.Squads); err != nil {
+		return err
+	}
+	return err
 }
 
 // Season contains information for a season.
