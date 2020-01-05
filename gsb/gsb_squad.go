@@ -59,6 +59,7 @@ func (bs *BubbleSquad) Header() *ui.ExtBoxComponent {
 					Size:    linebot.FlexTextSizeTypeLg,
 					Color:   ColorAmber,
 					Gravity: linebot.FlexComponentGravityTypeCenter,
+					Wrap:    true,
 					Flex:    &flexName,
 				},
 				&linebot.TextComponent{
@@ -194,18 +195,22 @@ func (sepakbola *SepakBola) SquadContents(competition *fbd.Competition, teamID i
 func (sepakbola *SepakBola) SquadMessage(competition *fbd.Competition, teamID, squadID int) linebot.SendingMessage {
 	altText := competition.Teams[teamID].Name + " " + TextSquad
 	contents := sepakbola.SquadContents(competition, teamID, &squadID)
-	squadData, _ := json.Marshal(&appdata.PostData{
-		Category: PkgName,
-		Action:   ActionSquad,
-		Params: map[string]interface{}{
-			"id":      competition.ID,
-			"teamID":  teamID,
-			"squadID": squadID,
-		},
-	})
-	return linebot.NewFlexMessage(altText, contents).WithQuickReplies(linebot.NewQuickReplyItems(
-		linebot.NewQuickReplyButton(
-			"",
-			linebot.NewPostbackAction(TextMore, string(squadData), "", "")),
-	))
+	msg := linebot.NewFlexMessage(altText, contents)
+	if squadID != -1 {
+		squadData, _ := json.Marshal(&appdata.PostData{
+			Category: PkgName,
+			Action:   ActionSquad,
+			Params: map[string]interface{}{
+				"id":      competition.ID,
+				"teamID":  teamID,
+				"squadID": squadID,
+			},
+		})
+		msg = msg.WithQuickReplies(linebot.NewQuickReplyItems(
+			linebot.NewQuickReplyButton(
+				"",
+				linebot.NewPostbackAction(TextMore, string(squadData), "", "")),
+		)).(*linebot.FlexMessage)
+	}
+	return msg
 }
