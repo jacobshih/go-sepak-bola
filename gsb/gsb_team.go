@@ -180,6 +180,6 @@ func (sepakbola *SepakBola) TeamMessage(competition *fbd.Competition, teamID int
 	return linebot.NewFlexMessage(altText, contents).WithQuickReplies(linebot.NewQuickReplyItems(
 		linebot.NewQuickReplyButton(
 			"",
-			linebot.NewPostbackAction(TextMatchCalendar, string(squadData), "", "")),
+			linebot.NewPostbackAction(TextSquad, string(squadData), "", "")),
 	))
 }
