@@ -14,6 +14,7 @@ package gsb
 
 import (
 	"encoding/json"
+	"fmt"
 	"go-sepak-bola/internal/appdata"
 	"go-sepak-bola/internal/fbd"
 	"go-sepak-bola/ui"
@@ -67,6 +68,50 @@ func (bt *BubbleTeam) Hero() *linebot.ImageComponent {
 	return nil
 }
 
+// Body block. Specify a box component.
+func (bt *BubbleTeam) Body() *ui.ExtBoxComponent {
+	const (
+		TextTeamFounded    = "Founded"
+		TextTeamCoach      = "Coach"
+		TextTeamVenue      = "Venue"
+		TextTeamCountry    = "Country"
+		TextTeamClubColors = "Colors"
+		TextTeamWebsite    = "Website"
+		TextTeamAddress    = "Address"
+	)
+	coach := bt.teamCoach()
+	bodyContents := []linebot.FlexComponent{}
+	bodyContents = append(bodyContents, bt.teamInfo(TextTeamFounded, strconv.Itoa(bt.Team.Founded)))
+	bodyContents = append(bodyContents, bt.teamInfo(TextTeamCoach, coach))
+	bodyContents = append(bodyContents, bt.teamInfo(TextTeamVenue, bt.Team.Venue))
+	bodyContents = append(bodyContents, bt.teamInfo(TextTeamCountry, bt.Team.Area.Name))
+	bodyContents = append(bodyContents, bt.teamInfo(TextTeamClubColors, bt.Team.ClubColors))
+	bodyContents = append(bodyContents, bt.teamInfo(TextTeamAddress, bt.Team.Address))
+	bodyContents = append(bodyContents, bt.teamInfo(TextTeamWebsite, bt.Team.Website))
+	return &ui.ExtBoxComponent{
+		BoxComponent: linebot.BoxComponent{
+			Type:     linebot.FlexComponentTypeBox,
+			Layout:   linebot.FlexBoxLayoutTypeVertical,
+			Contents: bodyContents,
+		},
+	}
+}
+
+// Footer block. Specify a box component.
+func (bt *BubbleTeam) Footer() *ui.ExtBoxComponent {
+	return nil
+}
+
+// Styles of each block. Specify a bubble style object.
+func (bt *BubbleTeam) Styles() *linebot.BubbleStyle {
+	return &linebot.BubbleStyle{
+		Body: &linebot.BlockStyle{
+			Separator:      true,
+			SeparatorColor: ColorAmber,
+		},
+	}
+}
+
 func (bt *BubbleTeam) teamInfo(label, value string) *ui.ExtBoxComponent {
 	flexValue := 3
 	labelComponent := linebot.TextComponent{
@@ -103,45 +148,14 @@ func (bt *BubbleTeam) teamInfo(label, value string) *ui.ExtBoxComponent {
 	}
 }
 
-// Body block. Specify a box component.
-func (bt *BubbleTeam) Body() *ui.ExtBoxComponent {
-	const (
-		TextTeamFounded    = "Founded"
-		TextTeamVenue      = "Venue"
-		TextTeamCountry    = "Country"
-		TextTeamClubColors = "Colors"
-		TextTeamWebsite    = "Website"
-		TextTeamAddress    = "Address"
-	)
-	bodyContents := []linebot.FlexComponent{}
-	bodyContents = append(bodyContents, bt.teamInfo(TextTeamFounded, strconv.Itoa(bt.Team.Founded)))
-	bodyContents = append(bodyContents, bt.teamInfo(TextTeamVenue, bt.Team.Venue))
-	bodyContents = append(bodyContents, bt.teamInfo(TextTeamCountry, bt.Team.Area.Name))
-	bodyContents = append(bodyContents, bt.teamInfo(TextTeamClubColors, bt.Team.ClubColors))
-	bodyContents = append(bodyContents, bt.teamInfo(TextTeamAddress, bt.Team.Address))
-	bodyContents = append(bodyContents, bt.teamInfo(TextTeamWebsite, bt.Team.Website))
-	return &ui.ExtBoxComponent{
-		BoxComponent: linebot.BoxComponent{
-			Type:     linebot.FlexComponentTypeBox,
-			Layout:   linebot.FlexBoxLayoutTypeVertical,
-			Contents: bodyContents,
-		},
+func (bt *BubbleTeam) teamCoach() string {
+	coach := ""
+	for _, squad := range bt.Team.Squads {
+		if squad.Role == "COACH" {
+			coach = squad.Name
+		}
 	}
-}
-
-// Footer block. Specify a box component.
-func (bt *BubbleTeam) Footer() *ui.ExtBoxComponent {
-	return nil
-}
-
-// Styles of each block. Specify a bubble style object.
-func (bt *BubbleTeam) Styles() *linebot.BubbleStyle {
-	return &linebot.BubbleStyle{
-		Body: &linebot.BlockStyle{
-			Separator:      true,
-			SeparatorColor: ColorAmber,
-		},
-	}
+	return coach
 }
 
 // TeamContents function generates CarouselContainer for particular team.
@@ -149,10 +163,16 @@ func (sepakbola *SepakBola) TeamContents(competition *fbd.Competition, teamID in
 	if _, ok := sepakbola.Competitions[competition.ID].Teams[teamID]; !ok {
 		return ui.SomethingWrongContents()
 	}
+	var team fbd.Team
+	content := team.Get(teamID)
+	if err := team.Deserialize(content); err != nil {
+		fmt.Printf("[ERROR] %s (%s)\n", "Team.Deserialize()", err)
+		return ui.SomethingWrongContents()
+	}
 	var bubbles []*ui.ExtBubbleContainer
 	bubble := BubbleTeam{
 		Competition: competition,
-		Team:        sepakbola.Competitions[competition.ID].Teams[teamID],
+		Team:        &team,
 	}
 	bubbles = append(bubbles, ui.Bubble(&bubble))
 	contents := ui.ExtCarouselContainer{
