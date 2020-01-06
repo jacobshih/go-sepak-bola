@@ -76,6 +76,7 @@ func (bt *BubbleTeams) Hero() *linebot.ImageComponent {
 
 // Body block. Specify a box component.
 func (bt *BubbleTeams) Body() *ui.ExtBoxComponent {
+	flexName := 4
 	bodyContents := []linebot.FlexComponent{}
 	keys := []int{}
 	for id := range bt.Teams {
@@ -96,31 +97,40 @@ func (bt *BubbleTeams) Body() *ui.ExtBoxComponent {
 		box := ui.ExtBoxComponent{
 			BoxComponent: linebot.BoxComponent{
 				Type:   linebot.FlexComponentTypeBox,
-				Layout: linebot.FlexBoxLayoutTypeBaseline,
-				Margin: linebot.FlexComponentMarginTypeXs,
+				Layout: linebot.FlexBoxLayoutTypeHorizontal,
+				Margin: linebot.FlexComponentMarginTypeSm,
 				Contents: []linebot.FlexComponent{
-					// remove team crest from team list.
-					// the crestURL of football-data locates to svg file is invalid
-					// for LINE to display.
-					/*
-						&linebot.IconComponent{
-							Type: linebot.FlexComponentTypeIcon,
-							URL:  team.CrestURL,
-							Size: linebot.FlexIconSizeTypeXxl,
+					&linebot.TextComponent{
+						Type:    linebot.FlexComponentTypeText,
+						Text:    team.TLA,
+						Color:   ColorBlue,
+						Margin:  linebot.FlexComponentMarginTypeLg,
+						Gravity: linebot.FlexComponentGravityTypeCenter,
+						Action: &linebot.PostbackAction{
+							Data: string(teamData),
 						},
-					*/
+					},
+					&linebot.SeparatorComponent{
+						Type:  linebot.FlexComponentTypeSeparator,
+						Color: ColorAmber,
+					},
 					&linebot.TextComponent{
 						Type:   linebot.FlexComponentTypeText,
 						Text:   team.ShortName,
-						Margin: linebot.FlexComponentMarginTypeSm,
-						Size:   linebot.FlexTextSizeTypeXl,
-						Color:  ColorDodgeBlue,
+						Color:  ColorBlue,
+						Margin: linebot.FlexComponentMarginTypeLg,
+						Flex:   &flexName,
 						Action: &linebot.PostbackAction{
 							Data: string(teamData),
 						},
 					},
 				},
 			},
+			BorderColor:  ColorAmber,
+			BorderWidth:  "normal",
+			PaddingAll:   "sm",
+			PaddingStart: "md",
+			CornerRadius: "sm",
 		}
 		bodyContents = append(bodyContents, &box)
 	}
@@ -128,7 +138,6 @@ func (bt *BubbleTeams) Body() *ui.ExtBoxComponent {
 		BoxComponent: linebot.BoxComponent{
 			Type:     linebot.FlexComponentTypeBox,
 			Layout:   linebot.FlexBoxLayoutTypeVertical,
-			Spacing:  linebot.FlexComponentSpacingTypeMd,
 			Contents: bodyContents,
 		},
 	}
