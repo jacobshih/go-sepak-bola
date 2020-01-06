@@ -85,7 +85,7 @@ const (
 	ColorWhite       = "#ffffff"
 	ColorBlack       = "#000000"
 	ColorGray        = "#7f7f7f"
-	ColorBlue        = "#00ff00"
+	ColorBlue        = "#0000ff"
 )
 
 // SepakBola type SepakBola
