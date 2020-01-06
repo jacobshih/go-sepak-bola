@@ -54,9 +54,9 @@ func (bt *BubbleTeam) Header() *ui.ExtBoxComponent {
 				&linebot.TextComponent{
 					Type:   linebot.FlexComponentTypeText,
 					Text:   bt.Team.Name,
-					Margin: linebot.FlexComponentMarginTypeNone,
 					Size:   linebot.FlexTextSizeTypeLg,
 					Color:  ColorAmber,
+					Margin: linebot.FlexComponentMarginTypeNone,
 				},
 			},
 		},

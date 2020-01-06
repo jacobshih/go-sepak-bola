@@ -99,17 +99,25 @@ func (bs *BubbleStandings) Direction() linebot.FlexBubbleDirectionType {
 
 // Header block. Specify a box component.
 func (bs *BubbleStandings) Header() *ui.ExtBoxComponent {
+	flexName := 4
 	return &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
 			Type:   linebot.FlexComponentTypeBox,
-			Layout: linebot.FlexBoxLayoutTypeVertical,
+			Layout: linebot.FlexBoxLayoutTypeHorizontal,
 			Contents: []linebot.FlexComponent{
 				&linebot.TextComponent{
-					Type:   linebot.FlexComponentTypeText,
-					Text:   bs.Competition.Name,
-					Margin: linebot.FlexComponentMarginTypeNone,
-					Size:   linebot.FlexTextSizeTypeLg,
-					Color:  ColorAmber,
+					Type:    linebot.FlexComponentTypeText,
+					Text:    bs.Competition.Name,
+					Size:    linebot.FlexTextSizeTypeLg,
+					Color:   ColorAmber,
+					Gravity: linebot.FlexComponentGravityTypeCenter,
+					Wrap:    true,
+					Flex:    &flexName,
+				},
+				&linebot.ImageComponent{
+					Type: linebot.FlexComponentTypeImage,
+					URL:  bs.Competition.EmblemURL,
+					Size: linebot.FlexImageSizeType3xl,
 				},
 			},
 		},
@@ -118,11 +126,7 @@ func (bs *BubbleStandings) Header() *ui.ExtBoxComponent {
 
 // Hero block. Specify an image component.
 func (bs *BubbleStandings) Hero() *linebot.ImageComponent {
-	return &linebot.ImageComponent{
-		Type: linebot.FlexComponentTypeImage,
-		URL:  bs.Competition.EmblemURL,
-		Size: linebot.FlexImageSizeTypeFull,
-	}
+	return nil
 }
 
 func standingsTextCell(text string, flex int, textColor, backgroundColor string, align linebot.FlexComponentAlignType) *ui.ExtBoxComponent {
@@ -133,12 +137,11 @@ func standingsTextCell(text string, flex int, textColor, backgroundColor string,
 			Flex:   &flex,
 			Contents: []linebot.FlexComponent{
 				&linebot.TextComponent{
-					Type:    linebot.FlexComponentTypeText,
-					Text:    text,
-					Gravity: linebot.FlexComponentGravityTypeCenter,
-					Align:   linebot.FlexComponentAlignType(align),
-					Size:    linebot.FlexTextSizeTypeSm,
-					Color:   textColor,
+					Type:  linebot.FlexComponentTypeText,
+					Text:  text,
+					Align: linebot.FlexComponentAlignType(align),
+					Size:  linebot.FlexTextSizeTypeSm,
+					Color: textColor,
 				},
 			},
 		},
@@ -194,14 +197,14 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 				// for LINE to display.
 				// standingsTextCell(TextSpace, flexCrest, thColor, noColor, alignL),
 				standingsTextCell(TextSpace, flexTLA, thColor, noColor, alignL),
-				standingsTextCell("GP", flexCell, thColor, noColor, alignL),
-				standingsTextCell("W", flexCell, thColor, noColor, alignL),
-				standingsTextCell("D", flexCell, thColor, noColor, alignL),
-				standingsTextCell("L", flexCell, thColor, noColor, alignL),
-				standingsTextCell("PT", flexCell, thColor, noColor, alignL),
-				standingsTextCell("GF", flexCell, thColor, noColor, alignL),
-				standingsTextCell("GA", flexCell, thColor, noColor, alignL),
-				standingsTextCell("GD", flexCell, thColor, noColor, alignL),
+				standingsTextCell("GP", flexCell, thColor, noColor, alignR),
+				standingsTextCell("W", flexCell, thColor, noColor, alignR),
+				standingsTextCell("D", flexCell, thColor, noColor, alignR),
+				standingsTextCell("L", flexCell, thColor, noColor, alignR),
+				standingsTextCell("PT", flexCell, thColor, noColor, alignR),
+				standingsTextCell("GF", flexCell, thColor, noColor, alignR),
+				standingsTextCell("GA", flexCell, thColor, noColor, alignR),
+				standingsTextCell("GD", flexCell, thColor, noColor, alignR),
 			},
 		},
 		BackgroundColor: ColorLightGray,
@@ -253,7 +256,12 @@ func (bs *BubbleStandings) Footer() *ui.ExtBoxComponent {
 
 // Styles of each block. Specify a bubble style object.
 func (bs *BubbleStandings) Styles() *linebot.BubbleStyle {
-	return nil
+	return &linebot.BubbleStyle{
+		Body: &linebot.BlockStyle{
+			Separator:      true,
+			SeparatorColor: ColorAmber,
+		},
+	}
 }
 
 // StandingsContents function generates CarouselContainer for standings.

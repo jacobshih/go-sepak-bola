@@ -105,14 +105,24 @@ func (bm *BubbleMatchCalendar) Direction() linebot.FlexBubbleDirectionType {
 
 // Header block. Specify a box component.
 func (bm *BubbleMatchCalendar) Header() *ui.ExtBoxComponent {
+	flexName := 4
 	return &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
 			Type:   linebot.FlexComponentTypeBox,
 			Layout: linebot.FlexBoxLayoutTypeHorizontal,
 			Contents: []linebot.FlexComponent{
 				&linebot.TextComponent{
-					Type: linebot.FlexComponentTypeText,
-					Text: bm.Month,
+					Type:    linebot.FlexComponentTypeText,
+					Text:    bm.Month,
+					Size:    linebot.FlexTextSizeTypeLg,
+					Color:   ColorAmber,
+					Gravity: linebot.FlexComponentGravityTypeCenter,
+					Flex:    &flexName,
+				},
+				&linebot.ImageComponent{
+					Type: linebot.FlexComponentTypeImage,
+					URL:  bm.Competition.EmblemURL,
+					Size: linebot.FlexImageSizeType3xl,
 				},
 			},
 		},
@@ -174,7 +184,12 @@ func (bm *BubbleMatchCalendar) Footer() *ui.ExtBoxComponent {
 
 // Styles of each block. Specify a bubble style object.
 func (bm *BubbleMatchCalendar) Styles() *linebot.BubbleStyle {
-	return nil
+	return &linebot.BubbleStyle{
+		Body: &linebot.BlockStyle{
+			Separator:      true,
+			SeparatorColor: ColorAmber,
+		},
+	}
 }
 
 // MatchCalendarContents function generates CarouselContainer for matchday selection.

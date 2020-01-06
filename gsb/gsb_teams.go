@@ -44,17 +44,25 @@ func (bt *BubbleTeams) Direction() linebot.FlexBubbleDirectionType {
 
 // Header block. Specify a box component.
 func (bt *BubbleTeams) Header() *ui.ExtBoxComponent {
+	flexName := 4
 	return &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
 			Type:   linebot.FlexComponentTypeBox,
-			Layout: linebot.FlexBoxLayoutTypeVertical,
+			Layout: linebot.FlexBoxLayoutTypeHorizontal,
 			Contents: []linebot.FlexComponent{
 				&linebot.TextComponent{
-					Type:   linebot.FlexComponentTypeText,
-					Text:   bt.Competition.Name,
-					Margin: linebot.FlexComponentMarginTypeNone,
-					Size:   linebot.FlexTextSizeTypeLg,
-					Color:  ColorAero,
+					Type:    linebot.FlexComponentTypeText,
+					Text:    bt.Competition.Name,
+					Size:    linebot.FlexTextSizeTypeLg,
+					Color:   ColorAmber,
+					Gravity: linebot.FlexComponentGravityTypeCenter,
+					Wrap:    true,
+					Flex:    &flexName,
+				},
+				&linebot.ImageComponent{
+					Type: linebot.FlexComponentTypeImage,
+					URL:  bt.Competition.EmblemURL,
+					Size: linebot.FlexImageSizeType3xl,
 				},
 			},
 		},
@@ -63,11 +71,7 @@ func (bt *BubbleTeams) Header() *ui.ExtBoxComponent {
 
 // Hero block. Specify an image component.
 func (bt *BubbleTeams) Hero() *linebot.ImageComponent {
-	return &linebot.ImageComponent{
-		Type: linebot.FlexComponentTypeImage,
-		URL:  bt.Competition.EmblemURL,
-		Size: linebot.FlexImageSizeTypeFull,
-	}
+	return nil
 }
 
 // Body block. Specify a box component.
@@ -137,7 +141,12 @@ func (bt *BubbleTeams) Footer() *ui.ExtBoxComponent {
 
 // Styles of each block. Specify a bubble style object.
 func (bt *BubbleTeams) Styles() *linebot.BubbleStyle {
-	return nil
+	return &linebot.BubbleStyle{
+		Body: &linebot.BlockStyle{
+			Separator:      true,
+			SeparatorColor: ColorAmber,
+		},
+	}
 }
 
 // TeamsContents function generates CarouselContainer for teams.

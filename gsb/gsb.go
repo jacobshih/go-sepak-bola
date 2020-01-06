@@ -38,6 +38,7 @@ const (
 	TextMatchCalendar   string = "Match calendar"
 	TextCurrentMatchday string = "Current matchday"
 	TextMatchday        string = "Matchday"
+	TextReferees        string = "Referees"
 	TextSquad           string = "Squad"
 	TextMore            string = "More"
 	TextRound           string = "Round"

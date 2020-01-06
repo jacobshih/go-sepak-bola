@@ -122,7 +122,7 @@ func (bm *BubbleMatchday) matchReferees() *linebot.FlexComponent {
 		var referees []linebot.FlexComponent
 		referees = append(referees, &linebot.TextComponent{
 			Type:  linebot.FlexComponentTypeText,
-			Text:  "Referees",
+			Text:  TextReferees,
 			Color: ColorGray,
 			Align: linebot.FlexComponentAlignTypeCenter,
 		})
@@ -134,7 +134,7 @@ func (bm *BubbleMatchday) matchReferees() *linebot.FlexComponent {
 			referees = append(referees, &linebot.TextComponent{
 				Type:  linebot.FlexComponentTypeText,
 				Text:  refereeName,
-				Color: ColorAmber,
+				Color: ColorIndigo,
 				Align: linebot.FlexComponentAlignTypeCenter,
 			})
 		}
@@ -186,6 +186,7 @@ func (bm *BubbleMatchday) Direction() linebot.FlexBubbleDirectionType {
 
 // Header block. Specify a box component.
 func (bm *BubbleMatchday) Header() *ui.ExtBoxComponent {
+	flexName := 5
 	return &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
 			Type:   linebot.FlexComponentTypeBox,
@@ -194,12 +195,15 @@ func (bm *BubbleMatchday) Header() *ui.ExtBoxComponent {
 				&linebot.TextComponent{
 					Type:  linebot.FlexComponentTypeText,
 					Text:  bm.Competition.Name,
+					Size:  linebot.FlexTextSizeTypeLg,
 					Color: ColorAmber,
+					Flex:  &flexName,
 				},
 				&linebot.TextComponent{
 					Type:  linebot.FlexComponentTypeText,
-					Text:  TextRound + " " + strconv.Itoa(bm.Match.Matchday),
+					Text:  "R" + strconv.Itoa(bm.Match.Matchday),
 					Align: linebot.FlexComponentAlignTypeEnd,
+					Size:  linebot.FlexTextSizeTypeMd,
 					Color: ColorAmber,
 				},
 			},
@@ -268,7 +272,12 @@ func (bm *BubbleMatchday) Footer() *ui.ExtBoxComponent {
 
 // Styles of each block. Specify a bubble style object.
 func (bm *BubbleMatchday) Styles() *linebot.BubbleStyle {
-	return nil
+	return &linebot.BubbleStyle{
+		Body: &linebot.BlockStyle{
+			Separator:      true,
+			SeparatorColor: ColorAmber,
+		},
+	}
 }
 
 // MatchdayContents function generates CarouselContainer for particular matchday.

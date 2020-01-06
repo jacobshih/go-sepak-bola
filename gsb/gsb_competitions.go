@@ -50,9 +50,9 @@ func (bc *BubbleCompetition) Header() *ui.ExtBoxComponent {
 				&linebot.TextComponent{
 					Type:   linebot.FlexComponentTypeText,
 					Text:   bc.Competition.Name,
-					Margin: linebot.FlexComponentMarginTypeNone,
 					Size:   linebot.FlexTextSizeTypeLg,
 					Color:  ColorAmber,
+					Margin: linebot.FlexComponentMarginTypeNone,
 				},
 			},
 		},
@@ -64,7 +64,7 @@ func (bc *BubbleCompetition) Hero() *linebot.ImageComponent {
 	return &linebot.ImageComponent{
 		Type:        linebot.FlexComponentTypeImage,
 		URL:         bc.Competition.EmblemURL,
-		Size:        linebot.FlexImageSizeTypeFull,
+		Size:        linebot.FlexImageSizeType4xl,
 		AspectRatio: linebot.FlexImageAspectRatioType1to1,
 		AspectMode:  linebot.FlexImageAspectModeTypeCover,
 	}
@@ -154,7 +154,12 @@ func (bc *BubbleCompetition) Footer() *ui.ExtBoxComponent {
 
 // Styles of each block. Specify a bubble style object.
 func (bc *BubbleCompetition) Styles() *linebot.BubbleStyle {
-	return nil
+	return &linebot.BubbleStyle{
+		Body: &linebot.BlockStyle{
+			Separator:      true,
+			SeparatorColor: ColorAmber,
+		},
+	}
 }
 
 // CompetitionsContents function generates CarouselContainer for competitions menu.
