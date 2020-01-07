@@ -184,12 +184,16 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 	comp := bs.Competition
 	teams := comp.Teams
 	legend := legends[comp.ID].table
+	separatorPoints := linebot.SeparatorComponent{
+		Type:   linebot.FlexComponentTypeSeparator,
+		Margin: linebot.FlexComponentMarginTypeSm,
+		Color:  ColorAmber,
+	}
 	bodyContents := []linebot.FlexComponent{}
 	bodyContents = append(bodyContents, &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
 			Type:   linebot.FlexComponentTypeBox,
 			Layout: linebot.FlexBoxLayoutTypeHorizontal,
-			Margin: linebot.FlexComponentMarginTypeXs,
 			Contents: []linebot.FlexComponent{
 				standingsTextCell(TextSpace, flexCell, thColor, noColor, alignL),
 				// remove team crest from standings table.
@@ -202,6 +206,7 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 				standingsTextCell("D", flexCell, thColor, noColor, alignR),
 				standingsTextCell("L", flexCell, thColor, noColor, alignR),
 				standingsTextCell("PT", flexCell, thColor, noColor, alignR),
+				&separatorPoints,
 				standingsTextCell("GF", flexCell, thColor, noColor, alignR),
 				standingsTextCell("GA", flexCell, thColor, noColor, alignR),
 				standingsTextCell("GD", flexCell, thColor, noColor, alignR),
@@ -228,6 +233,7 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 					standingsTextCell(strconv.Itoa(it.Draw), flexCell, thColor, noColor, alignR),
 					standingsTextCell(strconv.Itoa(it.Lost), flexCell, thColor, noColor, alignR),
 					standingsTextCell(strconv.Itoa(it.Points), flexCell, thColor, noColor, alignR),
+					&separatorPoints,
 					standingsTextCell(strconv.Itoa(it.GoalsFor), flexCell, thColor, noColor, alignR),
 					standingsTextCell(strconv.Itoa(it.GoalsAgainst), flexCell, thColor, noColor, alignR),
 					standingsTextCell(strconv.Itoa(it.GoalDifference), flexCell, thColor, noColor, alignR),
@@ -243,7 +249,6 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 		BoxComponent: linebot.BoxComponent{
 			Type:     linebot.FlexComponentTypeBox,
 			Layout:   linebot.FlexBoxLayoutTypeVertical,
-			Spacing:  linebot.FlexComponentSpacingTypeMd,
 			Contents: bodyContents,
 		},
 	}
