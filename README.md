@@ -8,6 +8,13 @@ of Premier League, Bundesliga, Primera Division, ...
 - [football data documentation](https://www.football-data.org/documentation/quickstart)
 - [line bot notes](https://github.com/jacobshihtw/notes/blob/master/lbot/lbot_notes.md)
 
+## line offical account
+
+[@865uycag](https://lin.ee/8WHjVe4)
+
+![QR Code](notes/qrcode/M.png)
+
+
 ## competitions
 
 - Premier League
