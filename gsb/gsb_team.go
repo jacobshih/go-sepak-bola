@@ -71,13 +71,14 @@ func (bt *BubbleTeam) Hero() *linebot.ImageComponent {
 // Body block. Specify a box component.
 func (bt *BubbleTeam) Body() *ui.ExtBoxComponent {
 	const (
-		TextTeamFounded    = "Founded"
-		TextTeamCoach      = "Coach"
-		TextTeamVenue      = "Venue"
-		TextTeamCountry    = "Country"
-		TextTeamClubColors = "Colors"
-		TextTeamWebsite    = "Website"
-		TextTeamAddress    = "Address"
+		TextTeamFounded        = "Founded"
+		TextTeamCoach          = "Coach"
+		TextTeamVenue          = "Venue"
+		TextTeamCountry        = "Country"
+		TextTeamClubColors     = "Colors"
+		TextTeamWebsite        = "Website"
+		TextTeamAddress        = "Address"
+		TextActiveCompetitions = "Active competitions"
 	)
 	coach := bt.teamCoach()
 	bodyContents := []linebot.FlexComponent{}
@@ -88,6 +89,24 @@ func (bt *BubbleTeam) Body() *ui.ExtBoxComponent {
 	bodyContents = append(bodyContents, bt.teamInfo(TextTeamClubColors, bt.Team.ClubColors))
 	bodyContents = append(bodyContents, bt.teamInfo(TextTeamAddress, bt.Team.Address))
 	bodyContents = append(bodyContents, bt.teamInfo(TextTeamWebsite, bt.Team.Website))
+	bodyContents = append(bodyContents, &linebot.SeparatorComponent{
+		Type:  linebot.FlexComponentTypeSeparator,
+		Color: ColorAmber,
+	})
+	bodyContents = append(bodyContents, &linebot.TextComponent{
+		Type:   linebot.FlexComponentTypeText,
+		Text:   TextActiveCompetitions,
+		Color:  ColorAmber,
+		Margin: linebot.FlexComponentMarginTypeMd,
+		Size:   linebot.FlexTextSizeTypeSm,
+	})
+	for _, competition := range bt.Team.Competitions {
+		bodyContents = append(bodyContents, &linebot.TextComponent{
+			Type: linebot.FlexComponentTypeText,
+			Text: competition.Name,
+			Size: linebot.FlexTextSizeTypeSm,
+		})
+	}
 	return &ui.ExtBoxComponent{
 		BoxComponent: linebot.BoxComponent{
 			Type:     linebot.FlexComponentTypeBox,
