@@ -184,6 +184,9 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 	comp := bs.Competition
 	teams := comp.Teams
 	legend := legends[comp.ID].table
+	filler := linebot.FillerComponent{
+		Type: linebot.FlexComponentTypeFiller,
+	}
 	separatorPoints := linebot.SeparatorComponent{
 		Type:   linebot.FlexComponentTypeSeparator,
 		Margin: linebot.FlexComponentMarginTypeSm,
@@ -195,6 +198,7 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 			Type:   linebot.FlexComponentTypeBox,
 			Layout: linebot.FlexBoxLayoutTypeHorizontal,
 			Contents: []linebot.FlexComponent{
+				&filler,
 				standingsTextCell(TextSpace, flexCell, thColor, noColor, alignL),
 				// remove team crest from standings table.
 				// the crestURL of football-data locates to svg file is invalid
@@ -210,6 +214,7 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 				standingsTextCell("GF", flexCell, thColor, noColor, alignR),
 				standingsTextCell("GA", flexCell, thColor, noColor, alignR),
 				standingsTextCell("GD", flexCell, thColor, noColor, alignR),
+				&filler,
 			},
 		},
 		BackgroundColor: ColorLightGray,
@@ -222,6 +227,7 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 				Layout: linebot.FlexBoxLayoutTypeHorizontal,
 				Margin: linebot.FlexComponentMarginTypeXs,
 				Contents: []linebot.FlexComponent{
+					&filler,
 					standingsTextCell(strconv.Itoa(it.Position), flexCell, thColor, noColor, alignL),
 					// remove team crest from standings table.
 					// the crestURL of football-data locates to svg file is invalid
@@ -237,6 +243,7 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 					standingsTextCell(strconv.Itoa(it.GoalsFor), flexCell, thColor, noColor, alignR),
 					standingsTextCell(strconv.Itoa(it.GoalsAgainst), flexCell, thColor, noColor, alignR),
 					standingsTextCell(strconv.Itoa(it.GoalDifference), flexCell, thColor, noColor, alignR),
+					&filler,
 				},
 			},
 		}
@@ -251,6 +258,8 @@ func (bs *BubbleStandings) Body() *ui.ExtBoxComponent {
 			Layout:   linebot.FlexBoxLayoutTypeVertical,
 			Contents: bodyContents,
 		},
+		PaddingStart: "md",
+		PaddingEnd:   "md",
 	}
 }
 
