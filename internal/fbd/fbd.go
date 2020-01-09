@@ -150,22 +150,24 @@ type Squad struct {
 
 // Team contains information of a particular team.
 type Team struct {
-	ID         int             `json:"id"`
-	Name       string          `json:"name"`
-	ShortName  string          `json:"shortName"`
-	TLA        string          `json:"tla"`
-	CrestURL   string          `json:"crestUrl"`
-	Address    string          `json:"address"`
-	Phone      string          `json:"phone"`
-	Email      string          `json:"email"`
-	Website    string          `json:"website"`
-	Founded    int             `json:"founded"`
-	ClubColors string          `json:"clubColors"`
-	Venue      string          `json:"venue"`
-	RawArea    json.RawMessage `json:"area"`
-	RawSquad   json.RawMessage `json:"squad"`
-	Area       *Area
-	Squads     []*Squad
+	ID              int             `json:"id"`
+	Name            string          `json:"name"`
+	ShortName       string          `json:"shortName"`
+	TLA             string          `json:"tla"`
+	CrestURL        string          `json:"crestUrl"`
+	Address         string          `json:"address"`
+	Phone           string          `json:"phone"`
+	Email           string          `json:"email"`
+	Website         string          `json:"website"`
+	Founded         int             `json:"founded"`
+	ClubColors      string          `json:"clubColors"`
+	Venue           string          `json:"venue"`
+	RawArea         json.RawMessage `json:"area"`
+	RawCompetitions json.RawMessage `json:"activeCompetitions"`
+	RawSquad        json.RawMessage `json:"squad"`
+	Area            *Area
+	Competitions    []*Competition
+	Squads          []*Squad
 }
 
 // Get retrieves teams information.
@@ -180,6 +182,9 @@ func (team *Team) Deserialize(content []byte) (err error) {
 		return err
 	}
 	if err = json.Unmarshal(team.RawArea, &team.Area); err != nil {
+		return err
+	}
+	if err = json.Unmarshal(team.RawCompetitions, &team.Competitions); err != nil {
 		return err
 	}
 	if err = json.Unmarshal(team.RawSquad, &team.Squads); err != nil {
