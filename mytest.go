@@ -16,7 +16,11 @@ import (
 	"fmt"
 	"go-sepak-bola/gsb"
 	"go-sepak-bola/internal/fbd"
+	"go-sepak-bola/ui"
 	"os"
+	"strconv"
+
+	"github.com/line/line-bot-sdk-go/linebot"
 )
 
 func mytestFbdCompetitions() {
@@ -114,6 +118,28 @@ func mytestFbdTeams() {
 	}
 }
 
+func mytestFbdTeam(teamID int) {
+	var fbdteam fbd.Team
+	content := fbdteam.Get(teamID)
+	if err := fbdteam.Deserialize(content); err != nil {
+		fmt.Printf("[ERROR] %s (%s)\n", "FBDTeams.Deserialize()", err)
+		return
+	}
+	// result
+	fmt.Printf("%s %s | %s\n", "=== teams ===", fbdteam.Name, fbdteam.Area.Name)
+	for _, squad := range fbdteam.Squads {
+		fmt.Printf("%5d | %2d | %s\n", squad.ID, squad.ShirtNumber, squad.Name)
+		fmt.Printf("%5s | %s\n", "", squad.DateOfBirth)
+		fmt.Printf("%5s | %s\n", "", squad.CountryOfBirth)
+		fmt.Printf("%5s | %s\n", "", squad.Nationality)
+		fmt.Printf("%5s | %s\n", "", squad.Position)
+		fmt.Printf("%5s | %s\n", "", squad.Role)
+	}
+	for _, competition := range fbdteam.Competitions {
+		fmt.Printf("%5d | %4s | %s\n", competition.ID, competition.Code, competition.Name)
+	}
+}
+
 func mytestFbdStandings(competitionID int) {
 	comp := sepakbola.Competitions[competitionID]
 	var standings fbd.StandingsData
@@ -152,14 +178,67 @@ func mytestFbdUICompetitions() {
 	contents.Dump()
 }
 
+func mytestFbdStandingsContents(competitionID int) {
+	comp := sepakbola.Competitions[competitionID]
+	contents := sepakbola.StandingsContents(comp)
+	contents.Dump()
+}
+
+func mytestFbdTeamsContents(competitionID int) {
+	comp := sepakbola.Competitions[competitionID]
+	contents := sepakbola.TeamsContents(comp)
+	contents.Dump()
+}
+
+func mytestFbdTeamContents(competitionID, teamID int) {
+	comp := sepakbola.Competitions[competitionID]
+	contents := sepakbola.TeamContents(comp, teamID)
+	contents.Dump()
+}
+
+func mytestFbdSquadContents(competitionID, teamID, squadID int) {
+	comp := sepakbola.Competitions[competitionID]
+	for squadID != -1 {
+		contents := sepakbola.SquadContents(comp, teamID, &squadID)
+		contents.Dump()
+	}
+}
+
+func mytestFbdMatchdayContents(competitionID int) {
+	comp := sepakbola.Competitions[competitionID]
+	contents := sepakbola.MatchdayContents(comp, 21)
+	contents.Dump()
+}
+
+func mytestFbdMatchCalendarContents(competitionID int) {
+	comp := sepakbola.Competitions[competitionID]
+	contents := sepakbola.MatchCalendarContents(comp)
+	contents.Dump()
+}
+
+func mytestFbdWarningContents(competitionID int) {
+	uri := ui.URISomethingWrong800x329
+	ratio := linebot.FlexImageAspectRatioType16to9
+	somethingwrong := ui.WarningContents(ui.TextSomethingWrong, uri, ratio)
+	somethingwrong.Dump()
+}
+
 func mytest() {
 	competitionID := gsb.PL
 	matchday := 16
+	teamID := 57
+	squadID := 0
+	if os.Getenv("FBDATA_MATCHDAY") != "" {
+		matchday, _ = strconv.Atoi(os.Getenv("FBDATA_MATCHDAY"))
+	}
 	if os.Getenv("MYTEST_FBD_COMPETITIONS") == "y" {
 		mytestFbdCompetitions()
 	}
 	if os.Getenv("MYTEST_FBD_TEAMS") == "y" {
 		mytestFbdTeams()
+	}
+	if os.Getenv("MYTEST_FBD_TEAM") == "y" {
+		mytestFbdTeam(teamID)
 	}
 	if os.Getenv("MYTEST_FBD_MATCHES") == "y" {
 		mytestFbdMatches(competitionID, 0)
@@ -172,6 +251,24 @@ func mytest() {
 	}
 	if os.Getenv("MYTEST_FBD_UI_COMPETITIONS") == "y" {
 		mytestFbdUICompetitions()
+	}
+	if os.Getenv("MYTEST_FBD_TEAMS_CONTENTS") == "y" {
+		mytestFbdTeamsContents(competitionID)
+	}
+	if os.Getenv("MYTEST_FBD_TEAM_CONTENTS") == "y" {
+		mytestFbdTeamContents(competitionID, teamID)
+	}
+	if os.Getenv("MYTEST_FBD_SQUAD_CONTENTS") == "y" {
+		mytestFbdSquadContents(competitionID, teamID, squadID)
+	}
+	if os.Getenv("MYTEST_FBD_STANDINGS_CONTENTS") == "y" {
+		mytestFbdStandingsContents(competitionID)
+	}
+	if os.Getenv("MYTEST_FBD_MATCHDAY_CONTENTS") == "y" {
+		mytestFbdMatchdayContents(competitionID)
+	}
+	if os.Getenv("MYTEST_FBD_MATCH_CALENDAR_CONTENTS") == "y" {
+		mytestFbdMatchCalendarContents(competitionID)
 	}
 	os.Exit(0)
 }
